@@ -1,6 +1,6 @@
 using System;
 
-namespace bibliotech
+namespace Bibliotech
 {
     public class WeatherForecast
     {

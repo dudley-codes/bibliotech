@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace bibliotech.Controllers
+namespace Bibliotech.Controllers
 {
     [ApiController]
     [Route("[controller]")]
