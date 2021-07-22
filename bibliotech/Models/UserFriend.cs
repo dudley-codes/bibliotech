@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace bibliotech.Models
+namespace Bibliotech.Models
 {
     public class UserFriend
     {

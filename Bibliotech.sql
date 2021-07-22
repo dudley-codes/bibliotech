@@ -1,82 +1,83 @@
 USE [master]
 GO
 
-IF db_id('bibliotech') IS NOT NULL
+IF db_id('Bibliotech') IS NOT NULL
 BEGIN
-  ALTER DATABASE [bibliotech] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-  DROP DATABASE [bibliotech]
+  ALTER DATABASE [Bibliotech] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+  DROP DATABASE [Bibliotech]
 END
 GO
 
-CREATE DATABASE [bibliotech]
+CREATE DATABASE [Bibliotech]
 GO
 
-USE [bibliotech]
+USE [Bibliotech]
 GO
 
 -----------------------------------------------------------------------------------------------
 
 CREATE TABLE [UserProfile] (
-  [Id] int PRIMARY KEY NOT NULL,
-  [FirebaseUserId] nvarchar(255) NOT NULL,
-  [Email] nvarchar(255) NOT NULL,
-  [DisplayName] nvarchar(255) NOT NULL,
-  [FirstName] nvarchar(255) NOT NULL,
-  [LastName] nvarchar(255) NOT NULL,
-  [ImageUrl] nvarchar(255) NULL,
-  [City] nvarchar(255) NOT NULL,
-  [State] nvarchar(255) NOT NULL
+  [Id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
+  [FirebaseUserId] VARCHAR(255) NOT NULL,
+  [Email] VARCHAR(255) NOT NULL,
+  [DisplayName] VARCHAR(255) NOT NULL,
+  [FirstName] VARCHAR(255) NOT NULL,
+  [LastName] VARCHAR(255) NOT NULL,
+  [ImageUrl] VARCHAR(255) NULL,
+  [City] VARCHAR(255) NOT NULL,
+  [State] VARCHAR(255) NOT NULL
+CONSTRAINT UQ_FirebaseUserId UNIQUE(FirebaseUserId)
 )
 GO
 
 CREATE TABLE [UserFriend] (
-  [Id] int PRIMARY KEY NOT NULL,
-  [UserId] int NOT NULL,
-  [FriendId] int NOT NULL
+  [Id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
+  [UserId] INTEGER NOT NULL,
+  [FriendId] INTEGER NOT NULL
 )
 GO
 
 CREATE TABLE [Book] (
-  [Id] int PRIMARY KEY NOT NULL,
-  [OwnerId] int NOT NULL,
-  [Title] nvarchar(255) NOT NULL,
-  [Genre] nvarchar(255) NOT NULL,
-  [ThumbnailUrl] nvarchar(255) NOT NULL,
-  [Description] nvarchar(255) NOT NULL,
+  [Id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
+  [OwnerId] INTEGER NOT NULL,
+  [Title] VARCHAR(255) NOT NULL,
+  [Genre] VARCHAR(255) NOT NULL,
+  [ThumbnailUrl] VARCHAR(255) NOT NULL,
+  [Description] VARCHAR(255) NOT NULL,
   [AverageRating] decimal NOT NULL,
   [OnShelf] bit NOT NULL
 )
 GO
 
 CREATE TABLE [Author] (
-  [Id] int PRIMARY KEY NOT NULL,
-  [Name] nvarchar(255) NOT NULL
+  [Id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
+  [Name] VARCHAR(255) NOT NULL
 )
 GO
 
 CREATE TABLE [BookAuthor] (
-  [Id] int PRIMARY KEY NOT NULL,
-  [AuthorId] int NOT NULL,
-  [BookId] int NOT NULL
+  [Id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
+  [AuthorId] INTEGER NOT NULL,
+  [BookId] INTEGER NOT NULL
 )
 GO
 
 CREATE TABLE [Loan] (
-  [Id] int PRIMARY KEY NOT NULL,
-  [BookId] int NOT NULL,
-  [BorrowerId] int NOT NULL,
+  [Id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
+  [BookId] INTEGER NOT NULL,
+  [BorrowerId] INTEGER NOT NULL,
   [RequestDate] datetime NOT NULL,
   [ResponseDate] datetime NULL,
   [BorrowDate] datetime NULL,
   [DueDate] datetime NOT NULL,
   [ReturnDate] datetime NULL,
-  [LoanStatusId] int NOT NULL
+  [LoanStatusId] INTEGER NOT NULL
 )
 GO
 
 CREATE TABLE [LoanStatus] (
-  [Id] int PRIMARY KEY NOT NULL,
-  [Status] nvarchar(255) NOT NULL
+  [Id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
+  [Status] VARCHAR(255) NOT NULL
 )
 GO
 
