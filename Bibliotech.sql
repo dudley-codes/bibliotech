@@ -18,14 +18,15 @@ GO
 
 CREATE TABLE [UserProfile] (
   [Id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
-  [FirebaseUserId] nvarchar(255) NOT NULL,
-  [Email] nvarchar(255) NOT NULL,
-  [DisplayName] nvarchar(255) NOT NULL,
-  [FirstName] nvarchar(255) NOT NULL,
-  [LastName] nvarchar(255) NOT NULL,
-  [ImageUrl] nvarchar(255) NULL,
-  [City] nvarchar(255) NOT NULL,
-  [State] nvarchar(255) NOT NULL
+  [FirebaseUserId] VARCHAR(255) NOT NULL,
+  [Email] VARCHAR(255) NOT NULL,
+  [DisplayName] VARCHAR(255) NOT NULL,
+  [FirstName] VARCHAR(255) NOT NULL,
+  [LastName] VARCHAR(255) NOT NULL,
+  [ImageUrl] VARCHAR(255) NULL,
+  [City] VARCHAR(255) NOT NULL,
+  [State] VARCHAR(255) NOT NULL
+CONSTRAINT UQ_FirebaseUserId UNIQUE(FirebaseUserId)
 )
 GO
 
@@ -39,10 +40,10 @@ GO
 CREATE TABLE [Book] (
   [Id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
   [OwnerId] INTEGER NOT NULL,
-  [Title] nvarchar(255) NOT NULL,
-  [Genre] nvarchar(255) NOT NULL,
-  [ThumbnailUrl] nvarchar(255) NOT NULL,
-  [Description] nvarchar(255) NOT NULL,
+  [Title] VARCHAR(255) NOT NULL,
+  [Genre] VARCHAR(255) NOT NULL,
+  [ThumbnailUrl] VARCHAR(255) NOT NULL,
+  [Description] VARCHAR(255) NOT NULL,
   [AverageRating] decimal NOT NULL,
   [OnShelf] bit NOT NULL
 )
@@ -50,7 +51,7 @@ GO
 
 CREATE TABLE [Author] (
   [Id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
-  [Name] nvarchar(255) NOT NULL
+  [Name] VARCHAR(255) NOT NULL
 )
 GO
 
@@ -76,7 +77,7 @@ GO
 
 CREATE TABLE [LoanStatus] (
   [Id] INTEGER PRIMARY KEY IDENTITY NOT NULL,
-  [Status] nvarchar(255) NOT NULL
+  [Status] VARCHAR(255) NOT NULL
 )
 GO
 
