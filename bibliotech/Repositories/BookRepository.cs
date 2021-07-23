@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Bibliotech.Repositories
 {
-    public class BookRepository: BaseRepository
+    public class BookRepository : BaseRepository, IBookRepository
     {
         public BookRepository(IConfiguration configuration) : base(configuration) { }
         public void Add(Book book, List<Author> authors)
@@ -38,18 +38,19 @@ namespace Bibliotech.Repositories
                     DbUtils.AddParameter(cmd, "@OnShelf", book.OnShelf);
 
                     book.Id = (int)cmd.ExecuteScalar();
+                }
 
-                    foreach(Author author in authors)
+                foreach (var author in authors)
+                {
+                    using (var cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"INSERT INTO Author(Name) VALUES(@Name)
-                                        INSERT INTO BookAuthor(Id, BookId, AuthorId) 
-                                        VALUES(@BookAuthorId, @BookId, @AuthorId)";
+                        cmd.CommandText = @"INSERT INTO Author(Name, BookId) 
+                                            OUTPUT INSERTED.ID 
+                                            VALUES(@Name, @BookId)";
 
                         DbUtils.AddParameter(cmd, "@Name", author.Name);
                         DbUtils.AddParameter(cmd, "@BookId", book.Id);
                         author.Id = (int)cmd.ExecuteScalar();
-                        DbUtils.AddParameter(cmd, "@AuthorId", author.Id);
-                        DbUtils.AddParameter(cmd, "@BookAuthorId", (int)cmd.ExecuteScalar());
                     }
                 }
             }
