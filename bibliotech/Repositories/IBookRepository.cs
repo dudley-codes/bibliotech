@@ -6,5 +6,6 @@ namespace Bibliotech.Repositories
     public interface IBookRepository
     {
         void Add(Book book, List<Author> authors);
+        List<Book> GetAll();
     }
 }

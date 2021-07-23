@@ -23,9 +23,9 @@ namespace Bibliotech.Controllers
 
         // GET: api/<BookController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            return Ok(_bookRepository.GetAll());
         }
 
         // GET api/<BookController>/5

@@ -14,6 +14,7 @@ namespace Bibliotech.Models
         public string Description { get; set; }
         public decimal AverageRating { get; set; }
         public bool OnShelf { get; set; }
+        public UserProfile Owner { get; set; } 
         public List<Author> Authors { get; set; }
     }
 }
