@@ -22,13 +22,14 @@ namespace Bibliotech.Repositories
                 {
                     cmd.CommandText = @"
                                         SELECT
-                                                b.Id, 
-                                                b.Title, 
+                                                b.Id AS BookId, 
+                                                b.Title,
                                                 b.Description, 
                                                 b.AverageRating,  
                                                 b.OnShelf, 
                                                 b.ThumbnailUrl, 
-                                                a.Name AS Author, 
+                                                a.Name AS Author,
+                                                b.OwnerId,
                                                 up.DisplayName,
                                                 a.Id AS AuthorId
                                         FROM Book b
@@ -39,15 +40,17 @@ namespace Bibliotech.Repositories
                     var reader = cmd.ExecuteReader();
 
                     var books = new List<Book>();
-
-                    Book book = null;
                     while (reader.Read())
                     {
-                        if (book == null)
+                        var bookId = DbUtils.GetInt(reader, "BookId");
+
+                        var existingBook = books.FirstOrDefault(p => p.Id == bookId);
+                        if (existingBook == null)
                         {
-                            book = new Book()
+                            existingBook = new Book()
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Id = bookId,
+                                OwnerId = reader.GetInt32(reader.GetOrdinal("OwnerId")),
                                 Title = reader.GetString(reader.GetOrdinal("Title")),
                                 ThumbnailUrl = DbUtils.GetNullableString(reader, "ThumbnailUrl"),
                                 Description = reader.GetString(reader.GetOrdinal("Description")),
@@ -59,17 +62,18 @@ namespace Bibliotech.Repositories
                                 },
                                 Authors = new List<Author>()
                             };
+
+                            books.Add(existingBook);
                         }
 
-                        Author author = new Author()
+                        if (DbUtils.IsNotDbNull(reader, "AuthorId"))
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("AuthorId")),
-                            Name = reader.GetString(reader.GetOrdinal("Author"))
-                        };
-
-                        book.Authors.Add(author);
-
-                        books.Add(book);
+                            existingBook.Authors.Add(new Author()
+                            {
+                                Id = DbUtils.GetInt(reader, "AuthorId"),
+                                Name = reader.GetString(reader.GetOrdinal("Author"))
+                            });
+                        }
                     }
 
                     reader.Close();
@@ -79,6 +83,78 @@ namespace Bibliotech.Repositories
             }
         }
 
+        //public List<Book> GetAll()
+        //{
+        //    using (var conn = Connection)
+        //    {
+        //        conn.Open();
+        //        using (var cmd = conn.CreateCommand())
+        //        {
+        //            cmd.CommandText = @"
+        //                                SELECT
+        //                                        b.Id, 
+        //                                        b.Title,
+        //                                        b.Description, 
+        //                                        b.AverageRating,  
+        //                                        b.OnShelf, 
+        //                                        b.ThumbnailUrl, 
+        //                                        a.Name AS Author,
+        //                                        b.OwnerId,
+        //                                        up.DisplayName,
+        //                                        a.Id AS AuthorId
+        //                                FROM Book b
+        //                                JOIN BookAuthor ba ON ba.BookId = b.Id
+        //                                JOIN Author a ON ba.AuthorId = a.Id
+        //                                JOIN UserProfile up on up.Id = b.OwnerId";
+
+        //            var reader = cmd.ExecuteReader();
+
+        //            var books = new List<Book>();
+
+        //            Book book = null;
+        //            while (reader.Read())
+        //            {
+        //                //if (book == null)
+        //                //{
+        //                    book = new Book()
+        //                    {
+        //                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
+        //                        OwnerId = reader.GetInt32(reader.GetOrdinal("OwnerId")),
+        //                        Title = reader.GetString(reader.GetOrdinal("Title")),
+        //                        ThumbnailUrl = DbUtils.GetNullableString(reader, "ThumbnailUrl"),
+        //                        Description = reader.GetString(reader.GetOrdinal("Description")),
+        //                        AverageRating = reader.GetDecimal(reader.GetOrdinal("AverageRating")),
+        //                        OnShelf = reader.GetBoolean(reader.GetOrdinal("OnShelf")),
+        //                        Owner = new UserProfile()
+        //                        {
+        //                            DisplayName = reader.GetString(reader.GetOrdinal("DisplayName"))
+        //                        },
+        //                        Authors = new List<Author>()
+        //                    };
+        //                //}
+
+        //                Author author = new Author()
+        //                {
+        //                    Id = reader.GetInt32(reader.GetOrdinal("AuthorId")),
+        //                    Name = reader.GetString(reader.GetOrdinal("Author"))
+        //                };
+
+        //                book.Authors.Add(author);
+
+        //                books.Add(book);
+        //            }
+
+        //            reader.Close();
+
+        //            return books;
+        //        }
+        //    }
+        //}
+        /// <summary>
+        /// Add new book to database
+        /// </summary>
+        /// <param name="book"></param>
+        /// <param name="authors"></param>
         public void Add(Book book, List<Author> authors)
         {
             using (var conn = Connection)
@@ -109,11 +185,10 @@ namespace Bibliotech.Repositories
                     //Checks to see if an author is in DB. If author is not in DB. creates new author
                     foreach (var author in authors)
                     {
-
                         cmd.CommandText = $"SELECT Id AS AuthorId, Name FROM Author WHERE Name LIKE '{author.Name}'";
                         var reader = cmd.ExecuteReader();
-                        //If author is not in DB, add to DB 
-                        //TODO: Need to create a join table for book and author
+                        //If author is not in DB, add to DB with BookAuthor join table
+
                         if (!reader.Read())
                         {
                             reader.Close();
@@ -130,7 +205,7 @@ namespace Bibliotech.Repositories
                             DbUtils.AddParameter(cmd, "@AuthorId", author.Id);
                             cmd.ExecuteScalar();
                         }
-                        //TODO: if author is in DB, create join table for book and author
+                        //If author is in DB, create join table for book and author
                         else
                         {
                             var authorId = reader.GetInt32(reader.GetOrdinal("AuthorId"));
