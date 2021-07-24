@@ -10,10 +10,11 @@ namespace Bibliotech.Models
         public int Id { get; set; }
         public int OwnerId { get; set; }
         public string Title { get; set; }
-        public string Genre { get; set; }
         public string ThumbnailUrl { get; set; }
         public string Description { get; set; }
         public decimal AverageRating { get; set; }
         public bool OnShelf { get; set; }
+        public UserProfile Owner { get; set; } 
+        public List<Author> Authors { get; set; }
     }
 }
