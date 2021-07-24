@@ -105,19 +105,33 @@ namespace Bibliotech.Repositories
                     DbUtils.AddParameter(cmd, "@OnShelf", book.OnShelf);
 
                     book.Id = (int)cmd.ExecuteScalar();
-                }
 
-                foreach (var author in authors)
-                {
-                    using (var cmd = conn.CreateCommand())
+
+                    foreach (var author in authors)
                     {
-                        cmd.CommandText = @"INSERT INTO Author(Name, BookId) 
+
+                        cmd.CommandText = $"SELECT Name FROM Author WHERE Name LIKE '{author.Name}'";
+                        var reader = cmd.ExecuteReader();
+
+                        //cmd.Parameters.AddWithValue("@name", author.Name);
+
+
+                        if (!reader.Read())
+                        {
+                            reader.Close();
+                            cmd.CommandText = @"INSERT INTO Author(Name, BookId) 
                                             OUTPUT INSERTED.ID 
                                             VALUES(@Name, @BookId)";
 
-                        DbUtils.AddParameter(cmd, "@Name", author.Name);
-                        DbUtils.AddParameter(cmd, "@BookId", book.Id);
-                        author.Id = (int)cmd.ExecuteScalar();
+                            DbUtils.AddParameter(cmd, "@Name", author.Name);
+                            DbUtils.AddParameter(cmd, "@BookId", book.Id);
+                            author.Id = (int)cmd.ExecuteScalar();
+
+
+                        }
+
+                        reader.Close();
+
                     }
                 }
             }
