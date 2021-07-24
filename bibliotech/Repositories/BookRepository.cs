@@ -106,31 +106,42 @@ namespace Bibliotech.Repositories
 
                     book.Id = (int)cmd.ExecuteScalar();
 
-
+                    //Checks to see if an author is in DB. If author is not in DB. creates new author
                     foreach (var author in authors)
                     {
 
-                        cmd.CommandText = $"SELECT Name FROM Author WHERE Name LIKE '{author.Name}'";
+                        cmd.CommandText = $"SELECT Id AS AuthorId, Name FROM Author WHERE Name LIKE '{author.Name}'";
                         var reader = cmd.ExecuteReader();
-
-                        //cmd.Parameters.AddWithValue("@name", author.Name);
-
-
+                        //If author is not in DB, add to DB 
+                        //TODO: Need to create a join table for book and author
                         if (!reader.Read())
                         {
                             reader.Close();
-                            cmd.CommandText = @"INSERT INTO Author(Name, BookId) 
-                                            OUTPUT INSERTED.ID 
-                                            VALUES(@Name, @BookId)";
+                            cmd.CommandText = @"INSERT INTO Author(Name) 
+                                                    OUTPUT INSERTED.ID 
+                                                    VALUES(@Name)";
 
                             DbUtils.AddParameter(cmd, "@Name", author.Name);
-                            DbUtils.AddParameter(cmd, "@BookId", book.Id);
                             author.Id = (int)cmd.ExecuteScalar();
 
-
+                            cmd.CommandText = @"INSERT INTO BookAuthor(BookId, AuthorId)
+                                                    VALUES(@BookId, @AuthorId)";
+                            DbUtils.AddParameter(cmd, "@BookId", book.Id);
+                            DbUtils.AddParameter(cmd, "@AuthorId", author.Id);
+                            cmd.ExecuteScalar();
                         }
+                        //TODO: if author is in DB, create join table for book and author
+                        else
+                        {
+                            var authorId = reader.GetInt32(reader.GetOrdinal("AuthorId"));
 
-                        reader.Close();
+                            cmd.CommandText = @$"INSERT INTO BookAuthor(BookId, AuthorId)
+                                                    VALUES({book.Id}, 
+                                                    {authorId})";
+
+                            reader.Close();
+                            cmd.ExecuteScalar();
+                        }
 
                     }
                 }
