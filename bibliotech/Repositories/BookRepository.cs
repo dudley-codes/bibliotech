@@ -12,7 +12,10 @@ namespace Bibliotech.Repositories
     public class BookRepository : BaseRepository, IBookRepository
     {
         public BookRepository(IConfiguration configuration) : base(configuration) { }
-
+        /// <summary>
+        /// Fetch all books from DB with authors
+        /// </summary>
+        /// <returns></returns>
         public List<Book> GetAll()
         {
             using (var conn = Connection)
@@ -43,12 +46,13 @@ namespace Bibliotech.Repositories
                     while (reader.Read())
                     {
                         var bookId = DbUtils.GetInt(reader, "BookId");
-
+                        //Checks to see if book has been added to list if not, creates book object
                         var existingBook = books.FirstOrDefault(p => p.Id == bookId);
                         if (existingBook == null)
                         {
                             existingBook = new Book()
                             {
+                                //TODO: Add full Owner object
                                 Id = bookId,
                                 OwnerId = reader.GetInt32(reader.GetOrdinal("OwnerId")),
                                 Title = reader.GetString(reader.GetOrdinal("Title")),
@@ -65,7 +69,7 @@ namespace Bibliotech.Repositories
 
                             books.Add(existingBook);
                         }
-
+                        //Adds list of author(s) to book
                         if (DbUtils.IsNotDbNull(reader, "AuthorId"))
                         {
                             existingBook.Authors.Add(new Author()
@@ -83,73 +87,7 @@ namespace Bibliotech.Repositories
             }
         }
 
-        //public List<Book> GetAll()
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"
-        //                                SELECT
-        //                                        b.Id, 
-        //                                        b.Title,
-        //                                        b.Description, 
-        //                                        b.AverageRating,  
-        //                                        b.OnShelf, 
-        //                                        b.ThumbnailUrl, 
-        //                                        a.Name AS Author,
-        //                                        b.OwnerId,
-        //                                        up.DisplayName,
-        //                                        a.Id AS AuthorId
-        //                                FROM Book b
-        //                                JOIN BookAuthor ba ON ba.BookId = b.Id
-        //                                JOIN Author a ON ba.AuthorId = a.Id
-        //                                JOIN UserProfile up on up.Id = b.OwnerId";
-
-        //            var reader = cmd.ExecuteReader();
-
-        //            var books = new List<Book>();
-
-        //            Book book = null;
-        //            while (reader.Read())
-        //            {
-        //                //if (book == null)
-        //                //{
-        //                    book = new Book()
-        //                    {
-        //                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
-        //                        OwnerId = reader.GetInt32(reader.GetOrdinal("OwnerId")),
-        //                        Title = reader.GetString(reader.GetOrdinal("Title")),
-        //                        ThumbnailUrl = DbUtils.GetNullableString(reader, "ThumbnailUrl"),
-        //                        Description = reader.GetString(reader.GetOrdinal("Description")),
-        //                        AverageRating = reader.GetDecimal(reader.GetOrdinal("AverageRating")),
-        //                        OnShelf = reader.GetBoolean(reader.GetOrdinal("OnShelf")),
-        //                        Owner = new UserProfile()
-        //                        {
-        //                            DisplayName = reader.GetString(reader.GetOrdinal("DisplayName"))
-        //                        },
-        //                        Authors = new List<Author>()
-        //                    };
-        //                //}
-
-        //                Author author = new Author()
-        //                {
-        //                    Id = reader.GetInt32(reader.GetOrdinal("AuthorId")),
-        //                    Name = reader.GetString(reader.GetOrdinal("Author"))
-        //                };
-
-        //                book.Authors.Add(author);
-
-        //                books.Add(book);
-        //            }
-
-        //            reader.Close();
-
-        //            return books;
-        //        }
-        //    }
-        //}
+       
         /// <summary>
         /// Add new book to database
         /// </summary>
