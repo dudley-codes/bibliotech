@@ -9,6 +9,7 @@ namespace Bibliotech.Models
     {
         public int Id { get; set; }
         public int BookId { get; set; }
+        public int OwnerId { get; set; }
         public int BorrowerId { get; set; }
         public DateTime RequestDate { get; set; }
         public DateTime? ResponseDate { get; set; }

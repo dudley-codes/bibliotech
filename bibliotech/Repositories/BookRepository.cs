@@ -33,6 +33,14 @@ namespace Bibliotech.Repositories
                                                 b.ThumbnailUrl, 
                                                 a.Name AS Author,
                                                 b.OwnerId,
+                                                up.Id AS UserProfileId,
+                                                up.FireBaseUserId,
+                                                up.Email,
+                                                up.FirstName,
+                                                up.LastName,
+                                                up.ImageUrl,
+                                                up.City,
+                                                up.State,
                                                 up.DisplayName,
                                                 a.Id AS AuthorId,
                                                 l.Id AS LoanId,
@@ -73,7 +81,15 @@ namespace Bibliotech.Repositories
                                 OnShelf = reader.GetBoolean(reader.GetOrdinal("OnShelf")),
                                 Owner = new UserProfile()
                                 {
-                                    DisplayName = reader.GetString(reader.GetOrdinal("DisplayName"))
+                                    Id = DbUtils.GetInt(reader, "UserProfileId"),
+                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                                    FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
+                                    Email = DbUtils.GetString(reader, "Email"),
+                                    FirstName = DbUtils.GetString(reader, "FirstName"),
+                                    LastName = DbUtils.GetString(reader, "LastName"),
+                                    ImageUrl = DbUtils.GetNullableString(reader, "ImageUrl"),
+                                    City = DbUtils.GetString(reader, "City"),
+                                    State = DbUtils.GetString(reader, "State")
                                 },
                                 Authors = new List<Author>(),
                                 Loans = new List<Loan>()
