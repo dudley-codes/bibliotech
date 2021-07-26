@@ -10,7 +10,7 @@ const Book = ({ book }) => {
     let thumbnailUrl = '';
 
     if (book.thumbnailUrl === undefined) {
-      thumbnailUrl = book.imageLinks.thumbnail
+      thumbnailUrl = book?.imageLinks?.thumbnail
     }
     else {
       thumbnailUrl = book.thumbnailUrl
