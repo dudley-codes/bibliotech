@@ -21,7 +21,7 @@ const Book = ({ book }) => {
   //todo: add radio selector button to card for books being added to DB
   const Author = () => {
     let bool;
-    book.authors.map(a => {
+    book.authors?.map(a => {
       if (a.name === undefined) {
         bool = false;
       }
@@ -50,6 +50,11 @@ const Book = ({ book }) => {
           <h3>{ book?.title }</h3>
           <h4>Author(s):</h4>
           <Author />
+          <Link to={ `/book/${ book.id }` }>
+            <button className="btn btn-primary" >
+              Details
+            </button>
+          </Link>
         </CardBody>
       </Card>
     </>

@@ -21,18 +21,22 @@ namespace Bibliotech.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"INSERT INTO Loan(
-                                        BookId, 
+                                        BookId,
+                                        OwnerId,
                                         BorrowerId,
                                         RequestDate,
                                         DueDate,
                                         LoanStatusId)
                                         OUTPUT INSERTED.ID
-                                        VALUES(@bookId, @borrowerId, @requestDate, @dueDate, @loanStatusId)";
+                                        VALUES(@bookId, @ownerId, @borrowerId, @requestDate, @dueDate, @loanStatusId)";
 
+                    DateTimeOffset dtOffset = DateTimeOffset.FromUnixTimeSeconds(loan.DueDateUnix);
+              
                     DbUtils.AddParameter(cmd, "@bookId", loan.BookId);
+                    DbUtils.AddParameter(cmd, "@ownerId", loan.OwnerId);
                     DbUtils.AddParameter(cmd, "@borrowerId", user.Id);
                     DbUtils.AddParameter(cmd, "@requestDate", DateTime.Now);
-                    DbUtils.AddParameter(cmd, "@dueDate", loan.DueDate);
+                    DbUtils.AddParameter(cmd, "@dueDate", dtOffset.DateTime);
                     DbUtils.AddParameter(cmd, "@loanStatusId", 1);
 
                     loan.Id = (int)cmd.ExecuteScalar();

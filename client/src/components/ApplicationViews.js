@@ -1,7 +1,9 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import BookAdd from "./book/BookAdd";
+import BookDetails from "./book/BookDetails";
 import BookList from "./book/BookList";
+import Bookshelf from "./book/Bookshelf";
 import Login from "./Login";
 import Register from "./Register";
 
@@ -15,6 +17,14 @@ export default function ApplicationViews({ isLoggedIn }) {
 
         <Route path="/add">
           { isLoggedIn ? <BookAdd /> : <Redirect to="/login" /> }
+        </Route>
+
+        <Route path="/Bookshelf">
+          { isLoggedIn ? <Bookshelf /> : <Redirect to="/login" /> }
+        </Route>
+
+        <Route path="/book/:id" exact>
+          { isLoggedIn ? <BookDetails /> : <Redirect to="/login" /> }
         </Route>
 
         <Route path="/login">
