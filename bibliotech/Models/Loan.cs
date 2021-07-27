@@ -15,6 +15,7 @@ namespace Bibliotech.Models
         public DateTime? ResponseDate { get; set; }
         public DateTime? BorrowDate { get; set; }
         public DateTime DueDate { get; set; }
+        public int DueDateUnix { get; set; }
         public DateTime? ReturnDate { get; set; }
         public int LoanStatusId { get; set; }
         public LoanStatus LoanStatus { get; set; }

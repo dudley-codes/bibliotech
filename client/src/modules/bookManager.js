@@ -13,6 +13,29 @@ export const getAllBooks = () => {
     }).then(resp => resp.json()));
 };
 
+//fetches all books from API
+export const getAllUserBooks = () => {
+  return getToken().then((token) =>
+    fetch(`${ _apiUrl }/GetByUser`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${ token }`
+      }
+    }).then(resp => resp.json()));
+};
+
+//fetchs book by Id
+export const getBookById = (bookId) => {
+  return getToken().then((token) =>
+    fetch(`${ _apiUrl }/${ bookId }`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${ token }`
+      }
+    }).then(resp => resp.json()));
+};
+
+
 //Adds new book to API DB
 export const addBook = (book) => {
   return getToken().then((token) => {
