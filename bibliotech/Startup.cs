@@ -31,6 +31,7 @@ namespace Bibliotech
         {
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<IBookRepository, BookRepository>();
+            services.AddTransient<ILoanRepository, LoanRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";

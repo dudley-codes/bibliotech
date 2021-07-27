@@ -16,5 +16,6 @@ namespace Bibliotech.Models
         public bool OnShelf { get; set; }
         public UserProfile Owner { get; set; } 
         public List<Author> Authors { get; set; }
+        public List<Loan> Loans { get; set; }
     }
 }
