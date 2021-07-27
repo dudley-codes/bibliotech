@@ -8,5 +8,6 @@ namespace Bibliotech.Repositories
         void Add(Book book, List<Author> authors);
         List<Book> GetAll();
         Book GetBookById(int id);
+        List<Book> GetUserLoansByStatus(UserProfile user, string loanStatus);
     }
 }
