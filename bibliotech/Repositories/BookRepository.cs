@@ -494,7 +494,10 @@ namespace Bibliotech.Repositories
                 }
             }
         }
-
+        /// <summary>
+        /// Soft Delete Book
+        /// </summary>
+        /// <param name="id"></param>
         public void Delete(int id)
         {
             using (var conn = Connection)
