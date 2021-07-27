@@ -39,7 +39,10 @@ namespace Bibliotech.Repositories
                 }
             }
         }
-
+        /// <summary>
+        /// Update book loan status
+        /// </summary>
+        /// <param name="loan"></param>
         public void UpdateLoanStatus(Loan loan)
         {
             using (var conn = Connection)
@@ -67,6 +70,21 @@ namespace Bibliotech.Repositories
                     DbUtils.AddParameter(cmd, "@dateTime", DateTime.Now);
                     DbUtils.AddParameter(cmd, "@id", loan.Id);
 
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Delete(int id, UserProfile user)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM Loan WHERE Id = @id AND BorrowerId = @currentUserId";
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    DbUtils.AddParameter(cmd, "@currentUserId", user.Id);
                     cmd.ExecuteNonQuery();
                 }
             }

@@ -64,8 +64,10 @@ namespace Bibliotech.Controllers
 
         // DELETE api/<BookController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            _bookRepository.Delete(id);
+            return NoContent();
         }
 
         private UserProfile GetCurrentUserProfile()

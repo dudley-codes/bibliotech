@@ -56,7 +56,8 @@ namespace Bibliotech.Repositories
                                         LEFT JOIN Author a ON ba.AuthorId = a.Id
                                         LEFT JOIN Loan l ON b.Id = l.BookId
                                         LEFT JOIN LoanStatus ls ON ls.Id = l.LoanStatusId
-                                        LEFT JOIN UserProfile up on up.Id = b.OwnerId";
+                                        LEFT JOIN UserProfile up on up.Id = b.OwnerId 
+                                        WHERE IsDeleted = 0";
 
                     var reader = cmd.ExecuteReader();
 
@@ -193,7 +194,7 @@ namespace Bibliotech.Repositories
                                         LEFT JOIN Loan l ON b.Id = l.BookId
                                         LEFT JOIN LoanStatus ls ON ls.Id = l.LoanStatusId
                                         LEFT JOIN UserProfile up on up.Id = b.OwnerId
-                                        WHERE l.BorrowerId = @id AND ls.Status = @status;";
+                                        WHERE l.BorrowerId = @id AND ls.Status = @status AND IsDeleted = 0;";
 
                     DbUtils.AddParameter(cmd, "@id", user.Id);
                     DbUtils.AddParameter(cmd, "@status", loanStatus);
@@ -327,7 +328,7 @@ namespace Bibliotech.Repositories
                                         LEFT JOIN Loan l ON b.Id = l.BookId
                                         LEFT JOIN LoanStatus ls ON ls.Id = l.LoanStatusId
                                         LEFT JOIN UserProfile up on up.Id = b.OwnerId
-                                        WHERE b.Id = @id";
+                                        WHERE b.Id = @id AND IsDeleted = 0";
 
                     DbUtils.AddParameter(cmd, "@id", id);
                     var reader = cmd.ExecuteReader();
@@ -490,6 +491,21 @@ namespace Bibliotech.Repositories
                         }
 
                     }
+                }
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using(var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "UPDATE Book SET IsDeleted = @isDeleted WHERE Id = @id";
+                    DbUtils.AddParameter(cmd, "@isDeleted", 1);
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
