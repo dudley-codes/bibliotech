@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,10 +16,13 @@ namespace Bibliotech.Controllers
     public class BookController : ControllerBase
     {
         private readonly IBookRepository _bookRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
 
-        public BookController(IBookRepository bookRepo)
+        public BookController(IBookRepository bookRepo,
+            IUserProfileRepository userProfileRepo)
         {
             _bookRepository = bookRepo;
+            _userProfileRepository = userProfileRepo;
         }
 
         // GET: api/<BookController>
@@ -33,6 +37,14 @@ namespace Bibliotech.Controllers
         public IActionResult Get(int id)
         {
             return Ok(_bookRepository.GetBookById(id));
+        }
+
+        // GET api/<BookController>/5
+        [HttpGet("GetByStatus/{loanStatus}")]
+        public IActionResult Get(string loanStatus)
+        {
+            var user = GetCurrentUserProfile();
+            return Ok(_bookRepository.GetUserLoansByStatus(user, loanStatus));
         }
 
         // POST api/<BookController>
@@ -54,6 +66,20 @@ namespace Bibliotech.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            if (firebaseUserId != null)
+            {
+                return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
