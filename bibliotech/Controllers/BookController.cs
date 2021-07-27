@@ -56,10 +56,12 @@ namespace Bibliotech.Controllers
             return Ok();
         }
 
-        // PUT api/<BookController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        //GET api/
+        [HttpGet("GetByUser")]
+        public IActionResult GetBooksByUser()
         {
+            var user = GetCurrentUserProfile();
+            return Ok(_bookRepository.GetBooksByUser(user));
         }
 
         // DELETE api/<BookController>/5

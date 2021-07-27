@@ -9,6 +9,7 @@ namespace Bibliotech.Repositories
         void Delete(int id);
         List<Book> GetAll();
         Book GetBookById(int id);
+        List<Book> GetBooksByUser(UserProfile user);
         List<Book> GetUserLoansByStatus(UserProfile user, string loanStatus);
     }
 }
