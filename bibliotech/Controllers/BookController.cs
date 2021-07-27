@@ -30,9 +30,9 @@ namespace Bibliotech.Controllers
 
         // GET api/<BookController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            return Ok(_bookRepository.GetBookById(id));
         }
 
         // POST api/<BookController>
