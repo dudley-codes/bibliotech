@@ -74,14 +74,14 @@ namespace Bibliotech.Repositories
 
                     foreach(LoanStatus status in statusList)
                     {
-                        if(status.Status == loan.LoanStatus.Status)
+                        if(status.Status.ToLower() == loan.LoanStatus.Status.ToLower())
                         {
                             loan.LoanStatusId = status.Id;
                         }
                     }
 
                     string StatusDate = null;
-                    if (loan.LoanStatus.Status == "IsReturned" || loan.LoanStatusId == 9)
+                    if (loan.LoanStatus.Status == "IsReturned")
                     {
                         StatusDate = "ReturnDate";
                     }
@@ -90,7 +90,6 @@ namespace Bibliotech.Repositories
                         StatusDate = "ResponseDate";
                     }
 
-                    if(loan.LoanStatus.Status == "IsApproved")
                     cmd.CommandText = @$"
                                         UPDATE Loan
                                                 SET LoanStatusId = @loanStatusId,

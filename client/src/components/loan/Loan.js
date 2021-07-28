@@ -6,7 +6,15 @@ import { dateFixer } from "../../modules/helpers";
 import { updateLoanStatus } from "../../modules/loanManager";
 
 const Loan = ({ loan, fetchLoans }) => {
-  const [ status, setStatus ] = useState({});
+  const [ status, setStatus ] = useState(
+    {
+      id: loan.id,
+      ownerId: loan.owner.id,
+      borrowerId: loan.borrower.id,
+      loanStatus: {
+        status: ''
+      }
+    });
   const requestDate = dateFixer(loan.requestDate)
   const [ currentStatus, setCurrentStatus ] = useState("");
 
@@ -22,6 +30,9 @@ const Loan = ({ loan, fetchLoans }) => {
       case "IsApproved":
         setCurrentStatus("Approved")
         break;
+      case "IsDenied":
+        setCurrentStatus("Denied")
+        break;
       default:
         break;
     }
@@ -31,16 +42,17 @@ const Loan = ({ loan, fetchLoans }) => {
     statusSwitch()
   }, [ loan ])
 
-  const handleLoanSave = () => {
-    updateLoanStatus({
-      id: loan.id,
-      ownerId: loan.owner.id,
-      borrowerId: loan.borrower.id,
-      loanStatus: {
-        status: 'IsApproved'
-      }
-    }).then(fetchLoans).then(statusSwitch)
+  const handleLoanApprove = () => {
+    status.loanStatus.status = 'IsApproved';
+    updateLoanStatus(status).then(fetchLoans)
   }
+
+  const handleLoanDeny = () => {
+    status.loanStatus.status = 'IsDenied';
+    console.log('status', status)
+    updateLoanStatus(status).then(fetchLoans)
+  }
+
 
   return (
     <>
@@ -50,8 +62,12 @@ const Loan = ({ loan, fetchLoans }) => {
           <h4>Status: { currentStatus }</h4>
           <h4>Requested On: { requestDate }</h4>
 
-          <Button onClick={ () => handleLoanSave() }>
+          <Button onClick={ () => handleLoanApprove() }>
             Approve
+          </Button>
+
+          <Button variant="danger" onClick={ () => handleLoanDeny() }>
+            Deny
           </Button>
         </Card.Body>
       </Card>
