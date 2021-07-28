@@ -5,6 +5,7 @@ import { useParams, Link, useHistory } from "react-router-dom";
 import { Card, CardBody } from "reactstrap";
 // import { Button } from "bootstrap";
 import BookRequest from "./BookRequest";
+import LoanList from "../loan/LoanList";
 
 
 const BookDetails = () => {
@@ -20,7 +21,6 @@ const BookDetails = () => {
     fetchPosts();
   }, [])
 
-  console.log("book", book)
 
   return (
     <>
@@ -50,7 +50,7 @@ const BookDetails = () => {
           </Card>
           <Card>
             <CardBody>
-              <h3>Book Loans & Requests</h3>
+              <LoanList />
             </CardBody>
           </Card>
         </div>

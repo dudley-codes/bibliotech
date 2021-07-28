@@ -15,3 +15,14 @@ export const addLoan = (loan) => {
     })
   });
 };
+
+//fetch loan requests for current logged in user
+export const getMyLoanReqs = (id) => {
+  return getToken().then((token) =>
+    fetch(`${ _apiUrl }/GetByUser/${ id }`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${ token }`
+      }
+    }).then(resp => resp.json()));
+};

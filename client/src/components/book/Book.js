@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const Book = ({ book }) => {
   //TODO: complete book card
-  console.log('bookLinks', book)
 
   const thumbnail = () => {
     let thumbnailUrl = '';
