@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
-import { Link, useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { addLoan } from '../../modules/loanManager'
 import { getBookById } from '../../modules/bookManager';
 
@@ -45,20 +45,17 @@ const BookRequest = () => {
     e.preventDefault()
     setIsLoading(true)
 
-
     handleClose();
-    console.log('data to be sent', loan)
     addLoan(loan)
       .then(() => handleClose())
   }
 
   return (
     <>
-      <Link onClick={ handleShow } to={ `/book/${ id }` }>
-        <button className="btn btn-primary" >
-          Request Loan
-        </button>
-      </Link>
+      <Button onClick={ handleShow }>
+        Request Loan
+      </Button>
+
 
       <Modal show={ show } onHide={ handleClose }>
         <Modal.Header closeButton>

@@ -8,15 +8,13 @@ const LoanList = () => {
   const [ loans, setLoans ] = useState([]);
   const { id } = useParams();
 
-  const fetchPosts = () => {
+  const fetchLoans = () => {
     return getMyLoanReqs(id).then(b => setLoans(b))
   }
 
   useEffect(() => {
-    fetchPosts();
+    fetchLoans();
   }, [])
-
-  console.log('loans', loans)
 
   return (
     <>
@@ -24,7 +22,7 @@ const LoanList = () => {
       <div className='container'>
         <div className='row justify-content-center'>
           { loans.map((loan) => (
-            <Loan loan={ loan } key={ loan.id } />
+            <Loan loan={ loan } fetchLoans={ fetchLoans } key={ loan.id } />
           )) }
         </div>
       </div>

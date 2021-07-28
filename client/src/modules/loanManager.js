@@ -26,3 +26,16 @@ export const getMyLoanReqs = (id) => {
       }
     }).then(resp => resp.json()));
 };
+
+//fetch loan requests for current logged in user
+export const updateLoanStatus = (loan) => {
+  return getToken().then((token) =>
+    fetch(`${ _apiUrl }/${ loan.id }`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${ token }`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(loan)
+    }));
+};

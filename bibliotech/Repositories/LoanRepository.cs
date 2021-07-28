@@ -54,6 +54,32 @@ namespace Bibliotech.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
+
+                    cmd.CommandText = @"SELECT Id, Status FROM LoanStatus";
+
+                    var reader = cmd.ExecuteReader();
+                    var statusList = new List<LoanStatus>();
+                    while (reader.Read())
+                    {
+                        var status = new LoanStatus()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Status = DbUtils.GetString(reader, "Status")
+                        };
+
+                        statusList.Add(status);
+                    }
+
+                    reader.Close();
+
+                    foreach(LoanStatus status in statusList)
+                    {
+                        if(status.Status == loan.LoanStatus.Status)
+                        {
+                            loan.LoanStatusId = status.Id;
+                        }
+                    }
+
                     string StatusDate = null;
                     if (loan.LoanStatus.Status == "IsReturned" || loan.LoanStatusId == 9)
                     {
@@ -63,6 +89,8 @@ namespace Bibliotech.Repositories
                     {
                         StatusDate = "ResponseDate";
                     }
+
+                    if(loan.LoanStatus.Status == "IsApproved")
                     cmd.CommandText = @$"
                                         UPDATE Loan
                                                 SET LoanStatusId = @loanStatusId,
