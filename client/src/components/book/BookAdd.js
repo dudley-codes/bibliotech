@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { searchGoogleBooks } from '../../modules/googleBooksManager';
-import Book from './Book';
+import NewBook from './NewBook';
 
 const BookAdd = () => {
   const [ books, setBooks ] = useState([]);
@@ -25,7 +25,7 @@ const BookAdd = () => {
         </div>
         <div className="book-list row justify-content-center">
           { books?.map(book =>
-            <Book book={ book.volumeInfo } key={ book.id } />
+            <NewBook book={ book } key={ book.id } />
           ) }
         </div>
       </div>
