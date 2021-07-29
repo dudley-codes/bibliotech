@@ -31,7 +31,7 @@ namespace Bibliotech.Repositories
                                         VALUES(@bookId, @ownerId, @borrowerId, @requestDate, @dueDate, @loanStatusId)";
 
                     DateTimeOffset dtOffset = DateTimeOffset.FromUnixTimeSeconds(loan.DueDateUnix);
-              
+
                     DbUtils.AddParameter(cmd, "@bookId", loan.BookId);
                     DbUtils.AddParameter(cmd, "@ownerId", loan.OwnerId);
                     DbUtils.AddParameter(cmd, "@borrowerId", user.Id);
@@ -72,9 +72,9 @@ namespace Bibliotech.Repositories
 
                     reader.Close();
 
-                    foreach(LoanStatus status in statusList)
+                    foreach (LoanStatus status in statusList)
                     {
-                        if(status.Status.ToLower() == loan.LoanStatus.Status.ToLower())
+                        if (status.Status.ToLower() == loan.LoanStatus.Status.ToLower())
                         {
                             loan.LoanStatusId = status.Id;
                         }
@@ -105,7 +105,12 @@ namespace Bibliotech.Repositories
                 }
             }
         }
-
+        /// <summary>
+        /// Loan requests for user's books
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public List<Loan> GetLoansByCurrentUser(UserProfile user, int id)
         {
             using (var conn = Connection)
@@ -235,6 +240,122 @@ namespace Bibliotech.Repositories
                     reader.Close();
 
                     return loans;
+                }
+            }
+        }
+        /// <summary>
+        /// Fetches loans and loan requests made by user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Loan GetLoanRequest(UserProfile user, int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                         SELECT
+                                                b.Id AS BookId, 
+                                                b.Title,
+                                                b.Description, 
+                                                b.AverageRating,  
+                                                b.OnShelf, 
+                                                b.ThumbnailUrl, 
+                                                a.Name AS Author,
+                                                b.OwnerId,
+                                                bor.Id AS BorrowerId,
+                                                bor.Email AS BorrowerEmail,
+                                                bor.FirstName AS BorrowerFirst,
+                                                bor.LastName AS BorrowerLast,
+                                                bor.ImageUrl AS BorrowerImageUrl,
+                                                bor.City AS BorrowerCity,
+                                                bor.State AS BorrowerState,
+                                                bor.DisplayName AS BorrowerDisplayName,
+                                                up.Id AS UserProfileId,
+                                                up.Email,
+                                                up.FirstName,
+                                                up.LastName,
+                                                up.ImageUrl,
+                                                up.City,
+                                                up.State,
+                                                up.DisplayName,
+                                                a.Id AS AuthorId,
+                                                l.Id AS LoanId,
+                                                l.BorrowerId,
+                                                l.RequestDate,
+                                                l.ResponseDate,
+                                                l.DueDate,
+                                                l.ReturnDate,
+                                                ls.Id AS LoanStatusId,
+                                                ls.Status
+                                        FROM Loan l
+                                        LEFT JOIN Book b ON b.Id = l.BookId
+                                        LEFT JOIN BookAuthor ba ON ba.BookId = b.Id
+                                        LEFT JOIN Author a ON ba.AuthorId = a.Id
+                                        LEFT JOIN LoanStatus ls ON ls.Id = l.LoanStatusId
+                                        LEFT JOIN UserProfile up on up.Id = b.OwnerId
+                                        LEFT JOIN UserProfile bor ON bor.Id = l.BorrowerId 
+                                        WHERE IsDeleted = 0 AND l.BorrowerId = @currentUserId AND b.Id = @bookId";
+
+                    DbUtils.AddParameter(cmd, "@currentUserId", user.Id);
+                    DbUtils.AddParameter(cmd, "@bookId", id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    var loan = new Loan();
+                    if (reader.Read())
+                    {
+                        //var loanId = DbUtils.GetInt(reader, "LoanId");
+                        ////Checks to see if book has been added to list if not, creates book object
+                        //var existingLoan = loan.FirstOrDefault(p => p.Id == loanId);
+
+                        loan = new Loan()
+                        {
+
+                            Id = DbUtils.GetInt(reader, "LoanId"),
+                            Book = new Book()
+                            {
+                                Id = DbUtils.GetInt(reader, "UserProfileId"),
+                                Title = reader.GetString(reader.GetOrdinal("Title")),
+                                OnShelf = reader.GetBoolean(reader.GetOrdinal("OnShelf"))
+                            },
+                            RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
+                            ResponseDate = DbUtils.GetNullableDateTime(reader, "ResponseDate"),
+                            Borrower = new UserProfile()
+                            {
+                                Id = DbUtils.GetInt(reader, "BorrowerId"),
+                                DisplayName = DbUtils.GetString(reader, "BorrowerDisplayName"),
+                                Email = DbUtils.GetString(reader, "BorrowerEmail"),
+                                FirstName = DbUtils.GetString(reader, "BorrowerFirst"),
+                                LastName = DbUtils.GetString(reader, "BorrowerLast"),
+                                ImageUrl = DbUtils.GetNullableString(reader, "BorrowerImageUrl"),
+                                City = DbUtils.GetString(reader, "BorrowerCity"),
+                                State = DbUtils.GetString(reader, "BorrowerState")
+                            },
+                            Owner = new UserProfile()
+                            {
+                                Id = DbUtils.GetInt(reader, "UserProfileId"),
+                                DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                                Email = DbUtils.GetString(reader, "Email"),
+                                FirstName = DbUtils.GetString(reader, "FirstName"),
+                                LastName = DbUtils.GetString(reader, "LastName"),
+                                ImageUrl = DbUtils.GetNullableString(reader, "ImageUrl"),
+                                City = DbUtils.GetString(reader, "City"),
+                                State = DbUtils.GetString(reader, "State")
+                            },
+                            LoanStatus = new LoanStatus()
+                            {
+                                Status = DbUtils.GetString(reader, "Status")
+                            }
+                        };
+                    }
+
+                    reader.Close();
+
+                    return loan;
                 }
             }
         }
