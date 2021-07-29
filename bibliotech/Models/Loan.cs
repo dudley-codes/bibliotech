@@ -19,5 +19,9 @@ namespace Bibliotech.Models
         public DateTime? ReturnDate { get; set; }
         public int LoanStatusId { get; set; }
         public LoanStatus LoanStatus { get; set; }
+        public Book Book { get; set; }
+        public UserProfile Borrower { get; set; }
+        public UserProfile Owner { get; set; }
+        public List<Author> Authors { get; set; }
     }
 }

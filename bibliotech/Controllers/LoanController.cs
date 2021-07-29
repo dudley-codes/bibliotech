@@ -63,6 +63,23 @@ namespace Bibliotech.Controllers
                 return NoContent();
             
         }
+        /// <summary>
+        /// Get book loan requests made to current user
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetByUser/{id}")]
+        public IActionResult GetBooksByUser(int id)
+        {
+            var user = GetCurrentUserProfile();
+            return Ok(_loanRepository.GetLoansByCurrentUser(user, id));
+        }
+        //Controller for loan requests made by current user
+        [HttpGet("GetLoanRequest/{id}")]
+        public IActionResult GetLoanRequest(int id)
+        {
+            var user = GetCurrentUserProfile();
+            return Ok(_loanRepository.GetLoanRequest(user, id));
+        }
 
         private UserProfile GetCurrentUserProfile()
         {

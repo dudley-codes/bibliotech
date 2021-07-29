@@ -29,7 +29,8 @@ namespace Bibliotech.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_bookRepository.GetAll());
+            var user = GetCurrentUserProfile();
+            return Ok(_bookRepository.GetAll(user));
         }
 
         // GET api/<BookController>/5

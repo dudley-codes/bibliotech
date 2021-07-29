@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Card, CardBody } from "reactstrap";
+import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 
 const Book = ({ book }) => {
   //TODO: complete book card
-  console.log('bookLinks', book)
 
   const thumbnail = () => {
     let thumbnailUrl = '';
@@ -26,7 +24,9 @@ const Book = ({ book }) => {
         bool = false;
       }
       else bool = true;
-    })
+      return bool
+    }
+    )
     return (
       bool ?
         <>
@@ -45,8 +45,8 @@ const Book = ({ book }) => {
   return (
     <>
       <Card>
-        <CardBody>
-          <img src={ thumbnail() } alt={ `Image of ${ book?.title }` } />
+        <Card.Body>
+          <img src={ thumbnail() } alt={ `${ book?.title }` } />
           <h3>{ book?.title }</h3>
           <h4>Author(s):</h4>
           <Author />
@@ -55,7 +55,7 @@ const Book = ({ book }) => {
               Details
             </button>
           </Link>
-        </CardBody>
+        </Card.Body>
       </Card>
     </>
   )

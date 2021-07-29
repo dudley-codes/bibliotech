@@ -1,26 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { getAllBooks, getBookById } from "../../modules/bookManager";
-import Book from "./Book";
-import { useParams, Link, useHistory } from "react-router-dom";
-import { Card, CardBody } from "reactstrap";
-// import { Button } from "bootstrap";
-import BookRequest from "./BookRequest";
+import { getAllUserBooks, getBookById } from "../../modules/bookManager";
+import { useParams } from "react-router-dom";
+import Card from "react-bootstrap/Card";
+import LoanList from "../loan/LoanList";
+import LoanRequest from "../loan/LoanRequest";
 
 
 const BookDetails = () => {
   const [ book, setBook ] = useState([]);
   const { id } = useParams();
-  const history = useHistory();
+  const [ userBooks, setUserBooks ] = useState([])
 
-  const fetchPosts = () => {
+  const fetchBook = () => {
     return getBookById(id).then(b => setBook(b))
   }
 
   useEffect(() => {
-    fetchPosts();
+    fetchBook();
   }, [])
 
-  console.log("book", book)
+  const fetchUserBooks = () => {
+    getAllUserBooks().then(res => setUserBooks(res))
+  }
+
+  useEffect(() => {
+    fetchUserBooks()
+  }, [])
+
+  const isMyBook = () => {
+    let button = true;
+    let bookId = userBooks.find(book => book.id === parseInt(id))
+
+    if (bookId === undefined) {
+      button = false;
+    }
+
+    return button
+  }
 
   return (
     <>
@@ -28,30 +44,30 @@ const BookDetails = () => {
       <div className='container'>
         <div className='row justify-content-center'>
           <Card>
-            <CardBody>
+            <Card.Body>
               <img src={ book.thumbnailUrl } alt={ `Image of ${ book?.title }` } />
-
               <h4>Author(s):</h4>
               { book?.authors?.map(a =>
-                <h4 key={ Math.random() }>{ a.name }</h4>
+                <h4 key={ a.id }>{ a.name }</h4>
               ) }
               <h4>Owner: { book?.owner?.displayName }</h4>
               <h4>Average Rating: { book?.averageRating }</h4>
-              <h4>Book Status: { book?.onShelf ? 'On Shelf' : 'On Loan' }</h4>
-              <BookRequest />
+              {
+                isMyBook() ? null : <LoanRequest fetchBook={ fetchBook } book={ book } />
+              }
 
-            </CardBody>
+            </Card.Body>
           </Card>
           <Card>
-            <CardBody>
+            <Card.Body>
               <h3>{ book?.title }</h3>
               <h4>{ book?.description }</h4>
-            </CardBody>
+            </Card.Body>
           </Card>
           <Card>
-            <CardBody>
-              <h3>Book Loans & Requests</h3>
-            </CardBody>
+            <Card.Body>
+              <LoanList />
+            </Card.Body>
           </Card>
         </div>
       </div>

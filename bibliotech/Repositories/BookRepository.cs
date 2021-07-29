@@ -16,7 +16,7 @@ namespace Bibliotech.Repositories
         /// Fetch all books from DB with authors
         /// </summary>
         /// <returns></returns>
-        public List<Book> GetAll()
+        public List<Book> GetAll(UserProfile user)
         {
             using (var conn = Connection)
             {
@@ -57,8 +57,8 @@ namespace Bibliotech.Repositories
                                         LEFT JOIN Loan l ON b.Id = l.BookId
                                         LEFT JOIN LoanStatus ls ON ls.Id = l.LoanStatusId
                                         LEFT JOIN UserProfile up on up.Id = b.OwnerId 
-                                        WHERE IsDeleted = 0";
-
+                                        WHERE IsDeleted = 0 AND NOT b.OwnerId = @currentUserId";
+                    DbUtils.AddParameter(cmd, "@currentUserId", user.Id);
                     var reader = cmd.ExecuteReader();
 
                     var books = new List<Book>();
