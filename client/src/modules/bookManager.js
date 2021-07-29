@@ -49,3 +49,16 @@ export const addBook = (book) => {
     })
   });
 };
+
+//Delete book from users profile (soft delete)
+export const deleteBook = (id) => {
+  return getToken().then((token) =>
+    fetch(`${ _apiUrl }/${ id }`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${ token }`
+      }
+    })
+  );
+}

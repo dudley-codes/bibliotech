@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { getAllUserBooks, getBookById } from "../../modules/bookManager";
-import { useParams } from "react-router-dom";
+import { deleteBook, getAllUserBooks, getBookById } from "../../modules/bookManager";
+import { useParams, useHistory } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import LoanList from "../loan/LoanList";
 import LoanRequest from "../loan/LoanRequest";
+import { Button } from "react-bootstrap";
 
 
 const BookDetails = () => {
   const [ book, setBook ] = useState([]);
   const { id } = useParams();
+  const history = useHistory();
   const [ userBooks, setUserBooks ] = useState([])
 
   const fetchBook = () => {
@@ -39,6 +41,10 @@ const BookDetails = () => {
     return button
   }
 
+  const handleDelete = () => {
+    deleteBook(id).then(history.push('/bookshelf'))
+  }
+
   return (
     <>
       <h1>Book Details</h1>
@@ -54,7 +60,7 @@ const BookDetails = () => {
               <h4>Owner: { book?.owner?.displayName }</h4>
               <h4>Average Rating: { book?.averageRating }</h4>
               {
-                isMyBook() ? null : <LoanRequest fetchBook={ fetchBook } book={ book } />
+                isMyBook() ? <Button variant="danger" onClick={ handleDelete } >Delete from Bookshelf</Button> : <LoanRequest fetchBook={ fetchBook } book={ book } />
               }
 
             </Card.Body>
