@@ -19,22 +19,19 @@ const LoanRequest = ({ fetchBook, book }) => {
   useEffect(() => {
     fetchLoans()
   }, [])
-  //todo delete console log
-  console.log('existing loan', existingLoan)
 
-  // TODO: Set backend logic to send only current user loans
   const LoanButton = () => {
     let button = null;
 
     if (existingLoan.id === 0) {
       button =
-        <Button onClick={ saveNewLoanRequest }>
+        <Button aria-disabled={ isLoading } onClick={ saveNewLoanRequest }>
           Request Loan
         </Button>
     }
     else if (existingLoan?.loanStatus?.status === 'IsRequested') {
       button =
-        <Button variant="danger" onClick={ cancelRequest }>
+        <Button aria-disabled={ isLoading } variant="danger" onClick={ cancelRequest }>
           Cancel Request
         </Button>
     }
@@ -42,26 +39,25 @@ const LoanRequest = ({ fetchBook, book }) => {
 
     return button
   }
-  // const fetchBook = () => {
-  //   getBookById(id).then(b => setBook(b));
-  // }
-
-  // useEffect(() => {
-  //   fetchBook()
-  // }, [])
-
 
   // Saves new loan
   const saveNewLoanRequest = () => {
     setIsLoading(true)
     loan.bookId = parseInt(id);
     loan.ownerId = book.ownerId;
-    addLoan(loan)
+    addLoan(loan).then(() => {
+      fetchLoans()
+      setIsLoading(false)
+    })
   }
 
   //cancel loan request
   const cancelRequest = () => {
-    cancelLoanRequest(existingLoan.id)
+    setIsLoading(true)
+    cancelLoanRequest(existingLoan.id).then(() => {
+      fetchLoans()
+      setIsLoading(false)
+    })
   }
 
   return (
