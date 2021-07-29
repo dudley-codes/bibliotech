@@ -8,19 +8,24 @@ const NewBook = ({ book }) => {
   const [ newBook, setNewBook ] = useState({});
   const bookInfo = book.volumeInfo
 
-  console.log('book to save', book.volumeInfo.authors)
+  // console.log('book to save', book.volumeInfo.authors)
 
   const handleControlledInputChange = (e) => {
     let selectedBookId = e.target.value
 
     if (selectedBookId === book.id) {
-      addBook({
+      const authorArray = book.volumeInfo.authors.map(author => { return { name: author } })
+      // console.log("authorArray", authorArray)
+
+      setNewBook({
         title: book.volumeInfo.title,
         thumbnailUrl: book.volumeInfo.imageLinks?.thumbnail,
         description: book.volumeInfo.description,
         averageRating: book.volumeInfo.averageRating,
-        authors: book.volumeInfo.authors
+
+        authors: authorArray
       })
+      addBook(newBook)
     }
   }
 
