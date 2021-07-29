@@ -10,22 +10,19 @@ const NewBook = ({ book }) => {
 
   // console.log('book to save', book.volumeInfo.authors)
 
-  const handleControlledInputChange = (e) => {
+  const handleSave = (e) => {
     let selectedBookId = e.target.value
 
     if (selectedBookId === book.id) {
       const authorArray = book.volumeInfo.authors.map(author => { return { name: author } })
       // console.log("authorArray", authorArray)
-
-      setNewBook({
+      addBook({
         title: book.volumeInfo.title,
         thumbnailUrl: book.volumeInfo.imageLinks?.thumbnail,
         description: book.volumeInfo.description,
         averageRating: book.volumeInfo.averageRating,
-
         authors: authorArray
       })
-      addBook(newBook)
     }
   }
 
@@ -39,7 +36,7 @@ const NewBook = ({ book }) => {
           { bookInfo?.authors?.map(a =>
             <div key={ Math.random() }>{ a }</div>
           ) }
-          <Button value={ book.id } onClick={ handleControlledInputChange }>Add to Bookshelf</Button>
+          <Button value={ book.id } onClick={ handleSave }>Add to Bookshelf</Button>
         </Card.Body>
       </Card>
     </>

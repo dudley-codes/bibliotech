@@ -603,7 +603,8 @@ namespace Bibliotech.Repositories
                         if (!reader.Read())
                         {
                             reader.Close();
-                            cmd.CommandText = @"INSERT INTO Author(Name) 
+                            cmd.Parameters.Clear();
+                            cmd.CommandText = @$"INSERT INTO Author(Name) 
                                                     OUTPUT INSERTED.ID 
                                                     VALUES(@Name)";
 
