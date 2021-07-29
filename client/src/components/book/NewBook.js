@@ -1,12 +1,14 @@
 import Card from "react-bootstrap/Card";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import { addBook } from "../../modules/bookManager";
+
 
 const NewBook = ({ book }) => {
   const [ newBook, setNewBook ] = useState({});
   const bookInfo = book.volumeInfo
+  const history = useHistory();
 
   // console.log('book to save', book.volumeInfo.authors)
 
@@ -22,7 +24,7 @@ const NewBook = ({ book }) => {
         description: book.volumeInfo.description,
         averageRating: book.volumeInfo.averageRating,
         authors: authorArray
-      })
+      }).then(history.push('/bookshelf'))
     }
   }
 
