@@ -27,6 +27,17 @@ export const getMyLoanReqs = (id) => {
     }).then(resp => resp.json()));
 };
 
+//fetch loan all requests made by current logged in user
+export const getAllUserLoans = (id) => {
+  return getToken().then((token) =>
+    fetch(`${ _apiUrl }/GetAllUserRequests`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${ token }`
+      }
+    }).then(resp => resp.json()));
+};
+
 //fetch loan requests made by current logged in user
 export const getLoanRequest = (id) => {
   return getToken().then((token) =>

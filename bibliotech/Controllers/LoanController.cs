@@ -16,7 +16,7 @@ namespace Bibliotech.Controllers
     {
         private readonly ILoanRepository _loanRepository;
         private readonly IUserProfileRepository _userProfileRepository;
-        public LoanController(ILoanRepository loanRepo, 
+        public LoanController(ILoanRepository loanRepo,
             IUserProfileRepository userProfileRepo)
         {
             _loanRepository = loanRepo;
@@ -59,21 +59,20 @@ namespace Bibliotech.Controllers
         {
             var currentUser = GetCurrentUserProfile();
 
-                _loanRepository.Delete(id, currentUser);
-                return NoContent();
-            
+            _loanRepository.Delete(id, currentUser);
+            return NoContent();
+
         }
-        /// <summary>
-        /// Get book loan requests made to current user
-        /// </summary>
-        /// <returns></returns>
+
+        /// Get book loan requests made to current user selected book
         [HttpGet("GetByUser/{id}")]
         public IActionResult GetBooksByUser(int id)
         {
             var user = GetCurrentUserProfile();
             return Ok(_loanRepository.GetLoansByCurrentUser(user, id));
         }
-        //Controller for loan requests made by current user
+
+        //Controller for loan requests made by current user for selected book
         [HttpGet("GetLoanRequest/{id}")]
         public IActionResult GetLoanRequest(int id)
         {
@@ -81,6 +80,13 @@ namespace Bibliotech.Controllers
             return Ok(_loanRepository.GetLoanRequest(user, id));
         }
 
+        //returns a list of all loan requests made by current logged in user
+        [HttpGet("GetAllUserRequests")]
+        public IActionResult GetAllLoanRequests()
+        {
+            var user = GetCurrentUserProfile();
+            return Ok(_loanRepository.GetAllUserLoanRequests(user));
+        }
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;

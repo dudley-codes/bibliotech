@@ -4,6 +4,7 @@ import BookAdd from "./book/BookAdd";
 import BookDetails from "./book/BookDetails";
 import BookList from "./book/BookList";
 import Bookshelf from "./book/Bookshelf";
+import UserLoanList from "./loan/UserLoanList";
 import Login from "./Login";
 import Register from "./Register";
 
@@ -25,6 +26,10 @@ export default function ApplicationViews({ isLoggedIn }) {
 
         <Route path="/book/:id" exact>
           { isLoggedIn ? <BookDetails /> : <Redirect to="/login" /> }
+        </Route>
+
+        <Route path="/loans" exact>
+          { isLoggedIn ? <UserLoanList /> : <Redirect to="/login" /> }
         </Route>
 
         <Route path="/login">

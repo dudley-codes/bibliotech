@@ -38,7 +38,7 @@ namespace Bibliotech.Controllers
             }
             return Ok(userProfile);
         }
-       
+
 
 
         [HttpGet("DoesUserExist/{firebaseUserId}")]

@@ -25,11 +25,15 @@ export default function Header({ isLoggedIn }) {
             { isLoggedIn &&
               <>
                 <NavItem>
-                  <NavLink tag={ RRNavLink } to="/bookshelf">My Bookshelf</NavLink>
+                  <NavLink tag={ RRNavLink } to="/bookshelf">Bookshelf</NavLink>
                 </NavItem>
 
                 <NavItem>
                   <NavLink tag={ RRNavLink } to="/add">Add Book</NavLink>
+                </NavItem>
+
+                <NavItem>
+                  <NavLink tag={ RRNavLink } to="/loans">Loans</NavLink>
                 </NavItem>
 
                 <NavItem>

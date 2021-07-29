@@ -31,12 +31,12 @@ const BookDetails = () => {
 
   //checks to see if a book belongs to user and shows loan button if it does not
   const isMyBook = () => {
-    let button = true;
+    let button;
     let bookId = userBooks.find(book => book.id === parseInt(id))
 
     if (bookId === undefined) {
       button = false;
-    }
+    } else button = true;
 
     return button
   }
@@ -60,7 +60,7 @@ const BookDetails = () => {
               <h4>Owner: { book?.owner?.displayName }</h4>
               <h4>Average Rating: { book?.averageRating }</h4>
               {
-                isMyBook() ? <Button variant="danger" onClick={ handleDelete } >Delete from Bookshelf</Button> : <LoanRequest fetchBook={ fetchBook } book={ book } />
+                isMyBook() ? <Button variant="danger" onClick={ handleDelete } >Remove from Bookshelf</Button> : <LoanRequest fetchBook={ fetchBook } book={ book } />
               }
 
             </Card.Body>
