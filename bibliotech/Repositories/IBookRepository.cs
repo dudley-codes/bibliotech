@@ -5,7 +5,7 @@ namespace Bibliotech.Repositories
 {
     public interface IBookRepository
     {
-        void Add(Book book, List<Author> authors);
+        void Add(Book book, List<Author> authors, UserProfile user);
         void Delete(int id);
         List<Book> GetAll(UserProfile user);
         Book GetBookById(int id);

@@ -27,6 +27,7 @@ const BookDetails = () => {
     fetchUserBooks()
   }, [])
 
+  //checks to see if a book belongs to user and shows loan button if it does not
   const isMyBook = () => {
     let button = true;
     let bookId = userBooks.find(book => book.id === parseInt(id))
@@ -45,7 +46,7 @@ const BookDetails = () => {
         <div className='row justify-content-center'>
           <Card>
             <Card.Body>
-              <img src={ book.thumbnailUrl } alt={ `Image of ${ book?.title }` } />
+              <img src={ book.thumbnailUrl } alt={ `${ book?.title }` } />
               <h4>Author(s):</h4>
               { book?.authors?.map(a =>
                 <h4 key={ a.id }>{ a.name }</h4>

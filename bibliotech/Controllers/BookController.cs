@@ -52,7 +52,8 @@ namespace Bibliotech.Controllers
         [HttpPost]
         public IActionResult Post(Book book)
         {
-            _bookRepository.Add(book, book.Authors);
+            var user = GetCurrentUserProfile();
+            _bookRepository.Add(book, book.Authors, user);
             //TODO: Add CreatedAtAction
             return Ok();
         }

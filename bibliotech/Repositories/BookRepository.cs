@@ -566,7 +566,7 @@ namespace Bibliotech.Repositories
         /// </summary>
         /// <param name="book"></param>
         /// <param name="authors"></param>
-        public void Add(Book book, List<Author> authors)
+        public void Add(Book book, List<Author> authors, UserProfile user)
         {
             using (var conn = Connection)
             {
@@ -585,7 +585,7 @@ namespace Bibliotech.Repositories
                                                             @ThumbnailUrl, @Description, 
                                                             @AverageRating, @OnShelf);";
                     DbUtils.AddParameter(cmd, "@Title", book.Title);
-                    DbUtils.AddParameter(cmd, "@OwnerId", book.OwnerId);
+                    DbUtils.AddParameter(cmd, "@OwnerId", user.Id);
                     DbUtils.AddParameter(cmd, "@ThumbnailUrl", book.ThumbnailUrl);
                     DbUtils.AddParameter(cmd, "@Description", book.Description);
                     DbUtils.AddParameter(cmd, "@AverageRating", book.AverageRating);

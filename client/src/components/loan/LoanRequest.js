@@ -20,26 +20,6 @@ const LoanRequest = ({ fetchBook, book }) => {
     fetchLoans()
   }, [])
 
-  const LoanButton = () => {
-    let button = null;
-
-    if (existingLoan.id === 0) {
-      button =
-        <Button aria-disabled={ isLoading } onClick={ saveNewLoanRequest }>
-          Request Loan
-        </Button>
-    }
-    else if (existingLoan?.loanStatus?.status === 'IsRequested') {
-      button =
-        <Button aria-disabled={ isLoading } variant="danger" onClick={ cancelRequest }>
-          Cancel Request
-        </Button>
-    }
-    else button = null;
-
-    return button
-  }
-
   // Saves new loan
   const saveNewLoanRequest = () => {
     setIsLoading(true)
@@ -60,9 +40,30 @@ const LoanRequest = ({ fetchBook, book }) => {
     })
   }
 
-  return (
-    <LoanButton />
-  )
+
+  if (existingLoan.id === 0) {
+    return (
+      <Button aria-disabled={ isLoading } onClick={ saveNewLoanRequest }>
+        Request Loan
+      </Button>)
+  }
+  else if (existingLoan?.loanStatus?.status === 'IsRequested') {
+    return (
+      <Button aria-disabled={ isLoading } variant="danger" onClick={ cancelRequest }>
+        Cancel Request
+      </Button>
+    )
+  } else if (existingLoan?.loanStatus?.status === 'IsApproved') {
+    return (
+      <>
+        <Button aria-disabled={ true } variant="danger" onClick={ cancelRequest }>
+          Cancel Request
+        </Button>
+        <div>The loan has been approved. Contact the book owner if you no longer wish to borrow this book.</div>
+      </>
+    )
+  }
+  else return null;
 }
 
 export default LoanRequest;
