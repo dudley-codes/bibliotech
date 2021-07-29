@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getBookById } from "../../modules/bookManager";
+import { getAllUserBooks, getBookById } from "../../modules/bookManager";
 import { useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import LoanList from "../loan/LoanList";
@@ -9,7 +9,7 @@ import LoanRequest from "../loan/LoanRequest";
 const BookDetails = () => {
   const [ book, setBook ] = useState([]);
   const { id } = useParams();
-
+  const [ userBooks, setUserBooks ] = useState([])
 
   const fetchBook = () => {
     return getBookById(id).then(b => setBook(b))
@@ -19,6 +19,24 @@ const BookDetails = () => {
     fetchBook();
   }, [])
 
+  const fetchUserBooks = () => {
+    getAllUserBooks().then(res => setUserBooks(res))
+  }
+
+  useEffect(() => {
+    fetchUserBooks()
+  }, [])
+
+  const isMyBook = () => {
+    let button = true;
+    let bookId = userBooks.find(book => book.id === parseInt(id))
+
+    if (bookId === undefined) {
+      button = false;
+    }
+
+    return button
+  }
 
   return (
     <>
@@ -28,15 +46,15 @@ const BookDetails = () => {
           <Card>
             <Card.Body>
               <img src={ book.thumbnailUrl } alt={ `Image of ${ book?.title }` } />
-
               <h4>Author(s):</h4>
               { book?.authors?.map(a =>
                 <h4 key={ a.id }>{ a.name }</h4>
               ) }
               <h4>Owner: { book?.owner?.displayName }</h4>
               <h4>Average Rating: { book?.averageRating }</h4>
-              {/* <h4>Book Status: { book?.onShelf ? 'On Shelf' : 'On Loan' }</h4> */ }
-              <LoanRequest fetchBook={ fetchBook } book={ book } />
+              {
+                isMyBook() ? null : <LoanRequest fetchBook={ fetchBook } book={ book } />
+              }
 
             </Card.Body>
           </Card>
