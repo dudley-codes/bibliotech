@@ -15,6 +15,9 @@ const UserLoan = ({ loan, fetchLoans }) => {
   const LoanStatus = () => {
     //todo add all statuses to switch statement
     switch (loan.loanStatus.status) {
+      case "IsReturned":
+        setCurrentStatus("Returned")
+        return <Button onClick={ cancelRequest } variant='danger'>Remove From List</Button>;
       case "IsRequested":
         setCurrentStatus("Requested")
         return <Button onClick={ cancelRequest } variant='danger'>Cancel Request</Button>
@@ -44,7 +47,9 @@ const UserLoan = ({ loan, fetchLoans }) => {
     }
   }
 
-  console.log('loan', loan)
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
   useEffect(() => {
     LoanStatus()
@@ -53,7 +58,7 @@ const UserLoan = ({ loan, fetchLoans }) => {
   //cancel loan request
   const cancelRequest = () => {
     setIsLoading(true)
-    cancelLoanRequest(loan.id).then(() => {
+    cancelLoanRequest(loan.id).then(sleep(1000)).then(() => {
       fetchLoans()
       setIsLoading(false)
     })

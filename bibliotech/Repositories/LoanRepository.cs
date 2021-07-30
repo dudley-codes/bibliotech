@@ -169,7 +169,7 @@ namespace Bibliotech.Repositories
                                         LEFT JOIN LoanStatus ls ON ls.Id = l.LoanStatusId
                                         LEFT JOIN UserProfile up on up.Id = b.OwnerId
                                         LEFT JOIN UserProfile bor ON bor.Id = l.BorrowerId 
-                                        WHERE IsDeleted = 0 AND b.OwnerId = @ownerId AND b.Id = @bookId";
+                                        WHERE IsDeleted = 0 AND b.OwnerId = @ownerId AND b.Id = @bookId AND NOT ls.Status = 'IsReturned' AND NOT ls.Status = 'IsDenied'";
 
                     DbUtils.AddParameter(cmd, "@ownerId", user.Id);
                     DbUtils.AddParameter(cmd, "@bookId", id);
@@ -369,7 +369,7 @@ namespace Bibliotech.Repositories
             }
         }
         /// <summary>
-        /// Gets all loan requests for current logged in user
+        /// Gets all loan requests by current logged in user
         /// </summary>
         /// <param name="user"></param>
         /// <param name="id"></param>
@@ -433,50 +433,56 @@ namespace Bibliotech.Repositories
                     var loans = new List<Loan>();
                     while (reader.Read())
                     {
-
-                        var loan = new Loan()
+                        var loanId = DbUtils.GetInt(reader, "LoanId");
+                        //Checks to see if book has been added to list if not, creates book object
+                        var existingLoan = loans.FirstOrDefault(p => p.Id == loanId);
+                        if (existingLoan == null)
                         {
+                            existingLoan = new Loan()
+                            {
 
-                            Id = DbUtils.GetInt(reader, "LoanId"),
-                            Book = new Book()
-                            {
-                                Id = DbUtils.GetInt(reader, "BookId"),
-                                Title = reader.GetString(reader.GetOrdinal("Title")),
-                                OnShelf = reader.GetBoolean(reader.GetOrdinal("OnShelf")),
-                                IsDeleted = reader.GetBoolean(reader.GetOrdinal("IsDeleted"))
-                            },
-                            RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
-                            ResponseDate = DbUtils.GetNullableDateTime(reader, "ResponseDate"),
-                            DueDate = DbUtils.GetNullableDateTime(reader, "DueDate"),
-                            Borrower = new UserProfile()
-                            {
-                                Id = DbUtils.GetInt(reader, "BorrowerId"),
-                                DisplayName = DbUtils.GetString(reader, "BorrowerDisplayName"),
-                                Email = DbUtils.GetString(reader, "BorrowerEmail"),
-                                FirstName = DbUtils.GetString(reader, "BorrowerFirst"),
-                                LastName = DbUtils.GetString(reader, "BorrowerLast"),
-                                ImageUrl = DbUtils.GetNullableString(reader, "BorrowerImageUrl"),
-                                City = DbUtils.GetString(reader, "BorrowerCity"),
-                                State = DbUtils.GetString(reader, "BorrowerState")
-                            },
-                            Owner = new UserProfile()
-                            {
-                                Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                DisplayName = DbUtils.GetString(reader, "DisplayName"),
-                                Email = DbUtils.GetString(reader, "Email"),
-                                FirstName = DbUtils.GetString(reader, "FirstName"),
-                                LastName = DbUtils.GetString(reader, "LastName"),
-                                ImageUrl = DbUtils.GetNullableString(reader, "ImageUrl"),
-                                City = DbUtils.GetString(reader, "City"),
-                                State = DbUtils.GetString(reader, "State")
-                            },
-                            LoanStatus = new LoanStatus()
-                            {
-                                Status = DbUtils.GetString(reader, "Status")
-                            }
-                        };
+                                Id = loanId,
+                                Book = new Book()
+                                {
+                                    Id = DbUtils.GetInt(reader, "BookId"),
+                                    Title = reader.GetString(reader.GetOrdinal("Title")),
+                                    OnShelf = reader.GetBoolean(reader.GetOrdinal("OnShelf")),
+                                    IsDeleted = reader.GetBoolean(reader.GetOrdinal("IsDeleted"))
+                                },
+                                RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
+                                ResponseDate = DbUtils.GetNullableDateTime(reader, "ResponseDate"),
+                                DueDate = DbUtils.GetNullableDateTime(reader, "DueDate"),
+                                Borrower = new UserProfile()
+                                {
+                                    Id = DbUtils.GetInt(reader, "BorrowerId"),
+                                    DisplayName = DbUtils.GetString(reader, "BorrowerDisplayName"),
+                                    Email = DbUtils.GetString(reader, "BorrowerEmail"),
+                                    FirstName = DbUtils.GetString(reader, "BorrowerFirst"),
+                                    LastName = DbUtils.GetString(reader, "BorrowerLast"),
+                                    ImageUrl = DbUtils.GetNullableString(reader, "BorrowerImageUrl"),
+                                    City = DbUtils.GetString(reader, "BorrowerCity"),
+                                    State = DbUtils.GetString(reader, "BorrowerState")
+                                },
+                                Owner = new UserProfile()
+                                {
+                                    Id = DbUtils.GetInt(reader, "UserProfileId"),
+                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                                    Email = DbUtils.GetString(reader, "Email"),
+                                    FirstName = DbUtils.GetString(reader, "FirstName"),
+                                    LastName = DbUtils.GetString(reader, "LastName"),
+                                    ImageUrl = DbUtils.GetNullableString(reader, "ImageUrl"),
+                                    City = DbUtils.GetString(reader, "City"),
+                                    State = DbUtils.GetString(reader, "State")
+                                },
+                                LoanStatus = new LoanStatus()
+                                {
+                                    Status = DbUtils.GetString(reader, "Status")
+                                }
+                            };
+                        
+                        loans.Add(existingLoan);
+                        }
 
-                        loans.Add(loan);
                     }
 
                     reader.Close();

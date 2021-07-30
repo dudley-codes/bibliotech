@@ -6,7 +6,6 @@ import LoanList from "../loan/LoanList";
 import LoanRequest from "../loan/LoanRequest";
 import { Button } from "react-bootstrap";
 
-
 const BookDetails = () => {
   const [ book, setBook ] = useState([]);
   const { id } = useParams();
@@ -40,9 +39,13 @@ const BookDetails = () => {
 
     return button
   }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   //deletes book
   const handleDelete = () => {
-    deleteBook(id).then(history.push('/bookshelf'))
+    deleteBook(id).then(sleep(1000)).then(history.push('/bookshelf'))
   }
 
   return (

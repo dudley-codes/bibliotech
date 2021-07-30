@@ -8,7 +8,8 @@ import Modal from 'react-bootstrap/Modal';
 const Loan = ({ loan, fetchLoans }) => {
   const [ show, setShow ] = useState(false);
   const [ loanEdit, setLoanEdit ] = useState({});
-  const [ isLoading, setIsLoading ] = useState(false)
+  const [ isLoading, setIsLoading ] = useState(false);
+  const [ currentStatus, setCurrentStatus ] = useState("");
 
 
   // When called, closes the Modal
@@ -30,7 +31,7 @@ const Loan = ({ loan, fetchLoans }) => {
   }
 
   const requestDate = dateFixer(loan.requestDate)
-  const [ currentStatus, setCurrentStatus ] = useState("");
+
 
   const statusSwitch = () => {
     //todo add all statuses to switch statement
@@ -46,6 +47,9 @@ const Loan = ({ loan, fetchLoans }) => {
         break;
       case "IsDenied":
         setCurrentStatus("Denied")
+        break;
+      case "IsReturned":
+        setCurrentStatus("Book Returned")
         break;
       default:
         break;

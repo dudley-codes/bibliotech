@@ -10,10 +10,9 @@ const BookList = () => {
   }
 
   useEffect(() => {
-    fetchPosts();
-  }, [])
+    fetchPosts()
 
-  console.log('books', books)
+  }, [])
 
   return (
     <>
