@@ -60,6 +60,8 @@ const Loan = ({ loan, fetchLoans }) => {
     }
   }
 
+  console.log('lona', loan)
+
   useEffect(() => {
     statusSwitch()
   }, [ loan ])
@@ -79,11 +81,14 @@ const Loan = ({ loan, fetchLoans }) => {
 
   return (
     <>
+      {/* Only */ }
+
       <Card>
         <Card.Body>
-          <h3>{ loan?.borrower.displayName }</h3>
-          <h4>Status: { currentStatus }</h4>
-          <h4>Requested On: { requestDate }</h4>
+          <h4>{ loan?.book.title }</h4>
+          <div>Requested By: { loan?.borrower.displayName }</div>
+          <div>Status: { currentStatus }</div>
+          <div>Requested On: { requestDate }</div>
 
           <Button onClick={ () => handleShow() }>
             Approve
@@ -94,6 +99,7 @@ const Loan = ({ loan, fetchLoans }) => {
           </Button>
         </Card.Body>
       </Card>
+
 
       <Modal show={ show } onHide={ handleClose }>
         <Modal.Header closeButton>

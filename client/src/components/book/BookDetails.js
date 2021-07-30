@@ -40,7 +40,7 @@ const BookDetails = () => {
 
     return button
   }
-
+  //deletes book
   const handleDelete = () => {
     deleteBook(id).then(history.push('/bookshelf'))
   }
@@ -60,7 +60,10 @@ const BookDetails = () => {
               <h4>Owner: { book?.owner?.displayName }</h4>
               <h4>Average Rating: { book?.averageRating }</h4>
               {
-                isMyBook() ? <Button variant="danger" onClick={ handleDelete } >Remove from Bookshelf</Button> : <LoanRequest fetchBook={ fetchBook } book={ book } />
+                // Checks to see if book belongs to user. If it does, renders delete button. If not, renders loan request button.
+                isMyBook() ? <Button variant="danger" onClick={ handleDelete } >
+                  Remove from Bookshelf
+                </Button> : <LoanRequest fetchBook={ fetchBook } book={ book } />
               }
 
             </Card.Body>
@@ -73,6 +76,7 @@ const BookDetails = () => {
           </Card>
           <Card>
             <Card.Body>
+              {/* Component that lists out loans */ }
               <LoanList />
             </Card.Body>
           </Card>

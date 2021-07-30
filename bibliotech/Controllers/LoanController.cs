@@ -87,6 +87,15 @@ namespace Bibliotech.Controllers
             var user = GetCurrentUserProfile();
             return Ok(_loanRepository.GetAllUserLoanRequests(user));
         }
+
+        /// controller  to Get all loans made to current user for their books
+        [HttpGet("LoansToUser")]
+        public IActionResult GetAllLoanRequestsTo()
+        {
+            var user = GetCurrentUserProfile();
+            return Ok(_loanRepository.GetRequestsMadeToUser(user));
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;
