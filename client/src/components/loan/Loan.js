@@ -9,15 +9,7 @@ const Loan = ({ loan, fetchLoans }) => {
   const [ show, setShow ] = useState(false);
   const [ loanEdit, setLoanEdit ] = useState({});
   const [ isLoading, setIsLoading ] = useState(false)
-  const [ status, setStatus ] = useState(
-    {
-      id: loan.id,
-      ownerId: loan.owner.id,
-      borrowerId: loan.borrower.id,
-      loanStatus: {
-        status: ''
-      }
-    });
+
 
   // When called, closes the Modal
   const handleClose = () => {
@@ -74,8 +66,18 @@ const Loan = ({ loan, fetchLoans }) => {
     })
   }
 
-  const handleLoanDeny = () => {
-    status.loanStatus.status = 'IsDenied';
+  const status =
+  {
+    id: loan.id,
+    ownerId: loan.owner.id,
+    borrowerId: loan.borrower.id,
+    loanStatus: {
+      status: ''
+    }
+  }
+
+  const handleLoanUpdate = (newStatus) => {
+    status.loanStatus.status = newStatus;
     updateLoanStatus(status).then(fetchLoans)
   }
 
@@ -89,14 +91,15 @@ const Loan = ({ loan, fetchLoans }) => {
           <div>Requested By: { loan?.borrower.displayName }</div>
           <div>Status: { currentStatus }</div>
           <div>Requested On: { requestDate }</div>
+          { loan.loanStatus.status === "IsApproved" ?
+            <>
+              <Button onClick={ () => handleLoanUpdate('IsReturned') }>Book Returned</Button>
+            </> :
+            <>
+              <Button onClick={ () => handleShow() }>Approve</Button>
 
-          <Button onClick={ () => handleShow() }>
-            Approve
-          </Button>
-
-          <Button variant="danger" onClick={ () => handleLoanDeny() }>
-            Deny
-          </Button>
+              <Button variant="danger" onClick={ () => handleLoanUpdate('IsDenied') }>Deny</Button>
+            </> }
         </Card.Body>
       </Card>
 

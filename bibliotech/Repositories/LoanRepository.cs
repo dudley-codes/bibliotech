@@ -540,7 +540,8 @@ namespace Bibliotech.Repositories
                                         LEFT JOIN LoanStatus ls ON ls.Id = l.LoanStatusId
                                         LEFT JOIN UserProfile up on up.Id = b.OwnerId
                                         LEFT JOIN UserProfile bor ON bor.Id = l.BorrowerId 
-                                        WHERE b.OwnerId = @currentUserId AND NOT ls.Status = 'IsDenied'";
+                                        WHERE b.OwnerId = @currentUserId AND NOT ls.Status = 'IsDenied' 
+                                        AND NOT ls.Status = 'IsReturned'";
 
                     DbUtils.AddParameter(cmd, "@currentUserId", user.Id);
 
