@@ -5,13 +5,12 @@ import Book from "./Book";
 const BookList = () => {
   const [ books, setBooks ] = useState([]);
 
-  const fetchPosts = () => {
+  const fetchBooks = () => {
     return getAllBooks().then(b => setBooks(b))
   }
 
   useEffect(() => {
-    fetchPosts()
-
+    setTimeout(function () { fetchBooks(); }, 1000)
   }, [])
 
   return (

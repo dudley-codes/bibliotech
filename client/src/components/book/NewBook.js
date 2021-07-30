@@ -2,17 +2,23 @@ import Card from "react-bootstrap/Card";
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import { addBook } from "../../modules/bookManager";
+import { addBook, getAllBooks } from "../../modules/bookManager";
 
 
 const NewBook = ({ book }) => {
-  const [ newBook, setNewBook ] = useState({});
+  const [ books, setBooks ] = useState({});
   const bookInfo = book.volumeInfo
   const history = useHistory();
 
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
+
+  const fetchPosts = () => {
+    return getAllBooks().then(b => setBooks(b))
+  }
+
+
 
   const handleSave = (e) => {
     let selectedBookId = e.target.value
@@ -25,7 +31,7 @@ const NewBook = ({ book }) => {
         description: book.volumeInfo.description,
         averageRating: book.volumeInfo.averageRating,
         authors: authorArray
-      }).then(sleep(1000)).then(history.push('/bookshelf'))
+      }).then(setTimeout(function () { history.push('/bookshelf'); }, 600))
     }
   }
 

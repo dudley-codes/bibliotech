@@ -37,6 +37,7 @@ const UserLoan = ({ loan, fetchLoans }) => {
           </>
         )
       case "IsDenied":
+        setCurrentStatus("Loan Denied")
         return (
           <>
             <div>{ loan.owner.displayName } has denied your loan request.</div>
@@ -47,10 +48,6 @@ const UserLoan = ({ loan, fetchLoans }) => {
     }
   }
 
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
   useEffect(() => {
     LoanStatus()
   }, [ loan ])
@@ -58,7 +55,7 @@ const UserLoan = ({ loan, fetchLoans }) => {
   //cancel loan request
   const cancelRequest = () => {
     setIsLoading(true)
-    cancelLoanRequest(loan.id).then(sleep(1000)).then(() => {
+    cancelLoanRequest(loan.id).then(() => {
       fetchLoans()
       setIsLoading(false)
     })
@@ -79,7 +76,7 @@ const UserLoan = ({ loan, fetchLoans }) => {
           <h4>{ loan?.book.title }</h4>
           <div>Status: { currentStatus }</div>
           <div>Requested On: { requestDate }</div>
-          { loan?.book.isDeleted ?
+          { loan?.book.isDeleted && loan.loanStatus.status !== "IsDenied" ?
             bookIsDeleted
             : null }
           <LoanStatus />

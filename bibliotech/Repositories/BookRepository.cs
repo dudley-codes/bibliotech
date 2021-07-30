@@ -169,28 +169,12 @@ namespace Bibliotech.Repositories
                                                 a.Name AS Author,
                                                 b.OwnerId,
                                                 up.Id AS UserProfileId,
-                                                up.FireBaseUserId,
-                                                up.Email,
-                                                up.FirstName,
-                                                up.LastName,
-                                                up.ImageUrl,
-                                                up.City,
-                                                up.State,
-                                                up.DisplayName,
-                                                a.Id AS AuthorId,
-                                                l.Id AS LoanId,
-                                                l.BorrowerId,
-                                                l.RequestDate,
-                                                l.ResponseDate,
-                                                l.DueDate,
-                                                l.ReturnDate,
-                                                ls.Id AS LoanStatusId,
-                                                ls.Status
+                                                a.Id AS AuthorId
+                                                
                                         FROM Book b
                                         LEFT JOIN BookAuthor ba ON ba.BookId = b.Id
                                         LEFT JOIN Author a ON ba.AuthorId = a.Id
-                                        LEFT JOIN Loan l ON b.Id = l.BookId
-                                        LEFT JOIN LoanStatus ls ON ls.Id = l.LoanStatusId
+                              
                                         LEFT JOIN UserProfile up on up.Id = b.OwnerId 
                                         WHERE IsDeleted = 0 AND b.OwnerId = @ownerId";
 
@@ -218,15 +202,8 @@ namespace Bibliotech.Repositories
                                 OnShelf = reader.GetBoolean(reader.GetOrdinal("OnShelf")),
                                 Owner = new UserProfile()
                                 {
-                                    Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
-                                    FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-                                    Email = DbUtils.GetString(reader, "Email"),
-                                    FirstName = DbUtils.GetString(reader, "FirstName"),
-                                    LastName = DbUtils.GetString(reader, "LastName"),
-                                    ImageUrl = DbUtils.GetNullableString(reader, "ImageUrl"),
-                                    City = DbUtils.GetString(reader, "City"),
-                                    State = DbUtils.GetString(reader, "State")
+                                    Id = DbUtils.GetInt(reader, "UserProfileId")
+                                    
                                 },
                                 Authors = new List<Author>(),
                                 Loans = new List<Loan>()
@@ -252,30 +229,30 @@ namespace Bibliotech.Repositories
                         }
 
                         //Check to see if there are any loan requests for book and adds to list
-                        if (DbUtils.IsNotDbNull(reader, "LoanId"))
-                        {
-                            var loanId = DbUtils.GetInt(reader, "LoanId");
-                            var existingLoan = existingBook.Loans.FirstOrDefault(l => l.Id == loanId);
+                        //if (DbUtils.IsNotDbNull(reader, "LoanId"))
+                        //{
+                        //    var loanId = DbUtils.GetInt(reader, "LoanId");
+                        //    var existingLoan = existingBook.Loans.FirstOrDefault(l => l.Id == loanId);
 
-                            if (existingLoan == null)
-                            {
-                                existingBook.Loans.Add(new Loan()
-                                {
-                                    Id = DbUtils.GetInt(reader, "LoanId"),
-                                    BookId = DbUtils.GetInt(reader, "BookId"),
-                                    BorrowerId = DbUtils.GetInt(reader, "BorrowerId"),
-                                    RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
-                                    ResponseDate = DbUtils.GetNullableDateTime(reader, "ResponseDate"),
-                                    DueDate = DbUtils.GetNullableDateTime(reader, "DueDate"),
-                                    ReturnDate = DbUtils.GetNullableDateTime(reader, "ReturnDate"),
-                                    LoanStatus = new LoanStatus()
-                                    {
-                                        Id = DbUtils.GetInt(reader, "LoanStatusId"),
-                                        Status = DbUtils.GetString(reader, "Status")
-                                    }
-                                });
-                            }
-                        }
+                        //    if (existingLoan == null)
+                        //    {
+                        //        existingBook.Loans.Add(new Loan()
+                        //        {
+                        //            Id = DbUtils.GetInt(reader, "LoanId"),
+                        //            BookId = DbUtils.GetInt(reader, "BookId"),
+                        //            BorrowerId = DbUtils.GetInt(reader, "BorrowerId"),
+                        //            RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
+                        //            ResponseDate = DbUtils.GetNullableDateTime(reader, "ResponseDate"),
+                        //            DueDate = DbUtils.GetNullableDateTime(reader, "DueDate"),
+                        //            ReturnDate = DbUtils.GetNullableDateTime(reader, "ReturnDate"),
+                        //            LoanStatus = new LoanStatus()
+                        //            {
+                        //                Id = DbUtils.GetInt(reader, "LoanStatusId"),
+                        //                Status = DbUtils.GetString(reader, "Status")
+                        //            }
+                        //        });
+                        //    }
+                        //}
                     }
 
                     reader.Close();

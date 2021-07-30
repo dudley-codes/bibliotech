@@ -10,7 +10,7 @@ const Bookshelf = () => {
   }
 
   useEffect(() => {
-    fetchPosts();
+    fetchPosts()
   }, [])
 
   return (

@@ -40,12 +40,9 @@ const BookDetails = () => {
     return button
   }
 
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
   //deletes book
   const handleDelete = () => {
-    deleteBook(id).then(sleep(1000)).then(history.push('/bookshelf'))
+    deleteBook(id).then(setTimeout(function () { history.push('/bookshelf'); }, 500))
   }
 
   return (
