@@ -203,7 +203,7 @@ namespace Bibliotech.Repositories
                                 Owner = new UserProfile()
                                 {
                                     Id = DbUtils.GetInt(reader, "UserProfileId")
-                                    
+
                                 },
                                 Authors = new List<Author>(),
                                 Loans = new List<Loan>()
@@ -573,14 +573,16 @@ namespace Bibliotech.Repositories
                     //Checks to see if an author is in DB. If author is not in DB. creates new author
                     foreach (var author in authors)
                     {
-                        cmd.CommandText = $"SELECT Id AS AuthorId, Name FROM Author WHERE Name LIKE '{author.Name}'";
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = $"SELECT Id AS AuthorId, Name FROM Author WHERE Name LIKE @authorName";
+                        DbUtils.AddParameter(cmd, "@authorName", author.Name);
                         var reader = cmd.ExecuteReader();
                         //If author is not in DB, add to DB with BookAuthor join table
 
                         if (!reader.Read())
                         {
                             reader.Close();
-                            cmd.Parameters.Clear();
+
                             cmd.CommandText = @$"INSERT INTO Author(Name) 
                                                     OUTPUT INSERTED.ID 
                                                     VALUES(@Name)";
@@ -588,24 +590,22 @@ namespace Bibliotech.Repositories
                             DbUtils.AddParameter(cmd, "@Name", author.Name);
                             author.Id = (int)cmd.ExecuteScalar();
 
-                            cmd.CommandText = @"INSERT INTO BookAuthor(BookId, AuthorId)
-                                                    VALUES(@BookId, @AuthorId)";
-                            DbUtils.AddParameter(cmd, "@BookId", book.Id);
-                            DbUtils.AddParameter(cmd, "@AuthorId", author.Id);
-                            cmd.ExecuteScalar();
                         }
-                        //If author is in DB, create join table for book and author
+                        //If author is in DB, set author.Id to existing authorId
                         else
                         {
-                            var authorId = reader.GetInt32(reader.GetOrdinal("AuthorId"));
-
-                            cmd.CommandText = @$"INSERT INTO BookAuthor(BookId, AuthorId)
-                                                    VALUES({book.Id}, 
-                                                    {authorId})";
-
+                            author.Id = DbUtils.GetInt(reader, "AuthorId");
                             reader.Close();
-                            cmd.ExecuteScalar();
                         }
+
+                        cmd.CommandText = @"INSERT INTO BookAuthor(BookId, AuthorId)
+                                                    VALUES(@BookId, @AuthorId)";
+                        DbUtils.AddParameter(cmd, "@BookId", book.Id);
+                        DbUtils.AddParameter(cmd, "@AuthorId", author.Id);
+
+
+                        cmd.ExecuteScalar();
+
 
                     }
                 }

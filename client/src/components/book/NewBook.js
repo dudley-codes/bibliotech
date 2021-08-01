@@ -6,18 +6,8 @@ import { addBook, getAllBooks } from "../../modules/bookManager";
 
 
 const NewBook = ({ book }) => {
-  const [ books, setBooks ] = useState({});
   const bookInfo = book.volumeInfo
   const history = useHistory();
-
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  const fetchPosts = () => {
-    return getAllBooks().then(b => setBooks(b))
-  }
-
 
 
   const handleSave = (e) => {
@@ -31,7 +21,7 @@ const NewBook = ({ book }) => {
         description: book.volumeInfo.description,
         averageRating: book.volumeInfo.averageRating,
         authors: authorArray
-      }).then(setTimeout(function () { history.push('/bookshelf'); }, 600))
+      }).then(() => history.push('/bookshelf'))
     }
   }
 

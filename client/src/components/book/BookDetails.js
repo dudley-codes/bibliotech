@@ -42,7 +42,7 @@ const BookDetails = () => {
 
   //deletes book
   const handleDelete = () => {
-    deleteBook(id).then(setTimeout(function () { history.push('/bookshelf'); }, 500))
+    deleteBook(id).then(() => history.push('/bookshelf'))
   }
 
   return (

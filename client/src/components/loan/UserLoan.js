@@ -3,62 +3,74 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button"
 import { dateFixer } from "../../modules/helpers";
 import { cancelLoanRequest } from "../../modules/loanManager";
-import LoanRequest from "./LoanRequest";
-import { Link } from "react-router-dom";
 
 const UserLoan = ({ loan, fetchLoans }) => {
-  const [ isLoading, setIsLoading ] = useState(false)
-  const requestDate = dateFixer(loan.requestDate)
+  const [ isLoading, setIsLoading ] = useState(false);
+  const requestDate = dateFixer(loan.requestDate);
   const [ currentStatus, setCurrentStatus ] = useState("");
+  const [ status, setStatus ] = useState(null);
+
 
   //Checks loan status and returns loan info based on status
-  const LoanStatus = () => {
+  let newStatus = '';
+  const loanStatus = () => {
     //todo add all statuses to switch statement
     switch (loan.loanStatus.status) {
       case "IsReturned":
         setCurrentStatus("Returned")
-        return <Button onClick={ cancelRequest } variant='danger'>Remove From List</Button>;
+        newStatus = <Button onClick={ () => cancelRequest() } variant='danger'>Remove From List</Button>;
+        setStatus(newStatus)
+        break;
       case "IsRequested":
         setCurrentStatus("Requested")
-        return <Button onClick={ cancelRequest } variant='danger'>Cancel Request</Button>
+        newStatus = <Button onClick={ () => cancelRequest() } variant='danger'>Cancel Request</Button>
+        setStatus(newStatus)
+        break;
       case "IsBorrowed":
         setCurrentStatus("On Loan")
-        return <div>Due: { dateFixer(loan.dueDate) }</div>
+        newStatus = <div>Due: { dateFixer(loan.dueDate) }</div>
+        setStatus(newStatus)
+        break;
       case "IsApproved":
-        setCurrentStatus("Loan Aproved")
-        return (
+        setCurrentStatus("Loan Approved")
+        newStatus = (
           <>
             <div>Due: { dateFixer(loan.dueDate) }</div>
             <div>Congratulations, your loan request has been approved!</div>
             <br />
-            <div>Email { loan.owner.displayName } to arrange pickup and return:
+            <div>Email { loan.owner.displayName } to arrange pickup and newStatus =:
               <a href={ "mailto:" + loan.owner.email }> { loan.owner.email }</a>
             </div>
           </>
         )
+        setStatus(newStatus)
+        break;
       case "IsDenied":
         setCurrentStatus("Loan Denied")
-        return (
+        newStatus = (
           <>
             <div>{ loan.owner.displayName } has denied your loan request.</div>
             <Button onClick={ cancelRequest } variant='danger'>Delete Request</Button>
           </>
         )
-      default: return null
+        setStatus(newStatus)
+        break;
+      default: newStatus = ''
+        break;
     }
   }
 
+
+
   useEffect(() => {
-    LoanStatus()
+    loanStatus()
   }, [ loan ])
 
   //cancel loan request
   const cancelRequest = () => {
-    setIsLoading(true)
-    cancelLoanRequest(loan.id).then(() => {
-      fetchLoans()
-      setIsLoading(false)
-    })
+    setIsLoading(true);
+    cancelLoanRequest(loan.id).then(() => setTimeout(fetchLoans(), 1000))
+      .then(() => fetchLoans())
   }
 
   //If a book has been deleted from the db with an active loan, display message
@@ -79,7 +91,7 @@ const UserLoan = ({ loan, fetchLoans }) => {
           { loan?.book.isDeleted && loan.loanStatus.status !== "IsDenied" ?
             bookIsDeleted
             : null }
-          <LoanStatus />
+          { status }
         </Card.Body>
       </Card>
 

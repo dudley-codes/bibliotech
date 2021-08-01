@@ -10,7 +10,7 @@ const BookList = () => {
   }
 
   useEffect(() => {
-    setTimeout(function () { fetchBooks(); }, 1000)
+    fetchBooks();
   }, [])
 
   return (

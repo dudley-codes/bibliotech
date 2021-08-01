@@ -13,7 +13,7 @@ const LoanList = () => {
   }
 
   useEffect(() => {
-    setTimeout(function () { fetchLoans(); }, 600);
+    fetchLoans();
   }, [])
 
   return (
