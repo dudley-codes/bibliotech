@@ -24,7 +24,9 @@ const UserLoan = ({ loan, fetchLoans }) => {
       case "IsRequested":
         setCurrentStatus("Requested")
         newStatus = <Button onClick={ () => cancelRequest() } variant='danger'>Cancel Request</Button>
-        setStatus(newStatus)
+        if (loan?.book.isDeleted === false) {
+          setStatus(newStatus)
+        }
         break;
       case "IsBorrowed":
         setCurrentStatus("On Loan")
@@ -60,17 +62,15 @@ const UserLoan = ({ loan, fetchLoans }) => {
     }
   }
 
-
-
   useEffect(() => {
     loanStatus()
-  }, [ loan ])
+  }, [])
 
   //cancel loan request
   const cancelRequest = () => {
     setIsLoading(true);
-    cancelLoanRequest(loan.id).then(() => setTimeout(fetchLoans(), 1000))
-      .then(() => fetchLoans())
+    cancelLoanRequest(loan.id).then(() => setTimeout(function () { fetchLoans() }, 600))
+
   }
 
   //If a book has been deleted from the db with an active loan, display message

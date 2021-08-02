@@ -37,13 +37,13 @@ const UserLoanList = () => {
               )) }
             </Card.Body>
           </Card>
-          {/* <Card>
+          <Card>
             <Card.Body>
               { loansTo.map((loan) => (
-                <Loan loan={ loan } fetchLoans={ fetchLoans } key={ loan.id } />
+                <Loan loan={ loan } fetchLoans={ fetchLoansTo } key={ loan.id } />
               )) }
             </Card.Body>
-          </Card> */}
+          </Card>
         </div>
       </div>
     </>

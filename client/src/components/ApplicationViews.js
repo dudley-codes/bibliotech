@@ -7,6 +7,7 @@ import Bookshelf from "./book/Bookshelf";
 import UserLoanList from "./loan/UserLoanList";
 import Login from "./Login";
 import Register from "./Register";
+import '../style/main.css'
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (

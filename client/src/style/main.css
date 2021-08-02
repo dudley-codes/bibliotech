@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+body {
+background-image: url("../images/library.jpg");
+background-repeat: no-repeat;
+background-size: cover;
+background-attachment: fixed;
+font-family: 'Special Elite', cursive;
+}
+
+.book-card {
+  margin: 20px;
+  width: 350px !important;
+  background-color: #FFF7D4;
+}
+
+.submit {
+  background-color: #339999;
+  border: none;
+}
+
+.book-card__body {
+  display: flex;
+}
+
+.book-info {
+  margin-left: 10px;
+}
+
+.book-info__title {
+  height: 175px;
+}
+
+.info-button img {
+  height: 30px;
+}
+
+.bookshelf {
+background-color: #FFF7D4;
+padding: 10px;
+margin: 10px;
+border-radius: 10px;
+text-align: center;
+}

@@ -27,15 +27,19 @@ const NewBook = ({ book }) => {
 
   return (
     <>
-      <Card>
-        <Card.Body>
+      <Card className="book-card">
+        <Card.Body className="book-card__body">
           <img src={ bookInfo?.imageLinks?.thumbnail } alt={ `${ bookInfo?.title }` } />
-          <div>{ bookInfo?.title }</div>
-          <div>Author(s):</div>
-          { bookInfo?.authors?.map(a =>
-            <div key={ Math.random() }>{ a }</div>
-          ) }
-          <Button value={ book.id } onClick={ handleSave }>Add to Bookshelf</Button>
+          <div className="book-info">
+            <div className="book-info__title">
+              <div>{ bookInfo?.title }</div>
+              <div>Author(s):</div>
+              { bookInfo?.authors?.map(a =>
+                <div key={ Math.random() }>{ a }</div>
+              ) }
+            </div>
+            <Button value={ book.id } onClick={ handleSave }>Add to Bookshelf</Button>
+          </div>
         </Card.Body>
       </Card>
     </>

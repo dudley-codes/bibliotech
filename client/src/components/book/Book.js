@@ -1,7 +1,10 @@
 import Card from "react-bootstrap/Card";
-import { Link } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+import Button from "react-bootstrap/Button"
+import infoButton from '../../images/info.svg'
 
 const Book = ({ book }) => {
+  const history = useHistory();
   //TODO: complete book card
 
   const thumbnail = () => {
@@ -31,12 +34,12 @@ const Book = ({ book }) => {
       bool ?
         <>
           { book?.authors?.map(a =>
-            <h4 key={ Math.random() }>{ a.name }</h4>
+            <div key={ Math.random() }>{ a.name }</div>
           ) }
         </> :
         <>
           { book?.authors?.map(a =>
-            <h4 key={ Math.random() }>{ a }</h4>
+            <div key={ Math.random() }>{ a }</div>
           ) }
         </>
     )
@@ -44,17 +47,19 @@ const Book = ({ book }) => {
 
   return (
     <>
-      <Card>
-        <Card.Body>
+      <Card className="book-card">
+        <Card.Body className="book-card__body">
           <img src={ thumbnail() } alt={ `${ book?.title }` } />
-          <h3>{ book?.title }</h3>
-          <h4>Author(s):</h4>
-          <Author />
-          <Link to={ `/book/${ book.id }` }>
-            <button className="btn btn-primary" >
-              Details
-            </button>
-          </Link>
+          <div className='book-info'>
+            <div className="book-info__title">
+              <div className="title">{ book?.title }</div>
+              <br />
+              <Author />
+            </div>
+            <Link to={ `/book/${ book.id }` } className='info-button'>
+              <img src={ infoButton } alt='info button' />
+            </Link>
+          </div>
         </Card.Body>
       </Card>
     </>

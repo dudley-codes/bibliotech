@@ -82,5 +82,5 @@ export const cancelLoanRequest = (id) => {
         "Content-Type": "application/json"
       }
     })
-  }).then(res => res)
+  })
 }
