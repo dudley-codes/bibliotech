@@ -108,7 +108,7 @@ const Loan = ({ loan, fetchLoans }) => {
 
       <Modal show={ show } onHide={ handleClose }>
         <Modal.Header closeButton>
-          <Modal.Title>Submit Loan Request</Modal.Title>
+          <Modal.Title>Select a Return Date</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>

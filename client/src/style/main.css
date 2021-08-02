@@ -102,13 +102,42 @@ text-align: center;
 .loan-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-content: center;
+
+  width: 250px;
 }
 
 .loan-card {
-  width: 250px;
+  width: 245px;
+  margin: 10px 0;
   background-color: #FFF7D4;
+}
+
+main {
+  display: flex;
+  justify-content: center;
 }
 
 .home-container {
   display: flex;
+  width: 95vw;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.loan-list__title {
+  width: 245px;
+  background-color: #FFF7D4;
+  text-align: center;
+  border-radius: 4px;
+  margin: 5px 0;
+}
+
+.requests {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
 }
