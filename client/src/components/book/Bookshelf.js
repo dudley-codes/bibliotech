@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getAllUserBooks } from "../../modules/bookManager";
+import UserLoanList from "../loan/UserLoanList";
 import Book from "./Book";
 
 const Bookshelf = () => {
@@ -23,6 +24,9 @@ const Bookshelf = () => {
           )) }
         </div>
       </div>
+      {/* <div className='user-loan__list'>
+        <UserLoanList />
+      </div> */}
     </>
   )
 };

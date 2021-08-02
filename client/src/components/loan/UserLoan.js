@@ -10,7 +10,7 @@ const UserLoan = ({ loan, fetchLoans, cancelRequest }) => {
   const [ currentStatus, setCurrentStatus ] = useState("");
   const [ status, setStatus ] = useState(null);
 
-
+  console.log('loan', loan)
   //Checks loan status and returns loan info based on status
   let newStatus = '';
   const loanStatus = () => {
@@ -23,7 +23,13 @@ const UserLoan = ({ loan, fetchLoans, cancelRequest }) => {
         break;
       case "IsRequested":
         setCurrentStatus("Requested")
-        newStatus = <Button onClick={ () => cancelRequest(loan.id) } variant='danger'>Cancel Request</Button>
+        newStatus = (
+          <>
+            <div>Request Date: { requestDate }</div>
+            <div>Your loan request has been submitted! You will be notified when { loan.owner.displayName } responds.</div>
+            <Button onClick={ () => cancelRequest(loan.id) } variant='danger'>Cancel Request</Button>
+          </>
+        )
         if (loan?.book.isDeleted === false) {
           setStatus(newStatus)
         }
@@ -37,10 +43,10 @@ const UserLoan = ({ loan, fetchLoans, cancelRequest }) => {
         setCurrentStatus("Loan Approved")
         newStatus = (
           <>
-            <div>Due: { dateFixer(loan.dueDate) }</div>
-            <div>Congratulations, your loan request has been approved!</div>
+            <div>Due Back: { dateFixer(loan.dueDate) }</div>
+            <div><b>Your loan has been approved!</b></div>
             <br />
-            <div>Email { loan.owner.displayName } to arrange pickup:
+            <div>Email { loan.owner.displayName } to arrange pickup / drop off:
               <a href={ "mailto:" + loan.owner.email }> { loan.owner.email }</a>
             </div>
           </>
@@ -66,8 +72,6 @@ const UserLoan = ({ loan, fetchLoans, cancelRequest }) => {
     loanStatus()
   }, [])
 
-
-
   //If a book has been deleted from the db with an active loan, display message
   const bookIsDeleted = (
     <>
@@ -80,16 +84,21 @@ const UserLoan = ({ loan, fetchLoans, cancelRequest }) => {
     <>
       <Card className="loan-card">
         <Card.Body className="loan-card__body">
-          <div>{ loan?.book.title }</div>
-          <div>Status: { currentStatus }</div>
-          <div>Requested On: { requestDate }</div>
+          <div><b>{ loan?.book.title }</b></div>
+
+          {
+            loan?.book.authors?.map(a =>
+              <div><em>{ a.name }</em></div>
+            )
+          }
+          <br />
+
           { loan?.book.isDeleted && loan.loanStatus.status !== "IsDenied" ?
             bookIsDeleted
             : null }
           { status }
         </Card.Body>
       </Card>
-
     </>
   )
 };

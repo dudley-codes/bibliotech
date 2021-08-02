@@ -101,15 +101,24 @@ text-align: center;
 
 .loan-container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-
-  width: 250px;
+  flex-direction: row;
+  width: 100vw;
 }
 
-.loan-card {
-  width: 245px;
+.requests-container {
+  width: 50vw;
+  /* display: flex;
+  height: 100vh;
+  flex-wrap: wrap; */
+  /* justify-content: center;
+  align-content: center;
+  align-items: center; */
+}
+
+
+.loan-card, .loan-card__body {
+  width: 245px !important;
+  height: 300px;
   margin: 10px 0;
   background-color: #FFF7D4;
 }
@@ -134,10 +143,10 @@ main {
   margin: 5px 0;
 }
 
-.requests {
+
+.loan-cards {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }

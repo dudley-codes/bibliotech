@@ -447,7 +447,8 @@ namespace Bibliotech.Repositories
                                     Id = DbUtils.GetInt(reader, "BookId"),
                                     Title = reader.GetString(reader.GetOrdinal("Title")),
                                     OnShelf = reader.GetBoolean(reader.GetOrdinal("OnShelf")),
-                                    IsDeleted = reader.GetBoolean(reader.GetOrdinal("IsDeleted"))
+                                    IsDeleted = reader.GetBoolean(reader.GetOrdinal("IsDeleted")),
+                                    Authors = new List<Author>()
                                 },
                                 RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
                                 ResponseDate = DbUtils.GetNullableDateTime(reader, "ResponseDate"),
@@ -481,6 +482,22 @@ namespace Bibliotech.Repositories
                             };
                         
                         loans.Add(existingLoan);
+                        }
+
+                        if (DbUtils.IsNotDbNull(reader, "AuthorId"))
+                        {
+                            var authorId = DbUtils.GetInt(reader, "AuthorId");
+                            var existingAuthor = existingLoan.Book.Authors.FirstOrDefault(a => a.Id == authorId);
+
+                            if (existingAuthor == null)
+                            {
+
+                                existingLoan.Book.Authors.Add(new Author()
+                                {
+                                    Id = DbUtils.GetInt(reader, "AuthorId"),
+                                    Name = reader.GetString(reader.GetOrdinal("Author"))
+                                });
+                            }
                         }
 
                     }
