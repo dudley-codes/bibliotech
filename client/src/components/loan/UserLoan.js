@@ -83,9 +83,9 @@ const UserLoan = ({ loan, fetchLoans }) => {
 
   return (
     <>
-      <Card>
-        <Card.Body>
-          <h4>{ loan?.book.title }</h4>
+      <Card className="loan-card">
+        <Card.Body className="loan-card__body">
+          <div>{ loan?.book.title }</div>
           <div>Status: { currentStatus }</div>
           <div>Requested On: { requestDate }</div>
           { loan?.book.isDeleted && loan.loanStatus.status !== "IsDenied" ?

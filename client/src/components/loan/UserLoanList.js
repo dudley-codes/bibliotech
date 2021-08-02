@@ -27,23 +27,19 @@ const UserLoanList = () => {
 
   return (
     <>
-      <h3>My Loans & Requests</h3>
-      <div className='container'>
-        <div className='row justify-content-center'>
-          <Card>
-            <Card.Body>
-              { loans.map((loan) => (
-                <UserLoan loan={ loan } fetchLoans={ fetchLoans } key={ loan.id } setLoans={ setLoans } />
-              )) }
-            </Card.Body>
-          </Card>
-          <Card>
-            <Card.Body>
-              { loansTo.map((loan) => (
-                <Loan loan={ loan } fetchLoans={ fetchLoansTo } key={ loan.id } />
-              )) }
-            </Card.Body>
-          </Card>
+      {/* <h3>My Loans & Requests</h3> */ }
+      <div className='container loan-container'>
+        <div className="container">
+          <div>Your Loan Requests</div>
+          { loans.map((loan) => (
+            <UserLoan loan={ loan } fetchLoans={ fetchLoans } key={ loan.id } setLoans={ setLoans } />
+          )) }
+        </div>
+        <div className="container">
+          <div>Requests for Your Books</div>
+          { loansTo.map((loan) => (
+            <Loan loan={ loan } fetchLoans={ fetchLoansTo } key={ loan.id } />
+          )) }
         </div>
       </div>
     </>

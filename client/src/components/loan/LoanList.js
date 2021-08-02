@@ -19,7 +19,7 @@ const LoanList = () => {
   return (
     <>
       <h3>Book Loans & Requests</h3>
-      <div className='container'>
+      <div className='container loan-container'>
         <div className='row justify-content-center'>
           { loans.map((loan) => (
             <Loan loan={ loan } fetchLoans={ fetchLoans } key={ loan.id } />

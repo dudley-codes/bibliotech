@@ -57,7 +57,8 @@ namespace Bibliotech.Repositories
                                         LEFT JOIN Loan l ON b.Id = l.BookId
                                         LEFT JOIN LoanStatus ls ON ls.Id = l.LoanStatusId
                                         LEFT JOIN UserProfile up on up.Id = b.OwnerId 
-                                        WHERE IsDeleted = 0 AND NOT b.OwnerId = @currentUserId";
+                                        WHERE IsDeleted = 0 AND NOT b.OwnerId = @currentUserId
+                                        ORDER BY b.Title";
                     DbUtils.AddParameter(cmd, "@currentUserId", user.Id);
                     var reader = cmd.ExecuteReader();
 
@@ -148,7 +149,7 @@ namespace Bibliotech.Repositories
             }
         }
         /// <summary>
-        /// Get all books by user
+        /// Get all books owned by current user
         /// </summary>
         /// <returns></returns>
         public List<Book> GetBooksByUser(UserProfile user)
@@ -176,7 +177,8 @@ namespace Bibliotech.Repositories
                                         LEFT JOIN Author a ON ba.AuthorId = a.Id
                               
                                         LEFT JOIN UserProfile up on up.Id = b.OwnerId 
-                                        WHERE IsDeleted = 0 AND b.OwnerId = @ownerId";
+                                        WHERE IsDeleted = 0 AND b.OwnerId = @ownerId
+                                        ORDER BY b.Title";
 
                     DbUtils.AddParameter(cmd, "@ownerId", user.Id);
 

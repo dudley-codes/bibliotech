@@ -16,8 +16,8 @@ export default function Header({ isLoggedIn }) {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <div>
-      <Navbar className="biblio-nav" color="dark" dark expand="md">
+    <div className="nav-margin">
+      <Navbar className="biblio-nav" color="dark" dark expand="md" fixed="top">
         <NavbarBrand tag={ RRNavLink } to="/">bibliotech</NavbarBrand>
         <NavbarToggler onClick={ toggle } />
         <Collapse isOpen={ isOpen } navbar>

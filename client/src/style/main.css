@@ -8,6 +8,7 @@ background-attachment: fixed;
 font-family: 'Special Elite', cursive;
 }
 
+
 .book-card {
   margin: 20px;
   width: 350px !important;
@@ -18,6 +19,7 @@ font-family: 'Special Elite', cursive;
   background-color: #339999;
   border: none;
 }
+
 
 .book-card__body {
   display: flex;
@@ -91,4 +93,22 @@ text-align: center;
 
 .biblio-nav_links {
   margin-right: 20px 
+}
+
+.nav-margin {
+  margin-bottom: 110px !important;
+}
+
+.loan-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.loan-card {
+  width: 250px;
+  background-color: #FFF7D4;
+}
+
+.home-container {
+  display: flex;
 }
