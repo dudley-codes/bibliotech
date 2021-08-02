@@ -15,7 +15,6 @@ const BookList = () => {
 
   return (
     <>
-      <h1>Welcome Back!</h1>
       <div className='container'>
         <div className='row justify-content-center'>
           { books.map((book) => (

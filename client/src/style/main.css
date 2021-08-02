@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
 
 body {
-background-image: url("../images/library.jpg");
+background-image: url("../images/library3.jpg");
 background-repeat: no-repeat;
 background-size: cover;
 background-attachment: fixed;
@@ -41,4 +41,54 @@ padding: 10px;
 margin: 10px;
 border-radius: 10px;
 text-align: center;
+}
+
+.new-book {
+  position: absolute;
+  width: 400px;
+  height: 100px;
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -150px;
+  background: #FFF7D4;
+  border-radius: 10px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.search-again {
+  background-color: #FFF7D4;
+  margin: 10px auto 30px auto;
+  padding: 10px;
+  width: 400px;
+  border-radius: 10px;
+  left: 50%;
+  text-align: center;
+  display: flex;
+  flex-direction:column;
+}
+
+.search-results {
+  display: flex;
+}
+
+.search-input {
+  display: flex;
+}
+
+.biblio-nav, .biblio-nav a {
+  background-color: #FFF7D4 !important;
+  color: #324548 !important;
+}
+
+.navbar-brand {
+  margin: 0 30px;
+  font-size: 2rem;
+}
+
+.biblio-nav_links {
+  margin-right: 20px 
 }

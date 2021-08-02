@@ -17,11 +17,11 @@ export default function Header({ isLoggedIn }) {
 
   return (
     <div>
-      <Navbar color="dark" dark expand="md">
-        <NavbarBrand tag={ RRNavLink } to="/"> bibliotech</NavbarBrand>
+      <Navbar className="biblio-nav" color="dark" dark expand="md">
+        <NavbarBrand tag={ RRNavLink } to="/">bibliotech</NavbarBrand>
         <NavbarToggler onClick={ toggle } />
         <Collapse isOpen={ isOpen } navbar>
-          <Nav className="mr-auto" navbar>
+          <Nav className="ms-auto biblio-nav_links" navbar>
             { isLoggedIn &&
               <>
                 <NavItem>
@@ -37,8 +37,8 @@ export default function Header({ isLoggedIn }) {
                 </NavItem>
 
                 <NavItem>
-                  <a aria-current="page" className="nav-link"
-                    style={ { cursor: "pointer" } } onClick={ logout }>Logout</a>
+                  <NavLink aria-current="page" className="nav-link"
+                    style={ { cursor: "pointer" } } onClick={ logout }>Logout</NavLink>
                 </NavItem>
               </>
             }
