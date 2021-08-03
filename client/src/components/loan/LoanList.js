@@ -3,6 +3,7 @@ import { getMyLoanReqs, cancelLoanRequest } from "../../modules/loanManager";
 import { useParams } from "react-router-dom";
 
 import Loan from "./Loan";
+import { Spinner } from "react-bootstrap";
 
 const LoanList = () => {
   const [ loans, setLoans ] = useState([]);
@@ -15,8 +16,11 @@ const LoanList = () => {
 
   //cancel loan request
   const cancelRequest = (id) => {
-    setIsLoading(true);
-    cancelLoanRequest(id).then(() => setTimeout(function () { fetchLoans() }, 300))
+    setIsLoading(true)
+    cancelLoanRequest(id).then(() => {
+      fetchLoans().then(() => setIsLoading(false))
+
+    })
   }
 
   // 
@@ -30,9 +34,11 @@ const LoanList = () => {
       <h3>Book Loans & Requests</h3>
       <div className='container loan-container'>
         <div className='row justify-content-center'>
-          { loans.map((loan) => (
-            <Loan loan={ loan } fetchLoans={ fetchLoans } key={ loan.id } cancelRequest={ cancelRequest } />
-          )) }
+          {
+            isLoading ? <Spinner /> :
+              loans.map((loan) => (
+                <Loan loan={ loan } fetchLoans={ fetchLoans } key={ loan.id } cancelRequest={ cancelRequest } />
+              )) }
         </div>
       </div>
     </>

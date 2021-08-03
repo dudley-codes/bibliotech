@@ -56,11 +56,14 @@ const Book = ({ book }) => {
               <br />
               <Author />
             </div>
-            <Link to={ `/book/${ book.id }` } className='info-button'>
-              <img src={ infoButton } alt='info button' />
-            </Link>
+
           </div>
         </Card.Body>
+        <Card.Footer>
+          <Link to={ `/book/${ book.id }` } className='info-button'>
+            <img src={ infoButton } alt='info button' />
+          </Link>
+        </Card.Footer>
       </Card>
     </>
   )

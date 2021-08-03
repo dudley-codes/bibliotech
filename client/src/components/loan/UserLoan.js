@@ -3,14 +3,14 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button"
 import { dateFixer } from "../../modules/helpers";
 import { cancelLoanRequest } from "../../modules/loanManager";
+import { Spinner } from "react-bootstrap";
 
-const UserLoan = ({ loan, fetchLoans, cancelRequest }) => {
-
+const UserLoan = ({ loan, fetchLoans, fetchAllButDeleted }) => {
+  const [ isLoading, setIsLoading ] = useState(false);
   const requestDate = dateFixer(loan.requestDate);
   const [ currentStatus, setCurrentStatus ] = useState("");
   const [ status, setStatus ] = useState(null);
 
-  console.log('loan', loan)
   //Checks loan status and returns loan info based on status
   let newStatus = '';
   const loanStatus = () => {
@@ -27,7 +27,9 @@ const UserLoan = ({ loan, fetchLoans, cancelRequest }) => {
           <>
             <div>Request Date: { requestDate }</div>
             <div>Your loan request has been submitted! You will be notified when { loan.owner.displayName } responds.</div>
-            <Button onClick={ () => cancelRequest(loan.id) } variant='danger'>Cancel Request</Button>
+            <Card.Footer>
+              <Button onClick={ () => cancelRequest(loan.id) } variant='danger'>Cancel Request</Button>
+            </Card.Footer>
           </>
         )
         if (loan?.book.isDeleted === false) {
@@ -58,7 +60,9 @@ const UserLoan = ({ loan, fetchLoans, cancelRequest }) => {
         newStatus = (
           <>
             <div>{ loan.owner.displayName } has denied your loan request.</div>
-            <Button onClick={ () => cancelRequest(loan.id) } variant='danger'>Delete Request</Button>
+            <Card.Footer>
+              <Button onClick={ () => cancelRequest(loan.id) } variant='danger'>Delete Request</Button>
+            </Card.Footer>
           </>
         )
         setStatus(newStatus)
@@ -72,6 +76,15 @@ const UserLoan = ({ loan, fetchLoans, cancelRequest }) => {
     loanStatus()
   }, [])
 
+  //cancel loan request
+  const cancelRequest = (id) => {
+    setIsLoading(true);
+    fetchAllButDeleted(id)
+    cancelLoanRequest(id).then(() => setIsLoading(false));
+
+
+  }
+
   //If a book has been deleted from the db with an active loan, display message
   const bookIsDeleted = (
     <>
@@ -82,23 +95,23 @@ const UserLoan = ({ loan, fetchLoans, cancelRequest }) => {
 
   return (
     <>
-      <Card className="loan-card">
-        <Card.Body className="loan-card__body">
-          <div><b>{ loan?.book.title }</b></div>
-
-          {
-            loan?.book.authors?.map(a =>
-              <div><em>{ a.name }</em></div>
-            )
-          }
-          <br />
-
-          { loan?.book.isDeleted && loan.loanStatus.status !== "IsDenied" ?
-            bookIsDeleted
-            : null }
-          { status }
-        </Card.Body>
-      </Card>
+      { isLoading ? <Spinner /> :
+        <Card className="loan-card">
+          <Card.Body className="loan-card__body">
+            <div><b>{ loan?.book.title }</b></div>
+            {
+              loan?.book.authors?.map(a =>
+                <div><em>{ a.name }</em></div>
+              )
+            }
+            <br />
+            { loan?.book.isDeleted && loan.loanStatus.status !== "IsDenied" ?
+              bookIsDeleted
+              : null }
+            { status }
+          </Card.Body>
+        </Card>
+      }
     </>
   )
 };

@@ -38,7 +38,19 @@ export const getAllUserLoans = () => {
     }).then(resp => resp.json()));
 };
 
-//fetch loan requests made by current logged in user
+//fetch all requests made by current logged in user
+export const getAllButDeleted = (id) => {
+  return getToken().then((token) =>
+    fetch(`${ _apiUrl }/GetAllButDeleted/${ id }`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${ token }`
+      }
+    }).then(resp => resp.json()));
+};
+
+
+//fetches loan request made by current logged in user by loan ID
 export const getLoanRequest = (id) => {
   return getToken().then((token) =>
     fetch(`${ _apiUrl }/GetLoanRequest/${ id }`, {

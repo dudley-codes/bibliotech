@@ -93,6 +93,8 @@ const Loan = ({ loan, fetchLoans }) => {
           <div>Requested By: { loan?.borrower.displayName }</div>
           <div>Status: { currentStatus }</div>
           <div>Requested On: { requestDate }</div>
+        </Card.Body>
+        <Card.Footer>
           { loan.loanStatus.status === "IsApproved" ?
             <>
               <Button onClick={ () => handleLoanUpdate('IsReturned') }>Book Returned</Button>
@@ -102,7 +104,7 @@ const Loan = ({ loan, fetchLoans }) => {
 
               <Button variant="danger" onClick={ () => handleLoanUpdate('IsDenied') }>Deny</Button>
             </> }
-        </Card.Body>
+        </Card.Footer>
       </Card>
 
 

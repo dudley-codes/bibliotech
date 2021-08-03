@@ -130,7 +130,7 @@ namespace Bibliotech.Repositories
                                               fr.City, 
                                               fr.State
                                               FROM UserProfile fr
-                                              WHERE NOT fr.Id =1
+                                              WHERE NOT fr.Id = @userId
 
                                              EXCEPT 
 

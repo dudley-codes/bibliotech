@@ -88,6 +88,15 @@ namespace Bibliotech.Controllers
             return Ok(_loanRepository.GetAllUserLoanRequests(user));
         }
 
+        //returns a list of all user loan requests except for deleted loan 
+        [HttpGet("GetAllButDeleted/{id}")]
+        public IActionResult GetAllButDeleted(int id)
+        {
+            var user = GetCurrentUserProfile();
+            return Ok(_loanRepository.GetAllButDeleted(user, id));
+
+        }
+
         /// controller  to Get all loans made to current user for their books
         [HttpGet("LoansToUser")]
         public IActionResult GetAllLoanRequestsTo()

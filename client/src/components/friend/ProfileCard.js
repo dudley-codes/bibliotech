@@ -7,7 +7,8 @@ const ProfileCard = ({ user, friend, handleFriend }) => {
   return (
     <Card>
       <Card.Body>
-        <div>{ user.displayName }</div>
+        <div>{ user.firstName + ' ' + user.lastName } </div>
+        <div>{ user.city }, { user.state }</div>
       </Card.Body>
       <Card.Footer>
         {
