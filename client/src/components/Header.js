@@ -37,6 +37,10 @@ export default function Header({ isLoggedIn }) {
                 </NavItem>
 
                 <NavItem>
+                  <NavLink tag={ RRNavLink } to="/friends">Friends</NavLink>
+                </NavItem>
+
+                <NavItem>
                   <NavLink aria-current="page" className="nav-link"
                     style={ { cursor: "pointer" } } onClick={ logout }>Logout</NavLink>
                 </NavItem>
