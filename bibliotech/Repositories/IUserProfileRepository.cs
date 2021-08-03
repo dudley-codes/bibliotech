@@ -6,8 +6,10 @@ namespace Bibliotech.Repositories
     public interface IUserProfileRepository
     {
         void Add(UserProfile userProfile);
+        void AddFriend(UserProfile currentUser, int id);
         List<UserProfile> GetAll();
         UserProfile GetByFirebaseUserId(string firebaseUserId);
         UserProfile GetById(int id);
+        void UnFriend(UserProfile currentUser, int id);
     }
 }

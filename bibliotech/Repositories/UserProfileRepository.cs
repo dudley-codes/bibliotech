@@ -12,6 +12,10 @@ namespace Bibliotech.Repositories
     {
         public UserProfileRepository(IConfiguration configuration) : base(configuration) { }
 
+        /// <summary>
+        /// List all users
+        /// </summary>
+        /// <returns></returns>
         public List<UserProfile> GetAll()
         {
             using (var conn = Connection)
@@ -52,46 +56,86 @@ namespace Bibliotech.Repositories
             }
         }
 
-        //public List<UserProfile> GetAllDeactivated()
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"
-        //       SELECT up.Id, Up.FirebaseUserId, up.FirstName, up.LastName, up.DisplayName, 
-        //                       up.Email, up.ImageUrl, up.IsDeactivated, up.UserTypeId,
-        //                       ut.Name AS UserTypeName
-        //                  FROM UserProfile up
-        //                       LEFT JOIN UserType ut on up.UserTypeId = ut.Id
-        //                    WHERE up.IsDeactivated = 1
-        //                    ORDER BY up.DisplayName
-        //    ";
+        public UserProfile GetAllFriends(UserProfile user)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                          SELECT cu.Id AS CurrentUserId, 
+                          cu.FirstName, 
+                          cu.LastName, 
+                          cu.DisplayName AS CurrentUserDisplay, 
+                          cu.Email, 
+                          cu.ImageUrl, 
+                          cu.City, 
+                          cu.State,
+                          fr.Id AS FriendId, 
+                          fr.FirstName AS FriendFirstName, 
+                          fr.LastName AS FriendLastname, 
+                          fr.DisplayName AS FriendDisplay, 
+                          fr.Email AS FriendEmail, 
+                          fr.ImageUrl AS FriendImage, 
+                          fr.City AS FriendCity, 
+                          fr.State AS FriendState
+                          FROM UserProfile cu
+                          LEFT JOIN UserFriend uf ON cu.Id = uf.UserId OR cu.Id = uf.FriendId
+                          LEFT JOIN UserProfile fr ON fr.Id = uf.UserId OR fr.Id = uf.FriendId
+                          WHERE cu.Id = @userId AND NOT fr.Id = @userId
+                          ORDER BY fr.DisplayName";
 
-        //            var reader = cmd.ExecuteReader();
+                    DbUtils.AddParameter(cmd, "@userId", user.Id);
+                    var reader = cmd.ExecuteReader();
 
-        //            var users = new List<UserProfile>();
-        //            while (reader.Read())
-        //            {
-        //                users.Add(new UserProfile()
-        //                {
-        //                    Id = DbUtils.GetInt(reader, "Id"),
-        //                    FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-        //                    FirstName = DbUtils.GetString(reader, "FirstName"),
-        //                    LastName = DbUtils.GetString(reader, "LastName"),
-        //                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
-        //                    Email = DbUtils.GetString(reader, "Email"),
-        //                    ImageUrl = DbUtils.GetString(reader, "ImageUrl")
-        //                });
-        //            }
+                    var users = new List<UserProfile>();
+                    while (reader.Read())
+                    {
+                        var currentUser = users.FirstOrDefault(u => u.Id == user.Id);
 
-        //            reader.Close();
+                        if (currentUser == null)
+                        {
+                            users.Add(new UserProfile()
+                            {
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
+                                FirstName = DbUtils.GetString(reader, "FirstName"),
+                                LastName = DbUtils.GetString(reader, "LastName"),
+                                DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                                Email = DbUtils.GetString(reader, "Email"),
+                                ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
+                                City = DbUtils.GetString(reader, "City"),
+                                State = DbUtils.GetString(reader, "State"),
+                                Friends = new List<UserProfile>()
+                            });
 
-        //            return users;
-        //        }
-        //    }
-        //}
+                            users.Add(currentUser);
+                        }
+
+                        if(DbUtils.IsNotDbNull(reader, "FriendId"))
+                        {
+                            users.Add(new UserProfile()
+                            {
+                                Id = DbUtils.GetInt(reader, "FriendId"),
+                                FirstName = DbUtils.GetString(reader, "FriendFirstName"),
+                                LastName = DbUtils.GetString(reader, "FriendLastName"),
+                                DisplayName = DbUtils.GetString(reader, "FriendDisplay"),
+                                Email = DbUtils.GetString(reader, "FriendEmail"),
+                                ImageUrl = DbUtils.GetString(reader, "FriendImage"),
+                                City = DbUtils.GetString(reader, "FriendCity"),
+                                State = DbUtils.GetString(reader, "FriendState")
+                            });
+                        }
+                    }
+
+                    reader.Close();
+                    var userFriends = users.FirstOrDefault(u => u.Id == user.Id);
+
+                    return userFriends;
+                }
+            }
+        }
 
         public UserProfile GetById(int id)
         {
@@ -196,78 +240,49 @@ namespace Bibliotech.Repositories
             }
         }
 
-        //public void Activate(int id)
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"UPDATE UserProfile SET isDeactivated=@IsDeactivated WHERE Id=@Id";
-        //            cmd.Parameters.AddWithValue("@IsDeactivated", 0);
-        //            cmd.Parameters.AddWithValue("@Id", id);
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
-
-        //public void Deactivate(int id)
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"UPDATE UserProfile SET isDeactivated=@IsDeactivated WHERE Id=@Id";
-        //            cmd.Parameters.AddWithValue("@IsDeactivated", 1);
-        //            cmd.Parameters.AddWithValue("@Id", id);
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
-
-        //public void MakeAdmin(int id)
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"UPDATE UserProfile SET UserTypeId=@UserTypeId WHERE Id=@Id";
-        //            cmd.Parameters.AddWithValue("@UserTypeId", 1);
-        //            cmd.Parameters.AddWithValue("@Id", id);
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
-        //public void MakeAuthor(int id)
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"UPDATE UserProfile SET UserTypeId=@UserTypeId WHERE Id=@Id";
-        //            cmd.Parameters.AddWithValue("@UserTypeId", 2);
-        //            cmd.Parameters.AddWithValue("@Id", id);
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
-
-        /*
-        public UserProfile GetByFirebaseUserId(string firebaseUserId)
+        /// <summary>
+        /// List all user profiles
+        /// </summary>
+        /// <returns></returns>
+        public void AddFriend(UserProfile currentUser, int id)
         {
-            return _context.UserProfile
-                       .Include(up => up.UserType) 
-                       .FirstOrDefault(up => up.FirebaseUserId == firebaseUserId);
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @" INSERT INTO UserFriend(UserId, FriendId)
+                                         OUTPUT INSERTED.ID
+                                         VALUES(@currentUserId, @friendId)";
+
+                    DbUtils.AddParameter(cmd, "@currentUserId", currentUser.Id);
+                    DbUtils.AddParameter(cmd, "@friendId", id);
+
+                    cmd.ExecuteScalar();
+
+                }
+            }
         }
 
-        public void Add(UserProfile userProfile)
+        public void UnFriend(UserProfile currentUser, int id)
         {
-            _context.Add(userProfile);
-            _context.SaveChanges();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @" DELETE FROM UserFriend
+                                         WHERE UserId = @currentUserId AND FriendId = @friendId 
+                                         OR FriendId = @currentUserId AND UserId = @friendId";
+
+                    DbUtils.AddParameter(cmd, "@currentUserId", currentUser.Id);
+                    DbUtils.AddParameter(cmd, "@friendId", id);
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
         }
-        */
+
     }
 }
