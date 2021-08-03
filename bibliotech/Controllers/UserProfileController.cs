@@ -87,6 +87,13 @@ namespace Bibliotech.Controllers
             return Ok(_userProfileRepository.GetAllFriends(user));
         }
 
+        [HttpGet("GetNotFriends")]
+        public IActionResult GetNotFriends()
+        {
+            var user = GetCurrentUserProfile();
+            return Ok(_userProfileRepository.GetNotFriends(user));
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

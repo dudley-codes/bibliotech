@@ -11,6 +11,7 @@ namespace Bibliotech.Repositories
         UserProfile GetAllFriends(UserProfile user);
         UserProfile GetByFirebaseUserId(string firebaseUserId);
         UserProfile GetById(int id);
+        List<UserProfile> GetNotFriends(UserProfile user);
         void UnFriend(UserProfile currentUser, int id);
     }
 }
