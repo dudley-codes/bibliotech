@@ -67,7 +67,7 @@ namespace Bibliotech.Repositories
                           SELECT cu.Id AS CurrentUserId, 
                           cu.FirstName, 
                           cu.LastName, 
-                          cu.DisplayName AS CurrentUserDisplay, 
+                          cu.DisplayName, 
                           cu.Email, 
                           cu.ImageUrl, 
                           cu.City, 
@@ -96,10 +96,9 @@ namespace Bibliotech.Repositories
 
                         if (currentUser == null)
                         {
-                            users.Add(new UserProfile()
+                            currentUser = new UserProfile()
                             {
-                                Id = DbUtils.GetInt(reader, "Id"),
-                                FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
+                                Id = DbUtils.GetInt(reader, "CurrentUserId"),
                                 FirstName = DbUtils.GetString(reader, "FirstName"),
                                 LastName = DbUtils.GetString(reader, "LastName"),
                                 DisplayName = DbUtils.GetString(reader, "DisplayName"),
@@ -108,14 +107,15 @@ namespace Bibliotech.Repositories
                                 City = DbUtils.GetString(reader, "City"),
                                 State = DbUtils.GetString(reader, "State"),
                                 Friends = new List<UserProfile>()
-                            });
+                            };
 
                             users.Add(currentUser);
+
                         }
 
                         if(DbUtils.IsNotDbNull(reader, "FriendId"))
                         {
-                            users.Add(new UserProfile()
+                            currentUser.Friends.Add(new UserProfile()
                             {
                                 Id = DbUtils.GetInt(reader, "FriendId"),
                                 FirstName = DbUtils.GetString(reader, "FriendFirstName"),

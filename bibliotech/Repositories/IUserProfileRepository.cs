@@ -8,6 +8,7 @@ namespace Bibliotech.Repositories
         void Add(UserProfile userProfile);
         void AddFriend(UserProfile currentUser, int id);
         List<UserProfile> GetAll();
+        UserProfile GetAllFriends(UserProfile user);
         UserProfile GetByFirebaseUserId(string firebaseUserId);
         UserProfile GetById(int id);
         void UnFriend(UserProfile currentUser, int id);
