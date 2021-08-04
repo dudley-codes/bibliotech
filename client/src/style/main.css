@@ -1,0 +1,210 @@
+/* Body ===================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+main {
+  display: flex;
+  justify-content: center;
+}
+
+body {
+background-image: url("../images/library3.jpg");
+background-repeat: no-repeat;
+background-size: cover;
+background-attachment: fixed;
+font-family: 'Special Elite', cursive;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #8f865c;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: transparent;
+}
+
+/* Book  ===============================  book */
+
+.book-card {
+  margin: 20px;
+  width: 350px !important;
+  background-color: #FFF7D4;
+}
+
+.submit {
+  background-color: #339999;
+  border: none;
+}
+
+
+.book-card__body {
+  display: flex;
+}
+
+.book-info {
+  margin-left: 10px;
+}
+
+.book-info__title {
+  height: 175px;
+}
+
+.info-button img {
+  height: 30px;
+}
+
+.bookshelf {
+background-color: #FFF7D4;
+padding: 10px;
+margin: 10px;
+border-radius: 10px;
+text-align: center;
+}
+
+.new-book {
+  position: absolute;
+  width: 400px;
+  height: 100px;
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -150px;
+  background: #FFF7D4;
+  border-radius: 10px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.search-again {
+  background-color: #FFF7D4;
+  margin: 10px auto 30px auto;
+  padding: 10px;
+  width: 400px;
+  border-radius: 10px;
+  left: 50%;
+  text-align: center;
+  display: flex;
+  flex-direction:column;
+}
+
+.search-results {
+  display: flex;
+}
+
+.search-input {
+  display: flex;
+}
+
+/* Nav======================================================================= */
+
+.biblio-nav, .biblio-nav a {
+  background-color: #FFF7D4 !important;
+  color: #324548 !important;
+}
+
+.navbar-brand {
+  margin: 0 30px;
+  font-size: 2rem;
+}
+
+.biblio-nav_links {
+  margin-right: 20px 
+}
+
+.nav-margin {
+  margin-bottom: 110px !important;
+}
+
+/* LOANS ============================================================ */
+.book-info__loan {
+  display: flex;
+}
+
+.loan-container {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  justify-content: center;
+}
+
+.requests-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.loan-card {
+  width: 600px !important;
+  margin: 10px 0;
+  background-color: #FFF7D4;
+}
+
+.home-container {
+  display: flex;
+  width: 95vw;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.loan-list__title {
+  width: 245px;
+  background-color: #FFF7D4;
+  text-align: center;
+  border-radius: 4px;
+  margin: 5px 0;
+}
+
+.loan-cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  margin: 0 20px;
+  height: 80vh;
+  width: 615px;
+}
+
+.loan-dates {
+  display: flex;
+  flex-direction: column;
+}
+
+/* user profile ============================================= */
+
+.profile-pic__container {
+  height: 100px;
+  width: 100px;
+}
+.profile-pic {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-card {
+  width: 200px;
+  background-color: #FFF7D4;
+
+}
+
+.friends-container {
+  display: flex;
+  margin-bottom: 30px;
+}
+

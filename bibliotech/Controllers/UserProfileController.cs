@@ -38,8 +38,6 @@ namespace Bibliotech.Controllers
             }
             return Ok(userProfile);
         }
-       
-
 
         [HttpGet("DoesUserExist/{firebaseUserId}")]
         public IActionResult DoesUserExist(string firebaseUserId)
@@ -60,6 +58,40 @@ namespace Bibliotech.Controllers
                 nameof(GetUserProfile),
                 new { firebaseUserId = userProfile.FirebaseUserId },
                 userProfile);
+        }
+
+        [HttpPost("AddFriend/{id}")]
+        public IActionResult AddFriend(int id)
+        {
+            var user = GetCurrentUserProfile();
+
+            _userProfileRepository.AddFriend(user, id);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult UnFriend(int id)
+        {
+            var user = GetCurrentUserProfile();
+
+            _userProfileRepository.UnFriend(user, id);
+
+            return NoContent();
+        }
+
+        [HttpGet("GetAllFriends")]
+        public IActionResult GetAllFriends()
+        {
+            var user = GetCurrentUserProfile();
+            return Ok(_userProfileRepository.GetAllFriends(user));
+        }
+
+        [HttpGet("GetNotFriends")]
+        public IActionResult GetNotFriends()
+        {
+            var user = GetCurrentUserProfile();
+            return Ok(_userProfileRepository.GetNotFriends(user));
         }
 
         private UserProfile GetCurrentUserProfile()

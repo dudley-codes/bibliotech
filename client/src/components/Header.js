@@ -16,16 +16,16 @@ export default function Header({ isLoggedIn }) {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <div>
-      <Navbar color="dark" dark expand="md">
-        <NavbarBrand tag={ RRNavLink } to="/"> bibliotech</NavbarBrand>
+    <div className="nav-margin">
+      <Navbar className="biblio-nav" color="dark" dark expand="md" fixed="top">
+        <NavbarBrand tag={ RRNavLink } to="/">bibliotech</NavbarBrand>
         <NavbarToggler onClick={ toggle } />
         <Collapse isOpen={ isOpen } navbar>
-          <Nav className="mr-auto" navbar>
+          <Nav className="ms-auto biblio-nav_links" navbar>
             { isLoggedIn &&
               <>
                 <NavItem>
-                  <NavLink tag={ RRNavLink } to="/bookshelf">My Bookshelf</NavLink>
+                  <NavLink tag={ RRNavLink } to="/bookshelf">Bookshelf</NavLink>
                 </NavItem>
 
                 <NavItem>
@@ -33,8 +33,16 @@ export default function Header({ isLoggedIn }) {
                 </NavItem>
 
                 <NavItem>
-                  <a aria-current="page" className="nav-link"
-                    style={ { cursor: "pointer" } } onClick={ logout }>Logout</a>
+                  <NavLink tag={ RRNavLink } to="/loans">Loans</NavLink>
+                </NavItem>
+
+                <NavItem>
+                  <NavLink tag={ RRNavLink } to="/friends">Friends</NavLink>
+                </NavItem>
+
+                <NavItem>
+                  <NavLink aria-current="page" className="nav-link"
+                    style={ { cursor: "pointer" } } onClick={ logout }>Logout</NavLink>
                 </NavItem>
               </>
             }

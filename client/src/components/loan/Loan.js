@@ -8,16 +8,9 @@ import Modal from 'react-bootstrap/Modal';
 const Loan = ({ loan, fetchLoans }) => {
   const [ show, setShow ] = useState(false);
   const [ loanEdit, setLoanEdit ] = useState({});
-  const [ isLoading, setIsLoading ] = useState(false)
-  const [ status, setStatus ] = useState(
-    {
-      id: loan.id,
-      ownerId: loan.owner.id,
-      borrowerId: loan.borrower.id,
-      loanStatus: {
-        status: ''
-      }
-    });
+  const [ isLoading, setIsLoading ] = useState(false);
+  const [ currentStatus, setCurrentStatus ] = useState("");
+
 
   // When called, closes the Modal
   const handleClose = () => {
@@ -38,7 +31,7 @@ const Loan = ({ loan, fetchLoans }) => {
   }
 
   const requestDate = dateFixer(loan.requestDate)
-  const [ currentStatus, setCurrentStatus ] = useState("");
+
 
   const statusSwitch = () => {
     //todo add all statuses to switch statement
@@ -54,6 +47,9 @@ const Loan = ({ loan, fetchLoans }) => {
         break;
       case "IsDenied":
         setCurrentStatus("Denied")
+        break;
+      case "IsReturned":
+        setCurrentStatus("Book Returned")
         break;
       default:
         break;
@@ -72,32 +68,62 @@ const Loan = ({ loan, fetchLoans }) => {
     })
   }
 
-  const handleLoanDeny = () => {
-    status.loanStatus.status = 'IsDenied';
+  const status =
+  {
+    id: loan.id,
+    ownerId: loan.owner.id,
+    borrowerId: loan.borrower.id,
+    loanStatus: {
+      status: ''
+    }
+  }
+
+  const handleLoanUpdate = (newStatus) => {
+    status.loanStatus.status = newStatus;
     updateLoanStatus(status).then(fetchLoans)
   }
 
   return (
     <>
-      <Card>
-        <Card.Body>
-          <h3>{ loan?.borrower.displayName }</h3>
-          <h4>Status: { currentStatus }</h4>
-          <h4>Requested On: { requestDate }</h4>
+      {/* Only */ }
 
-          <Button onClick={ () => handleShow() }>
-            Approve
-          </Button>
-
-          <Button variant="danger" onClick={ () => handleLoanDeny() }>
-            Deny
-          </Button>
+      <Card className="loan-card">
+        <Card.Body className="loan-card__body">
+          <div className='book-info__loan'>
+            <div className='book-thumb'>
+              <img src={ loan.book.thumbnailUrl } alt='book thumbnail' />
+            </div>
+            <div>
+              <div><b>{ loan?.book.title }</b></div>
+              {
+                loan?.book.authors?.map(a =>
+                  <div><em>{ a.name }</em></div>
+                )
+              }
+              <br />
+              <div>Requested By: { loan?.borrower.displayName }</div>
+              {/* <div>Status: { currentStatus }</div> */ }
+              <div>Requested On: { requestDate }</div>
+            </div>
+          </div>
         </Card.Body>
+        <Card.Footer>
+          { loan.loanStatus.status === "IsApproved" ?
+            <>
+              <Button onClick={ () => handleLoanUpdate('IsReturned') }>Book Returned</Button>
+            </> :
+            <>
+              <Button onClick={ () => handleShow() }>Approve</Button>
+
+              <Button variant="danger" onClick={ () => handleLoanUpdate('IsDenied') }>Deny</Button>
+            </> }
+        </Card.Footer>
       </Card>
+
 
       <Modal show={ show } onHide={ handleClose }>
         <Modal.Header closeButton>
-          <Modal.Title>Submit Loan Request</Modal.Title>
+          <Modal.Title>Select a Return Date</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>

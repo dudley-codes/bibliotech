@@ -5,25 +5,25 @@ import Book from "./Book";
 const BookList = () => {
   const [ books, setBooks ] = useState([]);
 
-  const fetchPosts = () => {
+  const fetchBooks = () => {
     return getAllBooks().then(b => setBooks(b))
   }
 
   useEffect(() => {
-    fetchPosts();
+    fetchBooks();
   }, [])
-
-  console.log('books', books)
 
   return (
     <>
-      <h1>Welcome Back!</h1>
-      <div className='container'>
-        <div className='row justify-content-center'>
-          { books.map((book) => (
-            <Book book={ book } key={ book.id } />
-          )) }
+      <div className=' home-container'>
+        <div>
+          <div className='row justify-content-center book-list'>
+            { books.map((book) => (
+              <Book book={ book } key={ book.id } />
+            )) }
+          </div>
         </div>
+
       </div>
     </>
   )

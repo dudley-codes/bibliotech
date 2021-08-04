@@ -71,7 +71,7 @@ namespace Bibliotech.Controllers
         public IActionResult Delete(int id)
         {
             _bookRepository.Delete(id);
-            return NoContent();
+            return Ok();
         }
 
         private UserProfile GetCurrentUserProfile()

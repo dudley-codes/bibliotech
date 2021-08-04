@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getAllUserBooks } from "../../modules/bookManager";
+import UserLoanList from "../loan/UserLoanList";
 import Book from "./Book";
 
 const Bookshelf = () => {
@@ -10,12 +11,12 @@ const Bookshelf = () => {
   }
 
   useEffect(() => {
-    fetchPosts();
+    fetchPosts()
   }, [])
 
   return (
     <>
-      <h1>My Bookshelf</h1>
+      {/* <div className='bookshelf'>My Bookshelf</div> */ }
       <div className='container'>
         <div className='row justify-content-center'>
           { books.map((book) => (
@@ -23,6 +24,9 @@ const Bookshelf = () => {
           )) }
         </div>
       </div>
+      {/* <div className='user-loan__list'>
+        <UserLoanList />
+      </div> */}
     </>
   )
 };

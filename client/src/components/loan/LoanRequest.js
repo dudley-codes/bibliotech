@@ -56,7 +56,7 @@ const LoanRequest = ({ fetchBook, book }) => {
   } else if (existingLoan?.loanStatus?.status === 'IsApproved') {
     return (
       <>
-        <Button aria-disabled={ true } variant="danger" onClick={ cancelRequest }>
+        <Button aria-disabled="true" variant="danger" >
           Cancel Request
         </Button>
         <div>The loan has been approved. Contact the book owner if you no longer wish to borrow this book.</div>

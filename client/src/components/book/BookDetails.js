@@ -6,7 +6,6 @@ import LoanList from "../loan/LoanList";
 import LoanRequest from "../loan/LoanRequest";
 import { Button } from "react-bootstrap";
 
-
 const BookDetails = () => {
   const [ book, setBook ] = useState([]);
   const { id } = useParams();
@@ -31,23 +30,23 @@ const BookDetails = () => {
 
   //checks to see if a book belongs to user and shows loan button if it does not
   const isMyBook = () => {
-    let button = true;
+    let button;
     let bookId = userBooks.find(book => book.id === parseInt(id))
 
     if (bookId === undefined) {
       button = false;
-    }
+    } else button = true;
 
     return button
   }
 
+  //deletes book
   const handleDelete = () => {
-    deleteBook(id).then(history.push('/bookshelf'))
+    deleteBook(id).then(() => history.push('/bookshelf'))
   }
 
   return (
     <>
-      <h1>Book Details</h1>
       <div className='container'>
         <div className='row justify-content-center'>
           <Card>
@@ -60,7 +59,10 @@ const BookDetails = () => {
               <h4>Owner: { book?.owner?.displayName }</h4>
               <h4>Average Rating: { book?.averageRating }</h4>
               {
-                isMyBook() ? <Button variant="danger" onClick={ handleDelete } >Delete from Bookshelf</Button> : <LoanRequest fetchBook={ fetchBook } book={ book } />
+                // Checks to see if book belongs to user. If it does, renders delete button. If not, renders loan request button.
+                isMyBook() ? <Button variant="danger" onClick={ handleDelete } >
+                  Remove from Bookshelf
+                </Button> : <LoanRequest fetchBook={ fetchBook } book={ book } />
               }
 
             </Card.Body>
@@ -73,6 +75,7 @@ const BookDetails = () => {
           </Card>
           <Card>
             <Card.Body>
+              {/* Component that lists out loans */ }
               <LoanList />
             </Card.Body>
           </Card>
