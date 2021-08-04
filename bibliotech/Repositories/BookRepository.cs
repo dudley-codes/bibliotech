@@ -56,8 +56,10 @@ namespace Bibliotech.Repositories
                                         LEFT JOIN Author a ON ba.AuthorId = a.Id
                                         LEFT JOIN Loan l ON b.Id = l.BookId
                                         LEFT JOIN LoanStatus ls ON ls.Id = l.LoanStatusId
-                                        LEFT JOIN UserProfile up on up.Id = b.OwnerId 
-                                        WHERE IsDeleted = 0 AND NOT b.OwnerId = @currentUserId
+                                        LEFT JOIN UserProfile up on up.Id = b.OwnerId
+                                        LEFT JOIN UserFriend uf ON (uf.FriendId = up.Id OR uf.UserId = up.Id)
+                                        WHERE IsDeleted = 0 AND NOT b.OwnerId = @currentUserId 
+                                         AND (uf.FriendId = @currentUserId  OR uf.UserId = @currentUserId )
                                         ORDER BY b.Title";
                     DbUtils.AddParameter(cmd, "@currentUserId", user.Id);
                     var reader = cmd.ExecuteReader();
