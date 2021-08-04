@@ -253,7 +253,7 @@ namespace Bibliotech.Repositories
             }
         }
         /// <summary>
-        /// Fetches loans and loan requests made by user
+        /// Fetches loans and loan requests made by user and loan id
         /// </summary>
         /// <param name="user"></param>
         /// <param name="id"></param>
@@ -413,7 +413,7 @@ namespace Bibliotech.Repositories
                                         LEFT JOIN LoanStatus ls ON ls.Id = l.LoanStatusId
                                         LEFT JOIN UserProfile up on up.Id = b.OwnerId
                                         LEFT JOIN UserProfile bor ON bor.Id = l.BorrowerId 
-                                        WHERE l.BorrowerId = 1 AND NOT l.Id = 1264";
+                                        WHERE l.BorrowerId = @currentUserId";
 
                     DbUtils.AddParameter(cmd, "@currentUserId", user.Id);
 

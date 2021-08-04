@@ -5,8 +5,11 @@ const ProfileCard = ({ user, friend, handleFriend }) => {
 
 
   return (
-    <Card>
+    <Card className='profile-card'>
       <Card.Body>
+        <div className='profile-pic__container'>
+          <img src={ user.imageUrl } alt='user profile' className='profile-pic' />
+        </div>
         <div>{ user.firstName + ' ' + user.lastName } </div>
         <div>{ user.city }, { user.state }</div>
       </Card.Body>

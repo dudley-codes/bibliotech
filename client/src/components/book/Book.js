@@ -55,6 +55,7 @@ const Book = ({ book }) => {
               <div className="title">{ book?.title }</div>
               <br />
               <Author />
+              <div>Avg Rating: { book.averageRating }</div>
             </div>
 
           </div>

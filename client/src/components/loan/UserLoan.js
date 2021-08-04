@@ -5,28 +5,25 @@ import { dateFixer } from "../../modules/helpers";
 import { cancelLoanRequest } from "../../modules/loanManager";
 import { Spinner } from "react-bootstrap";
 
-const UserLoan = ({ loan, fetchLoans, fetchAllButDeleted }) => {
+const UserLoan = ({ loan, loans, fetchLoans, fetchAllButDeleted }) => {
   const [ isLoading, setIsLoading ] = useState(false);
   const requestDate = dateFixer(loan.requestDate);
-  const [ currentStatus, setCurrentStatus ] = useState("");
   const [ status, setStatus ] = useState(null);
 
   //Checks loan status and returns loan info based on status
   let newStatus = '';
   const loanStatus = () => {
-    //todo add all statuses to switch statement
     switch (loan.loanStatus.status) {
+      //If book has been returned, book will remain on list until user removes it
       case "IsReturned":
-        setCurrentStatus("Returned")
         newStatus = <Button onClick={ () => cancelRequest(loan.id) } variant='danger'>Remove From List</Button>;
         setStatus(newStatus)
         break;
+      //Render cancel button and request date once book has been requested
       case "IsRequested":
-        setCurrentStatus("Requested")
         newStatus = (
           <>
             <div>Request Date: { requestDate }</div>
-            <div>Your loan request has been submitted! You will be notified when { loan.owner.displayName } responds.</div>
             <Card.Footer>
               <Button onClick={ () => cancelRequest(loan.id) } variant='danger'>Cancel Request</Button>
             </Card.Footer>
@@ -36,13 +33,8 @@ const UserLoan = ({ loan, fetchLoans, fetchAllButDeleted }) => {
           setStatus(newStatus)
         }
         break;
-      case "IsBorrowed":
-        setCurrentStatus("On Loan")
-        newStatus = <div>Due: { dateFixer(loan.dueDate) }</div>
-        setStatus(newStatus)
-        break;
+      //Render user contact information once loan has been approved
       case "IsApproved":
-        setCurrentStatus("Loan Approved")
         newStatus = (
           <>
             <div>Due Back: { dateFixer(loan.dueDate) }</div>
@@ -55,8 +47,8 @@ const UserLoan = ({ loan, fetchLoans, fetchAllButDeleted }) => {
         )
         setStatus(newStatus)
         break;
+      //Render cancellation notice if loan has been cancelled and allow user to delete book
       case "IsDenied":
-        setCurrentStatus("Loan Denied")
         newStatus = (
           <>
             <div>{ loan.owner.displayName } has denied your loan request.</div>
@@ -67,6 +59,7 @@ const UserLoan = ({ loan, fetchLoans, fetchAllButDeleted }) => {
         )
         setStatus(newStatus)
         break;
+
       default: newStatus = ''
         break;
     }
@@ -76,42 +69,42 @@ const UserLoan = ({ loan, fetchLoans, fetchAllButDeleted }) => {
     loanStatus()
   }, [])
 
+  // console.log('index', loans.findIndex(loan))
   //cancel loan request
   const cancelRequest = (id) => {
     setIsLoading(true);
-    fetchAllButDeleted(id)
-    cancelLoanRequest(id).then(() => setIsLoading(false));
 
+    cancelLoanRequest(id).then(() => fetchAllButDeleted(id)).then(() => setIsLoading(false));
 
   }
 
   //If a book has been deleted from the db with an active loan, display message
   const bookIsDeleted = (
     <>
-      <div>This book is no longer available. Sorry for the inconvenience.</div>
+      <div>This book is no longer available.</div>
       <Button onClick={ () => cancelRequest(loan.id) } variant='danger'>Delete Request</Button>
     </>
   );
 
   return (
     <>
-      { isLoading ? <Spinner /> :
-        <Card className="loan-card">
-          <Card.Body className="loan-card__body">
-            <div><b>{ loan?.book.title }</b></div>
-            {
-              loan?.book.authors?.map(a =>
-                <div><em>{ a.name }</em></div>
-              )
-            }
-            <br />
-            { loan?.book.isDeleted && loan.loanStatus.status !== "IsDenied" ?
-              bookIsDeleted
-              : null }
-            { status }
-          </Card.Body>
-        </Card>
-      }
+
+      <Card className="loan-card">
+        <Card.Body className="loan-card__body">
+          <div><b>{ loan?.book.title }</b></div>
+          {
+            loan?.book.authors?.map(a =>
+              <div><em>{ a.name }</em></div>
+            )
+          }
+          <br />
+          { loan?.book.isDeleted && loan.loanStatus.status !== "IsDenied" ?
+            bookIsDeleted
+            : null }
+          { status }
+        </Card.Body>
+      </Card>
+
     </>
   )
 };

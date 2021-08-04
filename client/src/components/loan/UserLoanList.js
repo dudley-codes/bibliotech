@@ -56,7 +56,7 @@ const UserLoanList = () => {
           <div className='loan-cards'>
             {
               loans.map((loan) => (
-                <UserLoan loan={ loan } fetchLoans={ fetchLoans } key={ loan.id } cancelRequest={ cancelRequest } setLoans={ setLoans } fetchAllButDeleted={ fetchAllButDeleted } />
+                <UserLoan loan={ loan } fetchLoans={ fetchLoans } key={ loan.id } cancelRequest={ cancelRequest } setLoans={ setLoans } fetchAllButDeleted={ fetchAllButDeleted } loans={ loans } />
               )) }
           </div>
         </div>

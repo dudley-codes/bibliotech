@@ -8,6 +8,7 @@ background-attachment: fixed;
 font-family: 'Special Elite', cursive;
 }
 
+/* book  ===============================  book */
 
 .book-card {
   margin: 20px;
@@ -116,9 +117,8 @@ text-align: center;
 }
 
 
-.loan-card, .loan-card__body {
+.loan-card{
   width: 245px !important;
-  height: 300px;
   margin: 10px 0;
   background-color: #FFF7D4;
 }
@@ -149,4 +149,28 @@ main {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+/* user profile ============================================= */
+
+.profile-pic__container {
+  height: 100px;
+  width: 100px;
+}
+.profile-pic {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-card {
+  width: 200px;
+  background-color: #FFF7D4;
+
+}
+
+.friends-container {
+  display: flex;
+  margin-bottom: 30px;
 }

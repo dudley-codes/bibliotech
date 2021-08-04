@@ -38,16 +38,14 @@ const FriendsList = () => {
   return (
     <>
       <div className='container'>
-        <div className='friends'>
-          <div>Friends</div>
+        <div className='friends-container'>
           {
             friends.map((user) => (
               <ProfileCard user={ user } key={ user.id } friend={ true } handleFriend={ handleUnfriend } />
             ))
           }
         </div>
-        <div className='not-friends'>
-          <div>Not Friends</div>
+        <div className='friends-container'>
           {
             notFriends.map((user) => (
               <ProfileCard user={ user } key={ user.id } friend={ false } handleFriend={ handleAddFriend } />
