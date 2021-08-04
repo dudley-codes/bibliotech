@@ -47,7 +47,6 @@ const BookDetails = () => {
 
   return (
     <>
-      <h1>Book Details</h1>
       <div className='container'>
         <div className='row justify-content-center'>
           <Card>

@@ -60,7 +60,7 @@ namespace Bibliotech.Controllers
             var currentUser = GetCurrentUserProfile();
 
             _loanRepository.Delete(id, currentUser);
-            return StatusCode(StatusCodes.Status200OK);
+            return NoContent();
 
         }
 

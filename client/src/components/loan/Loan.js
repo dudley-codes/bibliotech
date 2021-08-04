@@ -89,10 +89,23 @@ const Loan = ({ loan, fetchLoans }) => {
 
       <Card className="loan-card">
         <Card.Body className="loan-card__body">
-          <div>{ loan?.book.title }</div>
-          <div>Requested By: { loan?.borrower.displayName }</div>
-          <div>Status: { currentStatus }</div>
-          <div>Requested On: { requestDate }</div>
+          <div className='book-info__loan'>
+            <div className='book-thumb'>
+              <img src={ loan.book.thumbnailUrl } alt='book thumbnail' />
+            </div>
+            <div>
+              <div><b>{ loan?.book.title }</b></div>
+              {
+                loan?.book.authors?.map(a =>
+                  <div><em>{ a.name }</em></div>
+                )
+              }
+              <br />
+              <div>Requested By: { loan?.borrower.displayName }</div>
+              {/* <div>Status: { currentStatus }</div> */ }
+              <div>Requested On: { requestDate }</div>
+            </div>
+          </div>
         </Card.Body>
         <Card.Footer>
           { loan.loanStatus.status === "IsApproved" ?

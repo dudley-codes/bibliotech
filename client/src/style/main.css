@@ -1,4 +1,10 @@
+/* Body ===================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+main {
+  display: flex;
+  justify-content: center;
+}
 
 body {
 background-image: url("../images/library3.jpg");
@@ -8,7 +14,27 @@ background-attachment: fixed;
 font-family: 'Special Elite', cursive;
 }
 
-/* book  ===============================  book */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #8f865c;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: transparent;
+}
+
+/* Book  ===============================  book */
 
 .book-card {
   margin: 20px;
@@ -82,6 +108,8 @@ text-align: center;
   display: flex;
 }
 
+/* Nav======================================================================= */
+
 .biblio-nav, .biblio-nav a {
   background-color: #FFF7D4 !important;
   color: #324548 !important;
@@ -100,32 +128,30 @@ text-align: center;
   margin-bottom: 110px !important;
 }
 
+/* LOANS ============================================================ */
+.book-info__loan {
+  display: flex;
+}
+
 .loan-container {
   display: flex;
   flex-direction: row;
   width: 100vw;
+  justify-content: center;
 }
 
 .requests-container {
-  width: 50vw;
-  /* display: flex;
-  height: 100vh;
-  flex-wrap: wrap; */
-  /* justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-content: center;
-  align-items: center; */
+  align-items: center;
 }
 
-
-.loan-card{
-  width: 245px !important;
+.loan-card {
+  width: 600px !important;
   margin: 10px 0;
   background-color: #FFF7D4;
-}
-
-main {
-  display: flex;
-  justify-content: center;
 }
 
 .home-container {
@@ -143,12 +169,19 @@ main {
   margin: 5px 0;
 }
 
-
 .loan-cards {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  overflow-y: scroll;
+  margin: 0 20px;
+  height: 80vh;
+  width: 615px;
+}
+
+.loan-dates {
+  display: flex;
+  flex-direction: column;
 }
 
 /* user profile ============================================= */
@@ -174,3 +207,4 @@ main {
   display: flex;
   margin-bottom: 30px;
 }
+

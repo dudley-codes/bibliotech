@@ -13,6 +13,21 @@ namespace Bibliotech.Repositories
     {
         public LoanRepository(IConfiguration configuration) : base(configuration) { }
 
+        public void Delete(int id, UserProfile user)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM Loan WHERE Id = @id AND BorrowerId = @currentUserId";
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    DbUtils.AddParameter(cmd, "@currentUserId", user.Id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         public void Add(Loan loan, UserProfile user)
         {
             using (var conn = Connection)
@@ -115,7 +130,7 @@ namespace Bibliotech.Repositories
             }
         }
         /// <summary>
-        /// Loan requests for user's books
+        /// Loan requests for user's books by user and loan ID
         /// </summary>
         /// <param name="user"></param>
         /// <param name="id"></param>
@@ -192,7 +207,7 @@ namespace Bibliotech.Repositories
                                 {
                                     Id = DbUtils.GetInt(reader, "BookId"),
                                     Title = reader.GetString(reader.GetOrdinal("Title")),
-                                    OnShelf = reader.GetBoolean(reader.GetOrdinal("OnShelf"))
+                                    ThumbnailUrl = DbUtils.GetString(reader, "ThumbnailUrl")
                                 },
                                 RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
                                 ResponseDate = DbUtils.GetNullableDateTime(reader, "ResponseDate"),
@@ -388,6 +403,7 @@ namespace Bibliotech.Repositories
                                                 b.IsDeleted,
                                                 a.Name AS Author,
                                                 b.OwnerId,
+                                                b.ThumbnailUrl,
                                                 bor.Id AS BorrowerId,
                                                 bor.Email AS BorrowerEmail,
                                                 bor.FirstName AS BorrowerFirst,
@@ -436,7 +452,8 @@ namespace Bibliotech.Repositories
                                     Id = DbUtils.GetInt(reader, "BookId"),
                                     Title = reader.GetString(reader.GetOrdinal("Title")),
                                     IsDeleted = reader.GetBoolean(reader.GetOrdinal("IsDeleted")),
-                                    Authors = new List<Author>()
+                                    Authors = new List<Author>(),
+                                    ThumbnailUrl = DbUtils.GetString(reader, "ThumbnailUrl")
                                 },
                                 RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
                                 ResponseDate = DbUtils.GetNullableDateTime(reader, "ResponseDate"),
@@ -448,7 +465,7 @@ namespace Bibliotech.Repositories
                                     Email = DbUtils.GetString(reader, "BorrowerEmail"),
                                     FirstName = DbUtils.GetString(reader, "BorrowerFirst"),
                                     LastName = DbUtils.GetString(reader, "BorrowerLast"),
-                                   
+
                                 },
                                 Owner = new UserProfile()
                                 {
@@ -463,8 +480,8 @@ namespace Bibliotech.Repositories
                                     Status = DbUtils.GetString(reader, "Status")
                                 }
                             };
-                        
-                        loans.Add(existingLoan);
+
+                            loans.Add(existingLoan);
                         }
 
                         if (DbUtils.IsNotDbNull(reader, "AuthorId"))
@@ -508,6 +525,7 @@ namespace Bibliotech.Repositories
                                                 b.Id AS BookId, 
                                                 b.Title,
                                                 b.IsDeleted,
+                                                b.ThumbnailUrl,
                                                 a.Name AS Author,
                                                 b.OwnerId,
                                                 bor.Id AS BorrowerId,
@@ -560,6 +578,7 @@ namespace Bibliotech.Repositories
                                     Id = DbUtils.GetInt(reader, "BookId"),
                                     Title = reader.GetString(reader.GetOrdinal("Title")),
                                     IsDeleted = reader.GetBoolean(reader.GetOrdinal("IsDeleted")),
+                                    ThumbnailUrl = DbUtils.GetString(reader, "ThumbnailUrl"),
                                     Authors = new List<Author>()
                                 },
                                 RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
@@ -580,7 +599,7 @@ namespace Bibliotech.Repositories
                                     Email = DbUtils.GetString(reader, "Email"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
                                     LastName = DbUtils.GetString(reader, "LastName"),
-                                    
+
                                 },
                                 LoanStatus = new LoanStatus()
                                 {
@@ -696,8 +715,9 @@ namespace Bibliotech.Repositories
                                 {
                                     Id = DbUtils.GetInt(reader, "BookId"),
                                     Title = reader.GetString(reader.GetOrdinal("Title")),
-                                    OnShelf = reader.GetBoolean(reader.GetOrdinal("OnShelf")),
-                                    IsDeleted = reader.GetBoolean(reader.GetOrdinal("IsDeleted"))
+                                    IsDeleted = reader.GetBoolean(reader.GetOrdinal("IsDeleted")),
+                                    ThumbnailUrl = DbUtils.GetString(reader, "ThumbnailUrl"),
+                                    Authors = new List<Author>()
                                 },
                                 RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
                                 ResponseDate = DbUtils.GetNullableDateTime(reader, "ResponseDate"),
@@ -732,6 +752,22 @@ namespace Bibliotech.Repositories
                             loans.Add(existingLoan);
                         }
 
+                        if (DbUtils.IsNotDbNull(reader, "AuthorId"))
+                        {
+                            var authorId = DbUtils.GetInt(reader, "AuthorId");
+                            var existingAuthor = existingLoan.Book.Authors.FirstOrDefault(a => a.Id == authorId);
+
+                            if (existingAuthor == null)
+                            {
+
+                                existingLoan.Book.Authors.Add(new Author()
+                                {
+                                    Id = DbUtils.GetInt(reader, "AuthorId"),
+                                    Name = reader.GetString(reader.GetOrdinal("Author"))
+                                });
+                            }
+                        }
+
                     }
 
                     reader.Close();
@@ -741,20 +777,7 @@ namespace Bibliotech.Repositories
             }
         }
 
-        public void Delete(int id, UserProfile user)
-        {
-            using (var conn = Connection)
-            {
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = "DELETE FROM Loan WHERE Id = @id AND BorrowerId = @currentUserId";
-                    DbUtils.AddParameter(cmd, "@id", id);
-                    DbUtils.AddParameter(cmd, "@currentUserId", user.Id);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
+
 
 
     }

@@ -10,17 +10,28 @@ const UserLoanList = () => {
   const [ loansTo, setLoansTo ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(false);
 
+  //fetch loan requests sent by user
   const fetchLoans = () => {
     return getAllUserLoans().then(b => setLoans(b))
   }
 
+  useEffect(() => {
+    fetchLoans();
+  }, [])
+  //fetch all loans but one to be deleted. 
+  // SOLVES timing issue where loans were being fetched and set before deletion could happen
+  const fetchAllButDeleted = (id) => {
+    getAllButDeleted(id).then(l => setLoans(l))
+  }
+
+  // Fetch loan requests sent to user
   const fetchLoansTo = () => {
     return getLoanRequestTo().then(l => setLoansTo(l))
   }
 
-  const fetchAllButDeleted = (id) => {
-    getAllButDeleted(id).then(l => setLoans(l))
-  }
+  useEffect(() => {
+    fetchLoansTo();
+  }, [])
 
   //cancel loan request
   const cancelRequest = (id) => {
@@ -30,17 +41,8 @@ const UserLoanList = () => {
     })
   }
 
-  useEffect(() => {
-    fetchLoans();
-  }, [])
-
-  useEffect(() => {
-    fetchLoansTo();
-  }, [])
-
   return (
     <>
-      {/* <h3>My Loans & Requests</h3> */ }
       <div className='loan-container'>
         <div className='requests-container'>
           <div className='loan-list__title'>Requests for My Books</div>
@@ -56,7 +58,14 @@ const UserLoanList = () => {
           <div className='loan-cards'>
             {
               loans.map((loan) => (
-                <UserLoan loan={ loan } fetchLoans={ fetchLoans } key={ loan.id } cancelRequest={ cancelRequest } setLoans={ setLoans } fetchAllButDeleted={ fetchAllButDeleted } loans={ loans } />
+                <UserLoan
+                  loan={ loan }
+                  fetchLoans={ fetchLoans }
+                  key={ loan.id }
+                  cancelRequest={ cancelRequest }
+                  setLoans={ setLoans }
+                  fetchAllButDeleted={ fetchAllButDeleted }
+                  loans={ loans } />
               )) }
           </div>
         </div>

@@ -49,22 +49,24 @@ const Book = ({ book }) => {
     <>
       <Card className="book-card">
         <Card.Body className="book-card__body">
-          <img src={ thumbnail() } alt={ `${ book?.title }` } />
+          <Link to={ `/book/${ book.id }` }>
+            <img src={ thumbnail() } alt={ `${ book?.title }` } />
+          </Link>
           <div className='book-info'>
             <div className="book-info__title">
-              <div className="title">{ book?.title }</div>
+              <div className="title"><b>{ book?.title }</b></div>
+              <em> <Author /></em>
               <br />
-              <Author />
               <div>Avg Rating: { book.averageRating }</div>
             </div>
 
           </div>
         </Card.Body>
-        <Card.Footer>
+        {/* <Card.Footer>
           <Link to={ `/book/${ book.id }` } className='info-button'>
             <img src={ infoButton } alt='info button' />
           </Link>
-        </Card.Footer>
+        </Card.Footer> */}
       </Card>
     </>
   )
