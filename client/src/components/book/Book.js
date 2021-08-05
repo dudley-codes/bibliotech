@@ -48,25 +48,25 @@ const Book = ({ book }) => {
   return (
     <>
       <Card className="book-card">
-        <Card.Body className="book-card__body">
-          <Link to={ `/book/${ book.id }` }>
+        <Link to={ `/book/${ book.id }` }>
+          <Card.Body className="book-card__body">
             <img src={ thumbnail() } alt={ `${ book?.title }` } />
-          </Link>
-          <div className='book-info'>
-            <div className="book-info__title">
-              <div className="title"><b>{ book?.title }</b></div>
-              <em> <Author /></em>
-              <br />
-              <div>Avg Rating: { book.averageRating }</div>
-            </div>
+            <div className='book-info'>
+              <div className="book-info__title">
+                <div className="title"><b>{ book?.title }</b></div>
+                <em> <Author /></em>
+                <br />
+                <div>Avg. Rating: { book.averageRating }</div>
+              </div>
 
-          </div>
-        </Card.Body>
-        {/* <Card.Footer>
+            </div>
+          </Card.Body>
+          {/* <Card.Footer>
           <Link to={ `/book/${ book.id }` } className='info-button'>
-            <img src={ infoButton } alt='info button' />
+          <img src={ infoButton } alt='info button' />
           </Link>
         </Card.Footer> */}
+        </Link>
       </Card>
     </>
   )

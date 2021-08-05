@@ -107,8 +107,8 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
             </div>
           </Card.Body>
           <Card.Footer>
-            <a href={ "mailto:" + loan.owner.email }>
-              <Button >Contact { loan.owner.firstName }</Button>
+            <a href={ "mailto:" + loan.owner?.email }>
+              <Button >Contact { loan.owner?.firstName }</Button>
             </a>
           </Card.Footer>
         </Card>
@@ -133,7 +133,7 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
                 }
                 <br />
                 <div>Request Date: { requestDate }</div>
-                <div>{ loan.owner.displayName } has denied your loan request.</div>
+                <div>{ loan.owner?.displayName } has denied your loan request.</div>
               </div>
             </div>
           </Card.Body>

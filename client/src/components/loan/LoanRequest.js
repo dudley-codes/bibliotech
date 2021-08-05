@@ -19,7 +19,7 @@ const LoanRequest = ({ fetchBook, book }) => {
   useEffect(() => {
     fetchLoans()
   }, [])
-
+  console.log('book', book)
   // Saves new loan
   const saveNewLoanRequest = () => {
     setIsLoading(true)
@@ -40,6 +40,14 @@ const LoanRequest = ({ fetchBook, book }) => {
     })
   }
 
+  // When called, closes the Modal
+  const handleClose = () => {
+    setShow(false)
+  };
+
+  // Executes the modal
+  const handleShow = () => setShow(true);
+
 
   if (existingLoan.id === 0) {
     return (
@@ -56,10 +64,31 @@ const LoanRequest = ({ fetchBook, book }) => {
   } else if (existingLoan?.loanStatus?.status === 'IsApproved') {
     return (
       <>
-        <Button aria-disabled="true" variant="danger" >
+        <Button aria-disabled={ isLoading } variant="danger" onClick={ () => handleShow() }>
           Cancel Request
         </Button>
-        <div>The loan has been approved. Contact the book owner if you no longer wish to borrow this book.</div>
+        <Modal show={ show } onHide={ handleClose }>
+          <Modal.Header closeButton>
+            <Modal.Title>Sorry, you can't do that!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div>The loan has been approved. Contact { book?.owner?.firstName + ' ' + book?.owner?.lastName } if you no longer wish to borrow this book.</div>
+          </Modal.Body>
+          <Modal.Footer>
+            <div className='button-container'>
+              <div className='button-container__save'>
+                <Button
+                  variant="secondary"
+                  onClick={ handleClose }>
+                  Close
+                </Button>
+                <a href={ "mailto:" + book?.owner.email }>
+                  <Button >Contact</Button>
+                </a>
+              </div>
+            </div>
+          </Modal.Footer>
+        </Modal>
       </>
     )
   }

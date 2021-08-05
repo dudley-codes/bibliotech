@@ -8,13 +8,21 @@ import { addBook, getAllBooks } from "../../modules/bookManager";
 const NewBook = ({ book }) => {
   const bookInfo = book.volumeInfo
   const history = useHistory();
-
+  let authorArray = [];
 
   const handleSave = (e) => {
     let selectedBookId = e.target.value
 
     if (selectedBookId === book.id) {
-      const authorArray = book.volumeInfo.authors.map(author => { return { name: author } })
+      if (book.volumeInfo.authors === undefined) {
+        authorArray = [
+          {
+            name: 'N/A'
+          }
+        ]
+      } else {
+        authorArray = book.volumeInfo.authors.map(author => { return { name: author } })
+      }
       addBook({
         title: book.volumeInfo.title,
         thumbnailUrl: book.volumeInfo.imageLinks?.thumbnail,
