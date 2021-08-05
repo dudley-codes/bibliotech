@@ -41,9 +41,8 @@ const NewBook = ({ book }) => {
           <div className="book-info">
             <div className="book-info__title">
               <div>{ bookInfo?.title }</div>
-              <div>Author(s):</div>
               { bookInfo?.authors?.map(a =>
-                <div key={ Math.random() }>{ a }</div>
+                <div key={ Math.random() }><em>{ a }</em></div>
               ) }
             </div>
             <Button value={ book.id } onClick={ handleSave } variant='search'>Save Book</Button>

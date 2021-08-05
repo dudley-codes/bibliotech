@@ -2,7 +2,7 @@ import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { Input } from 'reactstrap';
 
-const BookSearch = ({ searchQuery, setSearchQuery, renderBooks }) => {
+const BookSearch = ({ searchQuery, setSearchQuery, renderBooks, doClear }) => {
   const history = useHistory();
   const onSubmit = (e) => {
     history.push(`/search?q=${ searchQuery }`).then(() => setSearchQuery(''))
@@ -32,7 +32,7 @@ const BookSearch = ({ searchQuery, setSearchQuery, renderBooks }) => {
           name="q"
         />
         <Button className='biblio-submit' variant='search' type="submit">Search</Button>
-        <Button variant='cancel' onClick={ () => renderBooks() }>Clear</Button>
+        <Button variant='cancel' onClick={ () => doClear() }>Clear</Button>
       </form>
     </div>
   );

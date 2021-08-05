@@ -17,6 +17,8 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
     cancelLoanRequest(id).then(() => fetchAllButDeleted(id)).then(() => setIsLoading(false));
   }
 
+  console.log('loan', loan)
+
   if (loan.loanStatus.status === 'IsReturned') {
     return (
       <>
@@ -36,7 +38,7 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
                 <br />
                 <div>Request Date: { requestDate }</div>
                 <div>Returned: { returnDate }</div>
-                <div>Owner: { loan?.book.owner?.fullName }</div>
+                <div>Owner: { loan?.owner?.fullName }</div>
               </div>
             </div>
           </Card.Body>
@@ -129,7 +131,7 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
                 }
                 <br />
                 <div>Request Date: { requestDate }</div>
-                <div>{ loan?.book.owner?.fullName } has denied your loan request.</div>
+                <div>{ loan?.owner?.fullName } has denied your loan request.</div>
               </div>
             </div>
           </Card.Body>

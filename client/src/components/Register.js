@@ -57,7 +57,7 @@ export default function Register() {
             </FormGroup>
             <FormGroup>
               <Label for="password">Password</Label>
-              <Input id="password" autoComplete='off' type="password" onChange={ e => setPassword(e.target.value) } />
+              <Input id="password" autoComplete='new-password' type="password" onChange={ e => setPassword(e.target.value) } />
             </FormGroup>
             <FormGroup>
               <Label for="confirmPassword">Confirm Password</Label>

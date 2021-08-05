@@ -18,7 +18,12 @@ const BookList = () => {
       return getSearchResults(searchQuery).then(b => setBooks(b)).then(() => setSearchQuery(''))
     }
   }
-  console.log('books', books)
+
+  const doClear = () => {
+    setSearchQuery('')
+    return getAllBooks().then(b => setBooks(b)).then(() => history.push('/'))
+  }
+
   useEffect(() => {
     renderBooks();
   }, [])
@@ -31,6 +36,7 @@ const BookList = () => {
             searchQuery={ searchQuery }
             setSearchQuery={ setSearchQuery }
             renderBooks={ renderBooks }
+            doClear={ doClear }
           />
           <div className='row justify-content-center book-list'>
             { books.map((book) => (

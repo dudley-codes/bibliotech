@@ -121,10 +121,10 @@ const Loan = ({ loan, fetchLoans }) => {
 
 
       <Modal show={ show } onHide={ handleClose }>
-        <Modal.Header closeButton>
-          <Modal.Title>Select a Return Date</Modal.Title>
+        <Modal.Header className='biblio-modal' closeButton>
+          <Modal.Title>Choose a Due Date</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className='biblio-modal'>
           <form>
             <fieldset>
               <div className='habit-form__group'>
@@ -135,20 +135,20 @@ const Loan = ({ loan, fetchLoans }) => {
                   id='returnDate'
                   onChange={ handleControlledInputChange }
                   autoFocus
-                  className='form-control'
+                  className='form-control biblio-modal__date'
                   defaultValue={ loan.date }
                 />
               </div>
             </fieldset>
           </form>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className='biblio-modal'>
           <div className='button-container'>
             <div className='button-container__save'>
               <Button
                 variant="cancel"
                 onClick={ handleClose }>
-                Close
+                Cancel
               </Button>
               <Button
                 variant="search"

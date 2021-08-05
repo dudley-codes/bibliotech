@@ -4,11 +4,12 @@
 main {
   display: flex;
   justify-content: center;
+
 }
 
 a, a:hover {
   text-decoration: none;
-  color: black;
+  color: #643B0F;
 }
 
 a:visited {
@@ -37,6 +38,7 @@ background-repeat: no-repeat;
 background-size: cover;
 background-attachment: fixed;
 font-family: 'Special Elite', cursive;
+color: #643B0F
 }
 
 /* width */
@@ -94,6 +96,7 @@ font-family: 'Special Elite', cursive;
   box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
     transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
 cursor: pointer;
+color: #643B0F
 
 }
 
@@ -393,4 +396,14 @@ overflow-y: scroll;
 #password,
 #confirmPassword {
   width: 300px;
+}
+
+/* Modal */
+.biblio-modal {
+  background-color: #FFF7D4;
+}
+
+.biblio-modal__date {
+  background-color: #E4B04A !important;
+  color:#643B0F;
 }

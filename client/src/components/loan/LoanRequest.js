@@ -51,7 +51,7 @@ const LoanRequest = ({ fetchBook, book }) => {
 
   if (existingLoan.id === 0) {
     return (
-      <Button aria-disabled={ isLoading } onClick={ saveNewLoanRequest }>
+      <Button variant='search' aria-disabled={ isLoading } onClick={ saveNewLoanRequest }>
         Request Loan
       </Button>)
   }
