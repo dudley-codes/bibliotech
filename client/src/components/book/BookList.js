@@ -18,7 +18,7 @@ const BookList = () => {
       return getSearchResults(searchQuery).then(b => setBooks(b)).then(() => setSearchQuery(''))
     }
   }
-
+  console.log('books', books)
   useEffect(() => {
     renderBooks();
   }, [])

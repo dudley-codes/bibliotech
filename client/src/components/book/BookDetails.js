@@ -6,6 +6,8 @@ import LoanList from "../loan/LoanList";
 import LoanRequest from "../loan/LoanRequest";
 import { Button } from "react-bootstrap";
 
+
+
 const BookDetails = () => {
   const [ book, setBook ] = useState([]);
   const { id } = useParams();
@@ -15,6 +17,7 @@ const BookDetails = () => {
   const fetchBook = () => {
     return getBookById(id).then(b => setBook(b))
   }
+
 
   useEffect(() => {
     fetchBook();
@@ -48,7 +51,7 @@ const BookDetails = () => {
   return (
     <>
       <div className='details-cards__container'>
-        <Card>
+        <Card className='details-card'>
           <Card.Body className='details-container'>
             <div className='book-container_info'>
 
@@ -57,7 +60,7 @@ const BookDetails = () => {
                 {
                   // Checks to see if book belongs to user. If it does, renders delete button. If not, renders loan request button.
                   isMyBook() ?
-                    <Button variant="danger" onClick={ handleDelete } >
+                    <Button variant="cancel" onClick={ handleDelete } >
                       Remove from Bookshelf
                     </Button>
                     :
@@ -69,7 +72,7 @@ const BookDetails = () => {
                 { book?.authors?.map(a =>
                   <div key={ a.id }><em>{ a.name }</em></div>
                 ) }
-                <div>Owner: { book?.owner?.displayName }</div>
+                <div>Owner: { book?.owner?.fullName }</div>
                 <div>Avg. Rating: { book?.averageRating }</div>
               </div>
               <div className='description-container'>

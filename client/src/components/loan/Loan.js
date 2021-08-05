@@ -11,7 +11,6 @@ const Loan = ({ loan, fetchLoans }) => {
   const [ isLoading, setIsLoading ] = useState(false);
   const [ currentStatus, setCurrentStatus ] = useState("");
 
-
   // When called, closes the Modal
   const handleClose = () => {
     setShow(false)
@@ -93,7 +92,7 @@ const Loan = ({ loan, fetchLoans }) => {
             <div className='book-thumb'>
               <img src={ loan.book.thumbnailUrl } alt='book thumbnail' />
             </div>
-            <div>
+            <div className='book-info'>
               <div><b>{ loan?.book.title }</b></div>
               {
                 loan?.book.authors?.map(a =>
@@ -101,7 +100,7 @@ const Loan = ({ loan, fetchLoans }) => {
                 )
               }
               <br />
-              <div>Requested By: { loan?.borrower.displayName }</div>
+              <div>Requested By: { loan?.borrower?.fullName }</div>
               {/* <div>Status: { currentStatus }</div> */ }
               <div>Requested On: { requestDate }</div>
             </div>
@@ -110,12 +109,12 @@ const Loan = ({ loan, fetchLoans }) => {
         <Card.Footer>
           { loan.loanStatus.status === "IsApproved" ?
             <>
-              <Button onClick={ () => handleLoanUpdate('IsReturned') }>Book Returned</Button>
+              <Button variant='search' onClick={ () => handleLoanUpdate('IsReturned') }>Book Returned</Button>
             </> :
             <>
-              <Button onClick={ () => handleShow() }>Approve</Button>
+              <Button variant='search' onClick={ () => handleShow() }>Approve</Button>
 
-              <Button variant="danger" onClick={ () => handleLoanUpdate('IsDenied') }>Deny</Button>
+              <Button variant='cancel' onClick={ () => handleLoanUpdate('IsDenied') }>Deny</Button>
             </> }
         </Card.Footer>
       </Card>
@@ -147,12 +146,12 @@ const Loan = ({ loan, fetchLoans }) => {
           <div className='button-container'>
             <div className='button-container__save'>
               <Button
-                variant="secondary"
+                variant="cancel"
                 onClick={ handleClose }>
                 Close
               </Button>
               <Button
-                variant="primary"
+                variant="search"
                 onClick={ handleLoanApprove }
                 disabled={ isLoading }
               >

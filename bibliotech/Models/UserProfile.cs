@@ -17,5 +17,12 @@ namespace Bibliotech.Models
         public string City { get; set; }
         public string State { get; set; }
         public List<UserProfile> Friends { get; set; }
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName} {LastName}";
+            }
+        }
     }
 }

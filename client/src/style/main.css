@@ -27,6 +27,10 @@ a:active {
   color: red;
 }
 
+.biblio-logo img {
+  height: 70px;
+}
+
 body {
 background-image: url("../images/library3.jpg");
 background-repeat: no-repeat;
@@ -42,17 +46,41 @@ font-family: 'Special Elite', cursive;
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #FFF7D4;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #8f865c;
+  background: #643B0F;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: transparent;
+}
+
+/* Buttons =================================== */
+.btn-cancel {
+  background-color: #B7521E !important;
+  border: #B7521E;
+  color:#FFF7D4;
+}
+
+.btn-cancel:hover {
+  background-color: #8d411b !important;
+  border: #B7521E;
+  color:#FFF7D4;
+}
+
+.btn-search {
+  background-color: #E4B04A !important;
+  color:#643B0F;
+}
+
+
+.btn-search:hover {
+  background-color: #ad8941 !important;
+  color:#643B0F;
 }
 
 /* Book  ===============================  book */
@@ -89,7 +117,8 @@ cursor: pointer;
 }
 
 .book-info__title {
-  height: 175px;
+  height: 170px;
+  overflow-y: scroll;
 }
 
 .info-button img {
@@ -143,8 +172,8 @@ text-align: center;
 /* Nav======================================================================= */
 
 .biblio-nav, .biblio-nav a {
-  background-color: #FFF7D4 !important;
-  color: #324548 !important;
+  background-color: #643B0F !important;
+  color: #FFF7D4 !important;
 }
 
 .navbar-brand {
@@ -265,6 +294,10 @@ text-align: center;
   height: 50vh;
 }
 
+.details-card {
+  background-color: #FFF7D4;
+}
+
 .details-title__container {
   display: flex;
   flex-direction: column;
@@ -299,4 +332,65 @@ overflow-y: scroll;
 
 .book-thumb img {
   height: 200px;
+}
+
+/* Login */
+
+.biblio-login {
+  width: 400px;
+  background-color: #FFF7D4;
+  color: #643B0F;
+}
+
+.login-container {
+  background-color: #FFF7D4;
+  min-width: 500px;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.login-container__main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  width: 80vw;
+
+}
+
+/* Register */
+.register-container__main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  width: 80vw;
+}
+.register-container {
+  background-color: #FFF7D4;
+  min-width: 500px;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.form-group {
+  padding: 5px 0;
+}
+
+#firstName,
+#lastName,
+#email,
+#displayName,
+#imageUrl,
+#city,
+#state,
+#password,
+#confirmPassword {
+  width: 300px;
 }

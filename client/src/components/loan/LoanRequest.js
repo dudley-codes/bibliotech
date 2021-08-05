@@ -57,14 +57,14 @@ const LoanRequest = ({ fetchBook, book }) => {
   }
   else if (existingLoan?.loanStatus?.status === 'IsRequested') {
     return (
-      <Button aria-disabled={ isLoading } variant="danger" onClick={ cancelRequest }>
+      <Button aria-disabled={ isLoading } variant="cancel" onClick={ cancelRequest }>
         Cancel Request
       </Button>
     )
   } else if (existingLoan?.loanStatus?.status === 'IsApproved') {
     return (
       <>
-        <Button aria-disabled={ isLoading } variant="danger" onClick={ () => handleShow() }>
+        <Button aria-disabled={ isLoading } variant="cancel" onClick={ () => handleShow() }>
           Cancel Request
         </Button>
         <Modal show={ show } onHide={ handleClose }>
@@ -82,7 +82,7 @@ const LoanRequest = ({ fetchBook, book }) => {
                   onClick={ handleClose }>
                   Close
                 </Button>
-                <a href={ "mailto:" + book?.owner.email }>
+                <a href={ "mailto:" + book?.owner?.email }>
                   <Button >Contact</Button>
                 </a>
               </div>

@@ -31,8 +31,8 @@ const BookSearch = ({ searchQuery, setSearchQuery, renderBooks }) => {
           placeholder="Search books"
           name="q"
         />
-        <Button type="submit">Search</Button>
-        <Button onClick={ () => renderBooks() }>Clear</Button>
+        <Button className='biblio-submit' variant='search' type="submit">Search</Button>
+        <Button variant='cancel' onClick={ () => renderBooks() }>Clear</Button>
       </form>
     </div>
   );

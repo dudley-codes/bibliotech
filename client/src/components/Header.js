@@ -10,6 +10,7 @@ import {
   NavLink
 } from 'reactstrap';
 import { logout } from "../modules/authManager";
+import logo from '../images/bibliotech-logo.png'
 
 export default function Header({ isLoggedIn }) {
   const [ isOpen, setIsOpen ] = useState(false);
@@ -18,7 +19,7 @@ export default function Header({ isLoggedIn }) {
   return (
     <div className="nav-margin">
       <Navbar className="biblio-nav" light expand="md" fixed="top">
-        <NavbarBrand tag={ RRNavLink } to="/">bibliotech</NavbarBrand>
+        <NavbarBrand className='biblio-logo' tag={ RRNavLink } to="/"><img src={ logo } alt='Bibliotech' /></NavbarBrand>
         <NavbarToggler onClick={ toggle } />
         <Collapse isOpen={ isOpen } navbar>
           <Nav className="ms-auto biblio-nav_links" >

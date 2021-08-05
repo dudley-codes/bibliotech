@@ -46,7 +46,7 @@ const NewBook = ({ book }) => {
                 <div key={ Math.random() }>{ a }</div>
               ) }
             </div>
-            <Button value={ book.id } onClick={ handleSave }>Add to Bookshelf</Button>
+            <Button value={ book.id } onClick={ handleSave } variant='search'>Save Book</Button>
           </div>
         </Card.Body>
       </Card>
