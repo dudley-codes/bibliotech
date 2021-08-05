@@ -16,7 +16,15 @@ a:visited {
 }
 
 a:active {
+  color: red;
+}
+
+.selected {
   font-style: bold;
+}
+
+.nav-test:active {
+  color: red;
 }
 
 body {
@@ -157,6 +165,13 @@ text-align: center;
   display: flex;
 }
 
+/* .loan-card__body {
+  height: 232px;
+} */
+
+/* .card-footer {
+  height: 55px;
+} */
 .loan-container {
   display: flex;
   flex-direction: row;
@@ -174,8 +189,9 @@ text-align: center;
 
 .loan-card {
   width: 600px !important;
-  margin: 10px 0;
+
   background-color: #FFF7D4;
+  height: 287px;
 }
 
 .home-container {
@@ -279,4 +295,8 @@ overflow-y: scroll;
 
 .details-thumb img {
   margin-bottom: 5px;
+}
+
+.book-thumb img {
+  height: 200px;
 }

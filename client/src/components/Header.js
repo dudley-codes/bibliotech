@@ -17,15 +17,15 @@ export default function Header({ isLoggedIn }) {
 
   return (
     <div className="nav-margin">
-      <Navbar className="biblio-nav" color="dark" dark expand="md" fixed="top">
+      <Navbar className="biblio-nav" light expand="md" fixed="top">
         <NavbarBrand tag={ RRNavLink } to="/">bibliotech</NavbarBrand>
         <NavbarToggler onClick={ toggle } />
         <Collapse isOpen={ isOpen } navbar>
-          <Nav className="ms-auto biblio-nav_links" navbar>
+          <Nav className="ms-auto biblio-nav_links" >
             { isLoggedIn &&
               <>
-                <NavItem>
-                  <NavLink tag={ RRNavLink } to="/bookshelf">Bookshelf</NavLink>
+                <NavItem className='nav-test'>
+                  <NavLink tag={ RRNavLink } activeClassName='selected' to="/bookshelf">Bookshelf</NavLink>
                 </NavItem>
 
                 <NavItem>

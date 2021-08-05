@@ -429,7 +429,8 @@ namespace Bibliotech.Repositories
                                         LEFT JOIN LoanStatus ls ON ls.Id = l.LoanStatusId
                                         LEFT JOIN UserProfile up on up.Id = b.OwnerId
                                         LEFT JOIN UserProfile bor ON bor.Id = l.BorrowerId 
-                                        WHERE l.BorrowerId = @currentUserId";
+                                        WHERE l.BorrowerId = @currentUserId
+                                        ORDER BY l.RequestDate DESC";
 
                     DbUtils.AddParameter(cmd, "@currentUserId", user.Id);
 
@@ -457,6 +458,7 @@ namespace Bibliotech.Repositories
                                 },
                                 RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
                                 ResponseDate = DbUtils.GetNullableDateTime(reader, "ResponseDate"),
+                                ReturnDate = DbUtils.GetNullableDateTime(reader, "ReturnDate"),
                                 DueDate = DbUtils.GetNullableDateTime(reader, "DueDate"),
                                 Borrower = new UserProfile()
                                 {
@@ -554,7 +556,8 @@ namespace Bibliotech.Repositories
                                         LEFT JOIN LoanStatus ls ON ls.Id = l.LoanStatusId
                                         LEFT JOIN UserProfile up on up.Id = b.OwnerId
                                         LEFT JOIN UserProfile bor ON bor.Id = l.BorrowerId 
-                                        WHERE l.BorrowerId = @currentUserId AND NOT l.Id = @deletedId";
+                                        WHERE l.BorrowerId = @currentUserId AND NOT l.Id = @deletedId
+                                        ORDER BY l.RequestDate DESC";
 
                     DbUtils.AddParameter(cmd, "@currentUserId", user.Id);
                     DbUtils.AddParameter(cmd, "@deletedId", id);
@@ -691,7 +694,8 @@ namespace Bibliotech.Repositories
                                         LEFT JOIN UserProfile up on up.Id = b.OwnerId
                                         LEFT JOIN UserProfile bor ON bor.Id = l.BorrowerId 
                                         WHERE b.OwnerId = @currentUserId AND NOT ls.Status = 'IsDenied' 
-                                        AND NOT ls.Status = 'IsReturned' AND b.IsDeleted = 0";
+                                        AND NOT ls.Status = 'IsReturned' AND b.IsDeleted = 0
+                                        ORDER BY l.RequestDate DESC";
 
                     DbUtils.AddParameter(cmd, "@currentUserId", user.Id);
 
