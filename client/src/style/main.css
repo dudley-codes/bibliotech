@@ -197,6 +197,11 @@ text-align: center;
   display: flex;
 }
 
+.no-loans {
+  width: 100%;
+  text-align: center;
+}
+
 /* .loan-card__body {
   height: 232px;
 } */
@@ -209,12 +214,13 @@ text-align: center;
   flex-direction: row;
   width: 100vw;
   justify-content: center;
+  align-items: flex-start;
 }
 
 .requests-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-content: center;
   align-items: center;
 }
@@ -226,9 +232,16 @@ text-align: center;
   height: 287px;
 }
 
+.card, .card-body {
+  background-color: #FFF7D4;
+}
+
 .home-container {
   display: flex;
   width: 95vw;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -247,7 +260,7 @@ text-align: center;
   flex-wrap: wrap;
   overflow-y: scroll;
   margin: 0 20px;
-  height: 80vh;
+  max-height: 80vh;
   width: 615px;
 }
 
@@ -270,14 +283,26 @@ text-align: center;
 }
 
 .profile-card {
-  width: 200px;
+  width: 200px !important;
+  height: 250px;
   background-color: #FFF7D4;
+  margin: 0;
+}
 
+.profile-card__body {
+  width: 200px !important;
+  height: 150px;
 }
 
 .friends-container {
   display: flex;
+  flex-wrap: wrap;
   margin-bottom: 30px;
+  width: 40vw;
+  max-height: 80vh;
+  overflow-y: scroll;
+
+
 }
 
 
@@ -406,4 +431,9 @@ overflow-y: scroll;
 .biblio-modal__date {
   background-color: #E4B04A !important;
   color:#643B0F;
+}
+
+
+.users-container {
+  display: flex;
 }

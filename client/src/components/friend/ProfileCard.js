@@ -6,7 +6,7 @@ const ProfileCard = ({ user, friend, handleFriend }) => {
 
   return (
     <Card className='profile-card'>
-      <Card.Body>
+      <Card.Body className='profile-card__body'>
         <div className='profile-pic__container'>
           <img src={ user.imageUrl } alt='user profile' className='profile-pic' />
         </div>

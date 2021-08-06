@@ -41,7 +41,6 @@ namespace Bibliotech.Repositories
                                                 up.ImageUrl,
                                                 up.City,
                                                 up.State,
-                                                up.DisplayName,
                                                 a.Id AS AuthorId,
                                                 l.Id AS LoanId,
                                                 l.BorrowerId,
@@ -85,7 +84,6 @@ namespace Bibliotech.Repositories
                                 Owner = new UserProfile()
                                 {
                                     Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
                                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                                     Email = DbUtils.GetString(reader, "Email"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
@@ -176,7 +174,6 @@ namespace Bibliotech.Repositories
                                                 up.ImageUrl,
                                                 up.City,
                                                 up.State,
-                                                up.DisplayName,
                                                 a.Id AS AuthorId,
                                                 l.Id AS LoanId,
                                                 l.BorrowerId,
@@ -223,7 +220,6 @@ namespace Bibliotech.Repositories
                                 Owner = new UserProfile()
                                 {
                                     Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
                                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                                     Email = DbUtils.GetString(reader, "Email"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
@@ -434,7 +430,6 @@ namespace Bibliotech.Repositories
                                                 up.ImageUrl,
                                                 up.City,
                                                 up.State,
-                                                up.DisplayName,
                                                 a.Id AS AuthorId,
                                                 l.Id AS LoanId,
                                                 l.BorrowerId,
@@ -477,7 +472,6 @@ namespace Bibliotech.Repositories
                                 Owner = new UserProfile()
                                 {
                                     Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
                                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                                     Email = DbUtils.GetString(reader, "Email"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
@@ -568,7 +562,6 @@ namespace Bibliotech.Repositories
                                                 up.ImageUrl,
                                                 up.City,
                                                 up.State,
-                                                up.DisplayName,
                                                 a.Id AS AuthorId,
                                                 l.Id AS LoanId,
                                                 l.BorrowerId,
@@ -610,7 +603,6 @@ namespace Bibliotech.Repositories
                                 Owner = new UserProfile()
                                 {
                                     Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
                                     FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                                     Email = DbUtils.GetString(reader, "Email"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),

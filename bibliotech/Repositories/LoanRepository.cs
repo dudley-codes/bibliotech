@@ -159,7 +159,6 @@ namespace Bibliotech.Repositories
                                                 bor.ImageUrl AS BorrowerImageUrl,
                                                 bor.City AS BorrowerCity,
                                                 bor.State AS BorrowerState,
-                                                bor.DisplayName AS BorrowerDisplayName,
                                                 up.Id AS UserProfileId,
                                                 up.Email,
                                                 up.FirstName,
@@ -167,7 +166,6 @@ namespace Bibliotech.Repositories
                                                 up.ImageUrl,
                                                 up.City,
                                                 up.State,
-                                                up.DisplayName,
                                                 a.Id AS AuthorId,
                                                 l.Id AS LoanId,
                                                 l.BorrowerId,
@@ -215,7 +213,6 @@ namespace Bibliotech.Repositories
                                 Borrower = new UserProfile()
                                 {
                                     Id = DbUtils.GetInt(reader, "BorrowerId"),
-                                    DisplayName = DbUtils.GetString(reader, "BorrowerDisplayName"),
                                     Email = DbUtils.GetString(reader, "BorrowerEmail"),
                                     FirstName = DbUtils.GetString(reader, "BorrowerFirst"),
                                     LastName = DbUtils.GetString(reader, "BorrowerLast"),
@@ -226,7 +223,6 @@ namespace Bibliotech.Repositories
                                 Owner = new UserProfile()
                                 {
                                     Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
                                     Email = DbUtils.GetString(reader, "Email"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
                                     LastName = DbUtils.GetString(reader, "LastName"),
@@ -297,7 +293,6 @@ namespace Bibliotech.Repositories
                                                 bor.ImageUrl AS BorrowerImageUrl,
                                                 bor.City AS BorrowerCity,
                                                 bor.State AS BorrowerState,
-                                                bor.DisplayName AS BorrowerDisplayName,
                                                 up.Id AS UserProfileId,
                                                 up.Email,
                                                 up.FirstName,
@@ -305,7 +300,6 @@ namespace Bibliotech.Repositories
                                                 up.ImageUrl,
                                                 up.City,
                                                 up.State,
-                                                up.DisplayName,
                                                 a.Id AS AuthorId,
                                                 l.Id AS LoanId,
                                                 l.BorrowerId,
@@ -351,7 +345,6 @@ namespace Bibliotech.Repositories
                             Borrower = new UserProfile()
                             {
                                 Id = DbUtils.GetInt(reader, "BorrowerId"),
-                                DisplayName = DbUtils.GetString(reader, "BorrowerDisplayName"),
                                 Email = DbUtils.GetString(reader, "BorrowerEmail"),
                                 FirstName = DbUtils.GetString(reader, "BorrowerFirst"),
                                 LastName = DbUtils.GetString(reader, "BorrowerLast"),
@@ -362,7 +355,6 @@ namespace Bibliotech.Repositories
                             Owner = new UserProfile()
                             {
                                 Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                DisplayName = DbUtils.GetString(reader, "DisplayName"),
                                 Email = DbUtils.GetString(reader, "Email"),
                                 FirstName = DbUtils.GetString(reader, "FirstName"),
                                 LastName = DbUtils.GetString(reader, "LastName"),
@@ -408,12 +400,10 @@ namespace Bibliotech.Repositories
                                                 bor.Email AS BorrowerEmail,
                                                 bor.FirstName AS BorrowerFirst,
                                                 bor.LastName AS BorrowerLast,
-                                                bor.DisplayName AS BorrowerDisplayName,
                                                 up.Id AS UserProfileId,
                                                 up.Email,
                                                 up.FirstName,
                                                 up.LastName,
-                                                up.DisplayName,
                                                 a.Id AS AuthorId,
                                                 l.Id AS LoanId,
                                                 l.RequestDate,
@@ -463,7 +453,6 @@ namespace Bibliotech.Repositories
                                 Borrower = new UserProfile()
                                 {
                                     Id = DbUtils.GetInt(reader, "BorrowerId"),
-                                    DisplayName = DbUtils.GetString(reader, "BorrowerDisplayName"),
                                     Email = DbUtils.GetString(reader, "BorrowerEmail"),
                                     FirstName = DbUtils.GetString(reader, "BorrowerFirst"),
                                     LastName = DbUtils.GetString(reader, "BorrowerLast"),
@@ -472,7 +461,6 @@ namespace Bibliotech.Repositories
                                 Owner = new UserProfile()
                                 {
                                     Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
                                     Email = DbUtils.GetString(reader, "Email"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
                                     LastName = DbUtils.GetString(reader, "LastName"),
@@ -534,12 +522,10 @@ namespace Bibliotech.Repositories
                                                 bor.Email AS BorrowerEmail,
                                                 bor.FirstName AS BorrowerFirst,
                                                 bor.LastName AS BorrowerLast,
-                                                bor.DisplayName AS BorrowerDisplayName,
                                                 up.Id AS UserProfileId,
                                                 up.Email,
                                                 up.FirstName,
                                                 up.LastName,
-                                                up.DisplayName,
                                                 a.Id AS AuthorId,
                                                 l.Id AS LoanId,
                                                 l.BorrowerId,
@@ -590,7 +576,6 @@ namespace Bibliotech.Repositories
                                 Borrower = new UserProfile()
                                 {
                                     Id = DbUtils.GetInt(reader, "BorrowerId"),
-                                    DisplayName = DbUtils.GetString(reader, "BorrowerDisplayName"),
                                     Email = DbUtils.GetString(reader, "BorrowerEmail"),
                                     FirstName = DbUtils.GetString(reader, "BorrowerFirst"),
                                     LastName = DbUtils.GetString(reader, "BorrowerLast")
@@ -598,7 +583,6 @@ namespace Bibliotech.Repositories
                                 Owner = new UserProfile()
                                 {
                                     Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
                                     Email = DbUtils.GetString(reader, "Email"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
                                     LastName = DbUtils.GetString(reader, "LastName"),
@@ -668,7 +652,6 @@ namespace Bibliotech.Repositories
                                                 bor.ImageUrl AS BorrowerImageUrl,
                                                 bor.City AS BorrowerCity,
                                                 bor.State AS BorrowerState,
-                                                bor.DisplayName AS BorrowerDisplayName,
                                                 up.Id AS UserProfileId,
                                                 up.Email,
                                                 up.FirstName,
@@ -676,7 +659,6 @@ namespace Bibliotech.Repositories
                                                 up.ImageUrl,
                                                 up.City,
                                                 up.State,
-                                                up.DisplayName,
                                                 a.Id AS AuthorId,
                                                 l.Id AS LoanId,
                                                 l.BorrowerId,
@@ -729,7 +711,6 @@ namespace Bibliotech.Repositories
                                 Borrower = new UserProfile()
                                 {
                                     Id = DbUtils.GetInt(reader, "BorrowerId"),
-                                    DisplayName = DbUtils.GetString(reader, "BorrowerDisplayName"),
                                     Email = DbUtils.GetString(reader, "BorrowerEmail"),
                                     FirstName = DbUtils.GetString(reader, "BorrowerFirst"),
                                     LastName = DbUtils.GetString(reader, "BorrowerLast"),
@@ -740,7 +721,7 @@ namespace Bibliotech.Repositories
                                 Owner = new UserProfile()
                                 {
                                     Id = DbUtils.GetInt(reader, "UserProfileId"),
-                                    DisplayName = DbUtils.GetString(reader, "DisplayName"),
+             
                                     Email = DbUtils.GetString(reader, "Email"),
                                     FirstName = DbUtils.GetString(reader, "FirstName"),
                                     LastName = DbUtils.GetString(reader, "LastName"),

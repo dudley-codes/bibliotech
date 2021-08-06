@@ -106,7 +106,7 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
           </Card.Body>
           <Card.Footer>
             <a href={ "mailto:" + loan.owner?.email }>
-              <Button variant='search' >Contact { loan.owner?.firstName }</Button>
+              <Button variant='search' >Contact Owner</Button>
             </a>
           </Card.Footer>
         </Card>

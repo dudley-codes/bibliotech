@@ -31,9 +31,7 @@ const Loan = ({ loan, fetchLoans }) => {
 
   const requestDate = dateFixer(loan.requestDate)
 
-
   const statusSwitch = () => {
-    //todo add all statuses to switch statement
     switch (loan.loanStatus.status) {
       case "IsRequested":
         setCurrentStatus("Requested")
@@ -101,7 +99,6 @@ const Loan = ({ loan, fetchLoans }) => {
               }
               <br />
               <div>Requested By: { loan?.borrower?.fullName }</div>
-              {/* <div>Status: { currentStatus }</div> */ }
               <div>Requested On: { requestDate }</div>
             </div>
           </div>
@@ -109,7 +106,10 @@ const Loan = ({ loan, fetchLoans }) => {
         <Card.Footer>
           { loan.loanStatus.status === "IsApproved" ?
             <>
-              <Button variant='search' onClick={ () => handleLoanUpdate('IsReturned') }>Book Returned</Button>
+              <a href={ "mailto:" + loan.borrower?.email }>
+                <Button variant='search' >Contact User</Button>
+              </a>
+              <Button variant='cancel' onClick={ () => handleLoanUpdate('IsReturned') }>Book Returned</Button>
             </> :
             <>
               <Button variant='search' onClick={ () => handleShow() }>Approve</Button>

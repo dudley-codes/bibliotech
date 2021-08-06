@@ -24,10 +24,10 @@ namespace Bibliotech.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                          SELECT up.Id, Up.FirebaseUserId, up.FirstName, up.LastName, up.DisplayName, 
+                          SELECT up.Id, Up.FirebaseUserId, up.FirstName, up.LastName, 
                                up.Email, up.ImageUrl, up.City, up.State
                           FROM UserProfile up
-                          ORDER BY up.DisplayName
+                          ORDER BY up.LastName
             ";
 
                     var reader = cmd.ExecuteReader();
@@ -41,7 +41,6 @@ namespace Bibliotech.Repositories
                             FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
-                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
                             Email = DbUtils.GetString(reader, "Email"),
                             ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
                             City = DbUtils.GetString(reader, "City"),
@@ -72,7 +71,6 @@ namespace Bibliotech.Repositories
                                               fr.Id, 
                                               fr.FirstName, 
                                               fr.LastName, 
-                                              fr.DisplayName, 
                                               fr.Email, 
                                               fr.ImageUrl, 
                                               fr.City, 
@@ -81,7 +79,7 @@ namespace Bibliotech.Repositories
                                               LEFT JOIN UserFriend uf ON cu.Id = uf.UserId OR cu.Id = uf.FriendId
                                               LEFT JOIN UserProfile fr ON fr.Id = uf.UserId OR fr.Id = uf.FriendId
                                               WHERE cu.Id = @userId AND NOT fr.Id = @userId
-                                              ORDER BY fr.DisplayName";
+                                              ORDER BY fr.LastName";
 
                     DbUtils.AddParameter(cmd, "@userId", user.Id);
                     var reader = cmd.ExecuteReader();
@@ -94,7 +92,6 @@ namespace Bibliotech.Repositories
                             Id = DbUtils.GetInt(reader, "Id"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
-                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
                             Email = DbUtils.GetString(reader, "Email"),
                             ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
                             City = DbUtils.GetString(reader, "City"),
@@ -124,7 +121,6 @@ namespace Bibliotech.Repositories
                                               fr.Id, 
                                               fr.FirstName, 
                                               fr.LastName, 
-                                              fr.DisplayName, 
                                               fr.Email, 
                                               fr.ImageUrl, 
                                               fr.City, 
@@ -138,7 +134,6 @@ namespace Bibliotech.Repositories
                                               fr.Id, 
                                               fr.FirstName, 
                                               fr.LastName, 
-                                              fr.DisplayName, 
                                               fr.Email, 
                                               fr.ImageUrl, 
                                               fr.City, 
@@ -147,7 +142,7 @@ namespace Bibliotech.Repositories
                                               LEFT JOIN UserFriend uf ON cu.Id = uf.UserId OR cu.Id = uf.FriendId
                                               LEFT JOIN UserProfile fr ON fr.Id = uf.UserId OR fr.Id = uf.FriendId
                                               WHERE cu.Id = @userId AND NOT fr.Id = @userId
-                                              ORDER BY fr.DisplayName";
+                                              ORDER BY fr.LastName";
                     DbUtils.AddParameter(cmd, "@userId", user.Id);
                     var reader = cmd.ExecuteReader();
 
@@ -159,7 +154,6 @@ namespace Bibliotech.Repositories
                             Id = DbUtils.GetInt(reader, "Id"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
-                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
                             Email = DbUtils.GetString(reader, "Email"),
                             ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
                             City = DbUtils.GetString(reader, "City"),
@@ -182,7 +176,7 @@ namespace Bibliotech.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT up.Id, Up.FirebaseUserId, up.FirstName, up.LastName, up.DisplayName, 
+                        SELECT up.Id, Up.FirebaseUserId, up.FirstName, up.LastName, 
                                up.Email, up.ImageUrl, up.City, up.State
                           FROM UserProfile up
                          WHERE up.Id = @id";
@@ -200,7 +194,6 @@ namespace Bibliotech.Repositories
                             FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
-                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
                             Email = DbUtils.GetString(reader, "Email"),
                             ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
                             City = DbUtils.GetString(reader, "City"),
@@ -221,7 +214,7 @@ namespace Bibliotech.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT up.Id, up.FirebaseUserId, up.FirstName, up.LastName, up.DisplayName, 
+                        SELECT up.Id, up.FirebaseUserId, up.FirstName, up.LastName, 
                                up.Email, up.ImageUrl, up.City, up.State
                           FROM UserProfile up
                          WHERE FirebaseUserId = @FirebaseuserId";
@@ -239,7 +232,6 @@ namespace Bibliotech.Repositories
                             FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
-                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
                             Email = DbUtils.GetString(reader, "Email"),
                             ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
                             City = DbUtils.GetString(reader, "City"),
@@ -260,14 +252,13 @@ namespace Bibliotech.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO UserProfile (FirebaseUserId, FirstName, LastName,                                                   DisplayName, Email, ImageUrl, City, State)
+                    cmd.CommandText = @"INSERT INTO UserProfile (FirebaseUserId, FirstName, LastName, Email, ImageUrl, City, State)
                                         OUTPUT INSERTED.ID
-                                        VALUES (@FirebaseUserId, @FirstName, @LastName, @DisplayName, 
+                                        VALUES (@FirebaseUserId, @FirstName, @LastName, 
                                                 @Email,  @ImageUrl, @City, @State)";
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", userProfile.FirebaseUserId);
                     DbUtils.AddParameter(cmd, "@FirstName", userProfile.FirstName);
                     DbUtils.AddParameter(cmd, "@LastName", userProfile.LastName);
-                    DbUtils.AddParameter(cmd, "@DisplayName", userProfile.DisplayName);
                     DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
                     DbUtils.AddParameter(cmd, "@ImageUrl", userProfile.ImageUrl);
                     DbUtils.AddParameter(cmd, "@City", userProfile.City);

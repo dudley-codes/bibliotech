@@ -48,25 +48,45 @@ const UserLoanList = () => {
           <div className='loan-list__title'>Requests for My Books</div>
           <div className='loan-cards'>
             {
-              loansTo.map((loan) => (
-                <Loan loan={ loan } fetchLoans={ fetchLoansTo } key={ loan.id } />
-              )) }
+              loansTo?.length === 0 ?
+                <>
+                  <br />
+                  <br />
+                  <Card className='no-loans'>
+                    <Card.Body>
+                      <div>You don't have any requests for your books yet.</div>
+                    </Card.Body>
+                  </Card>
+                </> :
+                loansTo.map((loan) => (
+                  <Loan loan={ loan } fetchLoans={ fetchLoansTo } key={ loan.id } />
+                )) }
           </div>
         </div>
         <div className="requests-container">
           <div className='loan-list__title'>My Loan Requests</div>
           <div className='loan-cards'>
             {
-              loans.map((loan) => (
-                <UserLoan
-                  loan={ loan }
-                  fetchLoans={ fetchLoans }
-                  key={ loan.id }
-                  cancelRequest={ cancelRequest }
-                  setLoans={ setLoans }
-                  fetchAllButDeleted={ fetchAllButDeleted }
-                  loans={ loans } />
-              )) }
+              loans?.length === 0 ?
+                <>
+                  <br />
+                  <br />
+                  <Card className='no-loans'>
+                    <Card.Body>
+                      <div>You haven't made any loan requests yet.</div>
+                    </Card.Body>
+                  </Card>
+                </> :
+                loans.map((loan) => (
+                  <UserLoan
+                    loan={ loan }
+                    fetchLoans={ fetchLoans }
+                    key={ loan.id }
+                    cancelRequest={ cancelRequest }
+                    setLoans={ setLoans }
+                    fetchAllButDeleted={ fetchAllButDeleted }
+                    loans={ loans } />
+                )) }
           </div>
         </div>
       </div>

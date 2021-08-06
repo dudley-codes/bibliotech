@@ -31,7 +31,7 @@ const LoanList = () => {
 
   return (
     <>
-      <h3>Book Loans & Requests</h3>
+      {/* <h3>Book Loans & Requests</h3> */ }
       <div className='container loan-container'>
         <div className='row justify-content-center'>
           {
