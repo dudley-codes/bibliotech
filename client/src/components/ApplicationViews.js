@@ -9,6 +9,7 @@ import Login from "./Login";
 import Register from "./Register";
 import '../style/main.css'
 import FriendsList from "./friend/FriendsList";
+import BookSearch from "./book/BookSearch";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -20,6 +21,10 @@ export default function ApplicationViews({ isLoggedIn }) {
 
         <Route path="/add">
           { isLoggedIn ? <BookAdd /> : <Redirect to="/login" /> }
+        </Route>
+
+        <Route path="/search">
+          { isLoggedIn ? <BookList /> : <Redirect to="/login" /> }
         </Route>
 
         <Route path="/Bookshelf">

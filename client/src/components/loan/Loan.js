@@ -11,7 +11,6 @@ const Loan = ({ loan, fetchLoans }) => {
   const [ isLoading, setIsLoading ] = useState(false);
   const [ currentStatus, setCurrentStatus ] = useState("");
 
-
   // When called, closes the Modal
   const handleClose = () => {
     setShow(false)
@@ -32,9 +31,7 @@ const Loan = ({ loan, fetchLoans }) => {
 
   const requestDate = dateFixer(loan.requestDate)
 
-
   const statusSwitch = () => {
-    //todo add all statuses to switch statement
     switch (loan.loanStatus.status) {
       case "IsRequested":
         setCurrentStatus("Requested")
@@ -93,7 +90,7 @@ const Loan = ({ loan, fetchLoans }) => {
             <div className='book-thumb'>
               <img src={ loan.book.thumbnailUrl } alt='book thumbnail' />
             </div>
-            <div>
+            <div className='book-info'>
               <div><b>{ loan?.book.title }</b></div>
               {
                 loan?.book.authors?.map(a =>
@@ -101,8 +98,7 @@ const Loan = ({ loan, fetchLoans }) => {
                 )
               }
               <br />
-              <div>Requested By: { loan?.borrower.displayName }</div>
-              {/* <div>Status: { currentStatus }</div> */ }
+              <div>Requested By: { loan?.borrower?.fullName }</div>
               <div>Requested On: { requestDate }</div>
             </div>
           </div>
@@ -110,22 +106,25 @@ const Loan = ({ loan, fetchLoans }) => {
         <Card.Footer>
           { loan.loanStatus.status === "IsApproved" ?
             <>
-              <Button onClick={ () => handleLoanUpdate('IsReturned') }>Book Returned</Button>
+              <a href={ "mailto:" + loan.borrower?.email }>
+                <Button variant='search' >Contact User</Button>
+              </a>
+              <Button variant='cancel' onClick={ () => handleLoanUpdate('IsReturned') }>Book Returned</Button>
             </> :
             <>
-              <Button onClick={ () => handleShow() }>Approve</Button>
+              <Button variant='search' onClick={ () => handleShow() }>Approve</Button>
 
-              <Button variant="danger" onClick={ () => handleLoanUpdate('IsDenied') }>Deny</Button>
+              <Button variant='cancel' onClick={ () => handleLoanUpdate('IsDenied') }>Deny</Button>
             </> }
         </Card.Footer>
       </Card>
 
 
       <Modal show={ show } onHide={ handleClose }>
-        <Modal.Header closeButton>
-          <Modal.Title>Select a Return Date</Modal.Title>
+        <Modal.Header className='biblio-modal' closeButton>
+          <Modal.Title>Choose a Due Date</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className='biblio-modal'>
           <form>
             <fieldset>
               <div className='habit-form__group'>
@@ -136,23 +135,23 @@ const Loan = ({ loan, fetchLoans }) => {
                   id='returnDate'
                   onChange={ handleControlledInputChange }
                   autoFocus
-                  className='form-control'
+                  className='form-control biblio-modal__date'
                   defaultValue={ loan.date }
                 />
               </div>
             </fieldset>
           </form>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className='biblio-modal'>
           <div className='button-container'>
             <div className='button-container__save'>
               <Button
-                variant="secondary"
+                variant="cancel"
                 onClick={ handleClose }>
-                Close
+                Cancel
               </Button>
               <Button
-                variant="primary"
+                variant="search"
                 onClick={ handleLoanApprove }
                 disabled={ isLoading }
               >

@@ -74,6 +74,15 @@ namespace Bibliotech.Controllers
             return Ok();
         }
 
+        //Search available books in DB
+        [HttpGet("search")]
+        public IActionResult Search(string q)
+        {
+            var user = GetCurrentUserProfile();
+
+            return Ok(_bookRepository.Search(user, q));
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User?.FindFirst(ClaimTypes.NameIdentifier).Value;

@@ -27,7 +27,7 @@ const BookAdd = () => {
 
                 <div className="search-input">
                   <Input id="search" value={ criterion } onChange={ e => setCriterion(e.target.value) } />
-                  <Button onClick={ () => doBookSearch(criterion) }>Search</Button>
+                  <Button variant='search' onClick={ () => doBookSearch(criterion) }>Search</Button>
                 </div>
                 <div>Search for books to add to your Bookshelf.</div>
               </div>
@@ -37,7 +37,7 @@ const BookAdd = () => {
             <div className="book-search__form  search-again">
               <div className="search-input">
                 <Input id="search" value={ criterion } onChange={ e => setCriterion(e.target.value) } />
-                <Button onClick={ () => doBookSearch(criterion) }>Search</Button>
+                <Button onClick={ () => doBookSearch(criterion) } variant='search'>Search</Button>
               </div>
               <div>Not seeing the book you're looking for?</div>
               <div>Try adding the author's name to your search.</div>

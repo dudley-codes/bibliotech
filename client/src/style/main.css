@@ -4,6 +4,32 @@
 main {
   display: flex;
   justify-content: center;
+
+}
+
+a, a:hover {
+  text-decoration: none;
+  color: #643B0F;
+}
+
+a:visited {
+  text-decoration: bold;
+}
+
+a:active {
+  color: red;
+}
+
+.selected {
+  font-style: bold;
+}
+
+.nav-test:active {
+  color: red;
+}
+
+.biblio-logo img {
+  height: 70px;
 }
 
 body {
@@ -12,6 +38,7 @@ background-repeat: no-repeat;
 background-size: cover;
 background-attachment: fixed;
 font-family: 'Special Elite', cursive;
+color: #643B0F
 }
 
 /* width */
@@ -21,12 +48,12 @@ font-family: 'Special Elite', cursive;
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #FFF7D4;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #8f865c;
+  background: #643B0F;
 }
 
 /* Handle on hover */
@@ -34,12 +61,48 @@ font-family: 'Special Elite', cursive;
   background: transparent;
 }
 
+/* Buttons =================================== */
+.btn-cancel {
+  background-color: #B7521E !important;
+  border: #B7521E;
+  color:#FFF7D4;
+}
+
+.btn-cancel:hover {
+  background-color: #8d411b !important;
+  border: #B7521E;
+  color:#FFF7D4;
+}
+
+.btn-search {
+  background-color: #E4B04A !important;
+  color:#643B0F;
+}
+
+
+.btn-search:hover {
+  background-color: #ad8941 !important;
+  color:#643B0F;
+}
+
 /* Book  ===============================  book */
+
 
 .book-card {
   margin: 20px;
   width: 350px !important;
   background-color: #FFF7D4;
+  border-radius: 4px;
+  box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+    transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+cursor: pointer;
+color: #643B0F
+
+}
+
+.book-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 }
 
 .submit {
@@ -57,7 +120,8 @@ font-family: 'Special Elite', cursive;
 }
 
 .book-info__title {
-  height: 175px;
+  height: 170px;
+  overflow-y: scroll;
 }
 
 .info-button img {
@@ -111,8 +175,8 @@ text-align: center;
 /* Nav======================================================================= */
 
 .biblio-nav, .biblio-nav a {
-  background-color: #FFF7D4 !important;
-  color: #324548 !important;
+  background-color: #643B0F !important;
+  color: #FFF7D4 !important;
 }
 
 .navbar-brand {
@@ -133,30 +197,51 @@ text-align: center;
   display: flex;
 }
 
+.no-loans {
+  width: 100%;
+  text-align: center;
+}
+
+/* .loan-card__body {
+  height: 232px;
+} */
+
+/* .card-footer {
+  height: 55px;
+} */
 .loan-container {
   display: flex;
   flex-direction: row;
   width: 100vw;
   justify-content: center;
+  align-items: flex-start;
 }
 
 .requests-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-content: center;
   align-items: center;
 }
 
 .loan-card {
   width: 600px !important;
-  margin: 10px 0;
+
+  background-color: #FFF7D4;
+  height: 287px;
+}
+
+.card, .card-body {
   background-color: #FFF7D4;
 }
 
 .home-container {
   display: flex;
   width: 95vw;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -175,7 +260,7 @@ text-align: center;
   flex-wrap: wrap;
   overflow-y: scroll;
   margin: 0 20px;
-  height: 80vh;
+  max-height: 80vh;
   width: 615px;
 }
 
@@ -198,13 +283,157 @@ text-align: center;
 }
 
 .profile-card {
-  width: 200px;
+  width: 200px !important;
+  height: 250px;
   background-color: #FFF7D4;
+  margin: 0;
+}
 
+.profile-card__body {
+  width: 200px !important;
+  height: 150px;
 }
 
 .friends-container {
   display: flex;
+  flex-wrap: wrap;
   margin-bottom: 30px;
+  width: 40vw;
+  max-height: 80vh;
+  overflow-y: scroll;
+
+
 }
 
+
+/* Search bar */
+
+.search-input_container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+
+/* Details =========================================================== */
+.details-container {
+  display: flex;
+  width: 60vw;
+  height: 50vh;
+}
+
+.details-card {
+  background-color: #FFF7D4;
+}
+
+.details-title__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-width: 200px;
+  margin-left: 10px;
+}
+
+.description-container {
+margin-left: 20px;
+max-width: 550px;
+overflow-y: scroll;
+}
+
+.book-container_info {
+  display: flex;
+  width: fit-content;
+}
+
+.details-cards__container {
+  display: flex;
+}
+
+.details-thumb {
+  display: flex;
+  flex-direction: column;
+}
+
+.details-thumb img {
+  margin-bottom: 5px;
+}
+
+.book-thumb img {
+  height: 200px;
+}
+
+/* Login */
+
+.biblio-login {
+  width: 400px;
+  background-color: #FFF7D4;
+  color: #643B0F;
+}
+
+.login-container {
+  background-color: #FFF7D4;
+  min-width: 500px;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.login-container__main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  width: 80vw;
+
+}
+
+/* Register */
+.register-container__main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  width: 80vw;
+}
+.register-container {
+  background-color: #FFF7D4;
+  min-width: 500px;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.form-group {
+  padding: 5px 0;
+}
+
+#firstName,
+#lastName,
+#email,
+#displayName,
+#imageUrl,
+#city,
+#state,
+#password,
+#confirmPassword {
+  width: 300px;
+}
+
+/* Modal */
+.biblio-modal {
+  background-color: #FFF7D4;
+}
+
+.biblio-modal__date {
+  background-color: #E4B04A !important;
+  color:#643B0F;
+}
+
+
+.users-container {
+  display: flex;
+}

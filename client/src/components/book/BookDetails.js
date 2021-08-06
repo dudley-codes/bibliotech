@@ -6,6 +6,8 @@ import LoanList from "../loan/LoanList";
 import LoanRequest from "../loan/LoanRequest";
 import { Button } from "react-bootstrap";
 
+
+
 const BookDetails = () => {
   const [ book, setBook ] = useState([]);
   const { id } = useParams();
@@ -15,6 +17,7 @@ const BookDetails = () => {
   const fetchBook = () => {
     return getBookById(id).then(b => setBook(b))
   }
+
 
   useEffect(() => {
     fetchBook();
@@ -47,39 +50,39 @@ const BookDetails = () => {
 
   return (
     <>
-      <div className='container'>
-        <div className='row justify-content-center'>
-          <Card>
-            <Card.Body>
-              <img src={ book.thumbnailUrl } alt={ `${ book?.title }` } />
-              <h4>Author(s):</h4>
-              { book?.authors?.map(a =>
-                <h4 key={ a.id }>{ a.name }</h4>
-              ) }
-              <h4>Owner: { book?.owner?.displayName }</h4>
-              <h4>Average Rating: { book?.averageRating }</h4>
-              {
-                // Checks to see if book belongs to user. If it does, renders delete button. If not, renders loan request button.
-                isMyBook() ? <Button variant="danger" onClick={ handleDelete } >
-                  Remove from Bookshelf
-                </Button> : <LoanRequest fetchBook={ fetchBook } book={ book } />
-              }
+      <div className='details-cards__container'>
+        <Card className='details-card'>
+          <Card.Body className='details-container'>
+            <div className='book-container_info'>
 
-            </Card.Body>
-          </Card>
-          <Card>
-            <Card.Body>
-              <h3>{ book?.title }</h3>
-              <h4>{ book?.description }</h4>
-            </Card.Body>
-          </Card>
-          <Card>
-            <Card.Body>
-              {/* Component that lists out loans */ }
-              <LoanList />
-            </Card.Body>
-          </Card>
-        </div>
+              <div className='details-thumb'>
+                <img src={ book.thumbnailUrl } alt={ `${ book?.title }` } />
+                {
+                  // Checks to see if book belongs to user. If it does, renders delete button. If not, renders loan request button.
+                  isMyBook() ?
+                    <Button variant="cancel" onClick={ handleDelete } >
+                      Remove from Bookshelf
+                    </Button>
+                    :
+                    <LoanRequest fetchBook={ fetchBook } book={ book } />
+                }
+              </div>
+              <div className='details-title__container'>
+                <div><b>{ book.title }</b></div>
+                { book?.authors?.map(a =>
+                  <div key={ a.id }><em>{ a.name }</em></div>
+                ) }
+                <div>Owner: { book?.owner?.fullName }</div>
+                <div>Avg. Rating: { book?.averageRating }</div>
+              </div>
+              <div className='description-container'>
+                <div>{ book?.description }</div>
+              </div>
+            </div>
+          </Card.Body>
+        </Card>
+
+
       </div>
     </>
   )

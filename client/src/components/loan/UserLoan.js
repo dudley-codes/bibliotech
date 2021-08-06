@@ -7,7 +7,8 @@ import { Link, useHistory } from "react-router-dom";
 
 const UserLoan = ({ loan, fetchAllButDeleted }) => {
   const [ isLoading, setIsLoading ] = useState(false);
-  const requestDate = dateFixer(loan.requestDate);
+  const requestDate = dateFixer(loan?.requestDate);
+  const returnDate = dateFixer(loan?.returnDate)
   const history = useHistory();
 
   //cancel loan request
@@ -16,24 +17,7 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
     cancelLoanRequest(id).then(() => fetchAllButDeleted(id)).then(() => setIsLoading(false));
   }
 
-
-  const bookTitleAuthor = (
-    <>
-
-      <div className='book-thumb'>
-        <img src={ loan.book.thumbnailUrl } alt='book thumbnail' />
-      </div>
-      <div className=''>
-        <div><b>{ loan?.book.title }</b></div>
-        {
-          loan?.book.authors?.map(a =>
-            <div><em>{ a.name }</em></div>
-          )
-        }
-        <br />
-      </div>
-    </>
-  )
+  console.log('loan', loan)
 
   if (loan.loanStatus.status === 'IsReturned') {
     return (
@@ -41,11 +25,25 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
         <Card className="loan-card">
           <Card.Body className="loan-card__body">
             <div className='book-info__loan'>
-              { bookTitleAuthor }
+              <div className='book-thumb'>
+                <img src={ loan.book.thumbnailUrl } alt='book thumbnail' />
+              </div>
+              <div className='book-info'>
+                <div><b>{ loan?.book.title }</b></div>
+                {
+                  loan?.book.authors?.map(a =>
+                    <div><em>{ a.name }</em></div>
+                  )
+                }
+                <br />
+                <div>Request Date: { requestDate }</div>
+                <div>Returned: { returnDate }</div>
+                <div>Owner: { loan?.owner?.fullName }</div>
+              </div>
             </div>
           </Card.Body>
           <Card.Footer>
-            <Button onClick={ () => cancelRequest(loan.id) } variant='danger'>Remove From List</Button>
+            <Button onClick={ () => cancelRequest(loan.id) } variant='cancel'>Remove From List</Button>
           </Card.Footer>
         </Card>
       </>
@@ -60,7 +58,7 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
               <div className='book-thumb'>
                 <img src={ loan.book.thumbnailUrl } alt='book thumbnail' />
               </div>
-              <div className=''>
+              <div className='book-info'>
                 <div><b>{ loan?.book.title }</b></div>
                 {
                   loan?.book.authors?.map(a =>
@@ -75,7 +73,7 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
             </div>
           </Card.Body>
           <Card.Footer>
-            <Button onClick={ () => cancelRequest(loan.id) } variant='danger'>Cancel Request</Button>
+            <Button onClick={ () => cancelRequest(loan.id) } variant='cancel'>Cancel Request</Button>
           </Card.Footer>
         </Card>
       </>
@@ -90,7 +88,7 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
               <div className='book-thumb'>
                 <img src={ loan.book.thumbnailUrl } alt='book thumbnail' />
               </div>
-              <div className=''>
+              <div className='book-info'>
                 <div><b>{ loan?.book.title }</b></div>
                 {
                   loan?.book.authors?.map(a =>
@@ -107,8 +105,8 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
             </div>
           </Card.Body>
           <Card.Footer>
-            <a href={ "mailto:" + loan.owner.email }>
-              <Button >Contact { loan.owner.firstName }</Button>
+            <a href={ "mailto:" + loan.owner?.email }>
+              <Button variant='search' >Contact Owner</Button>
             </a>
           </Card.Footer>
         </Card>
@@ -124,7 +122,7 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
               <div className='book-thumb'>
                 <img src={ loan.book.thumbnailUrl } alt='book thumbnail' />
               </div>
-              <div className=''>
+              <div className='book-info'>
                 <div><b>{ loan?.book.title }</b></div>
                 {
                   loan?.book.authors?.map(a =>
@@ -133,12 +131,12 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
                 }
                 <br />
                 <div>Request Date: { requestDate }</div>
-                <div>{ loan.owner.displayName } has denied your loan request.</div>
+                <div>{ loan?.owner?.fullName } has denied your loan request.</div>
               </div>
             </div>
           </Card.Body>
           <Card.Footer>
-            <Button onClick={ () => cancelRequest(loan.id) } variant='danger'>Delete Request</Button>
+            <Button variant='cancel' onClick={ () => cancelRequest(loan.id) } >Delete Request</Button>
           </Card.Footer>
         </Card>
       </>
@@ -153,7 +151,7 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
               <div className='book-thumb'>
                 <img src={ loan.book.thumbnailUrl } alt='book thumbnail' />
               </div>
-              <div className=''>
+              <div className='book-info'>
                 <div><b>{ loan?.book.title }</b></div>
                 {
                   loan?.book.authors?.map(a =>
@@ -167,7 +165,7 @@ const UserLoan = ({ loan, fetchAllButDeleted }) => {
             </div>
           </Card.Body>
           <Card.Footer>
-            <Button onClick={ () => cancelRequest(loan.id) } variant='danger'>Delete Request</Button>
+            <Button onClick={ () => cancelRequest(loan.id) } variant='cancel'>Delete Request</Button>
           </Card.Footer>
         </Card>
       </>

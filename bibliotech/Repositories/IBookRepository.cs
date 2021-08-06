@@ -11,5 +11,6 @@ namespace Bibliotech.Repositories
         Book GetBookById(int id);
         List<Book> GetBooksByUser(UserProfile user);
         List<Book> GetUserLoansByStatus(UserProfile user, string loanStatus);
+        List<Book> Search(UserProfile user, string criterion);
     }
 }

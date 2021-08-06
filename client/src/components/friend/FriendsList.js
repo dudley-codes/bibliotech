@@ -37,7 +37,7 @@ const FriendsList = () => {
   }
   return (
     <>
-      <div className='container'>
+      <div className='users-container'>
         <div className='friends-container'>
           {
             friends.map((user) => (

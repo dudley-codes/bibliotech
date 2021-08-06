@@ -8,13 +8,21 @@ import { addBook, getAllBooks } from "../../modules/bookManager";
 const NewBook = ({ book }) => {
   const bookInfo = book.volumeInfo
   const history = useHistory();
-
+  let authorArray = [];
 
   const handleSave = (e) => {
     let selectedBookId = e.target.value
 
     if (selectedBookId === book.id) {
-      const authorArray = book.volumeInfo.authors.map(author => { return { name: author } })
+      if (book.volumeInfo.authors === undefined) {
+        authorArray = [
+          {
+            name: 'N/A'
+          }
+        ]
+      } else {
+        authorArray = book.volumeInfo.authors.map(author => { return { name: author } })
+      }
       addBook({
         title: book.volumeInfo.title,
         thumbnailUrl: book.volumeInfo.imageLinks?.thumbnail,
@@ -33,12 +41,11 @@ const NewBook = ({ book }) => {
           <div className="book-info">
             <div className="book-info__title">
               <div>{ bookInfo?.title }</div>
-              <div>Author(s):</div>
               { bookInfo?.authors?.map(a =>
-                <div key={ Math.random() }>{ a }</div>
+                <div key={ Math.random() }><em>{ a }</em></div>
               ) }
             </div>
-            <Button value={ book.id } onClick={ handleSave }>Add to Bookshelf</Button>
+            <Button value={ book.id } onClick={ handleSave } variant='search'>Save Book</Button>
           </div>
         </Card.Body>
       </Card>
