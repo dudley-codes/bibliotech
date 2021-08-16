@@ -9,7 +9,6 @@ import Login from "./Login";
 import Register from "./Register";
 import '../style/main.css'
 import FriendsList from "./friend/FriendsList";
-import BookSearch from "./book/BookSearch";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (

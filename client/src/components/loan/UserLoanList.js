@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Spinner } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { getAllUserLoans, getLoanRequestTo, cancelLoanRequest, getAllButDeleted } from "../../modules/loanManager";
 import Loan from "./Loan";
 

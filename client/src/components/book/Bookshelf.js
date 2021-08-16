@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getAllUserBooks } from "../../modules/bookManager";
-import UserLoanList from "../loan/UserLoanList";
 import Book from "./Book";
 import { Card } from "react-bootstrap";
 

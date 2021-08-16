@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button, Card } from "react-bootstrap";
 
 const ProfileCard = ({ user, friend, handleFriend }) => {

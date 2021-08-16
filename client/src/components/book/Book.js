@@ -1,11 +1,7 @@
 import Card from "react-bootstrap/Card";
-import { useHistory, Link } from "react-router-dom";
-import Button from "react-bootstrap/Button"
-import infoButton from '../../images/info.svg'
+import { Link } from "react-router-dom";
 
 const Book = ({ book }) => {
-  const history = useHistory();
-  //TODO: complete book card
 
   const thumbnail = () => {
     let thumbnailUrl = '';
@@ -61,11 +57,6 @@ const Book = ({ book }) => {
 
             </div>
           </Card.Body>
-          {/* <Card.Footer>
-          <Link to={ `/book/${ book.id }` } className='info-button'>
-          <img src={ infoButton } alt='info button' />
-          </Link>
-        </Card.Footer> */}
         </Link>
       </Card>
     </>

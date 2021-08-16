@@ -3,11 +3,13 @@ using System;
 using System.Security.Claims;
 using Bibliotech.Models;
 using Bibliotech.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Bibliotech.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserProfileController : ControllerBase
     {
         private readonly IUserProfileRepository _userProfileRepository;

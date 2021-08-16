@@ -326,9 +326,7 @@ namespace Bibliotech.Repositories
                     var loan = new Loan();
                     if (reader.Read())
                     {
-                        //var loanId = DbUtils.GetInt(reader, "LoanId");
-                        ////Checks to see if book has been added to list if not, creates book object
-                        //var existingLoan = loan.FirstOrDefault(p => p.Id == loanId);
+                        
 
                         loan = new Loan()
                         {
@@ -573,6 +571,7 @@ namespace Bibliotech.Repositories
                                 RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
                                 ResponseDate = DbUtils.GetNullableDateTime(reader, "ResponseDate"),
                                 DueDate = DbUtils.GetNullableDateTime(reader, "DueDate"),
+                                ReturnDate = DbUtils.GetNullableDateTime(reader, "ReturnDate"),
                                 Borrower = new UserProfile()
                                 {
                                     Id = DbUtils.GetInt(reader, "BorrowerId"),
