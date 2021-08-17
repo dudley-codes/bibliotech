@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { deleteBook, getAllUserBooks, getBookById } from "../../modules/bookManager";
 import { useParams, useHistory } from "react-router-dom";
 import Card from "react-bootstrap/Card";
-import LoanList from "../loan/LoanList";
 import LoanRequest from "../loan/LoanRequest";
 import { Button } from "react-bootstrap";
 

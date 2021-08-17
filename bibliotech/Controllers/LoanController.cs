@@ -1,5 +1,6 @@
 ﻿using Bibliotech.Models;
 using Bibliotech.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +13,7 @@ namespace Bibliotech.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LoanController : ControllerBase
     {
         private readonly ILoanRepository _loanRepository;

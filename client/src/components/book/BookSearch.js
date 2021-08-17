@@ -2,7 +2,7 @@ import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { Input } from 'reactstrap';
 
-const BookSearch = ({ searchQuery, setSearchQuery, renderBooks, doClear }) => {
+const BookSearch = ({ searchQuery, setSearchQuery, doClear }) => {
   const history = useHistory();
   const onSubmit = (e) => {
     history.push(`/search?q=${ searchQuery }`).then(() => setSearchQuery(''))

@@ -1,8 +1,8 @@
 import Card from "react-bootstrap/Card";
-import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import { addBook, getAllBooks } from "../../modules/bookManager";
+import { addBook } from "../../modules/bookManager";
 
 
 const NewBook = ({ book }) => {

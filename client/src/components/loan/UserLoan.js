@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button"
 import { dateFixer } from "../../modules/helpers";
 import { cancelLoanRequest } from "../../modules/loanManager";
-import { Link, useHistory } from "react-router-dom";
 
 const UserLoan = ({ loan, fetchAllButDeleted }) => {
   const [ isLoading, setIsLoading ] = useState(false);
   const requestDate = dateFixer(loan?.requestDate);
-  const returnDate = dateFixer(loan?.returnDate)
-  const history = useHistory();
+  const returnDate = dateFixer(loan?.returnDate);
 
   //cancel loan request
   const cancelRequest = (id) => {
     setIsLoading(true);
     cancelLoanRequest(id).then(() => fetchAllButDeleted(id)).then(() => setIsLoading(false));
   }
-
-  console.log('loan', loan)
 
   if (loan.loanStatus.status === 'IsReturned') {
     return (

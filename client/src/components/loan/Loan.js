@@ -82,7 +82,6 @@ const Loan = ({ loan, fetchLoans }) => {
 
   return (
     <>
-      {/* Only */ }
 
       <Card className="loan-card">
         <Card.Body className="loan-card__body">

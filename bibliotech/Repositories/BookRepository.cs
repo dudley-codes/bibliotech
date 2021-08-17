@@ -366,31 +366,6 @@ namespace Bibliotech.Repositories
                             }
                         }
 
-                        //Check to see if there are any loan requests for book and adds to list
-                        //if (DbUtils.IsNotDbNull(reader, "LoanId"))
-                        //{
-                        //    var loanId = DbUtils.GetInt(reader, "LoanId");
-                        //    var existingLoan = existingBook.Loans.FirstOrDefault(l => l.Id == loanId);
-
-                        //    if (existingLoan == null)
-                        //    {
-                        //        existingBook.Loans.Add(new Loan()
-                        //        {
-                        //            Id = DbUtils.GetInt(reader, "LoanId"),
-                        //            BookId = DbUtils.GetInt(reader, "BookId"),
-                        //            BorrowerId = DbUtils.GetInt(reader, "BorrowerId"),
-                        //            RequestDate = DbUtils.GetDateTime(reader, "RequestDate"),
-                        //            ResponseDate = DbUtils.GetNullableDateTime(reader, "ResponseDate"),
-                        //            DueDate = DbUtils.GetNullableDateTime(reader, "DueDate"),
-                        //            ReturnDate = DbUtils.GetNullableDateTime(reader, "ReturnDate"),
-                        //            LoanStatus = new LoanStatus()
-                        //            {
-                        //                Id = DbUtils.GetInt(reader, "LoanStatusId"),
-                        //                Status = DbUtils.GetString(reader, "Status")
-                        //            }
-                        //        });
-                        //    }
-                        //}
                     }
 
                     reader.Close();
